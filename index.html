@@ -449,9 +449,8 @@ LOLAGENT
 <div class="nav-menu">
 
 <a href="/">Home</a>
-<a href="/node.html">Node</a>
 <a href="/giveaway.html">Giveaway</a>
-<a href="/shop.html">Shop</a>
+<a href="/claim.html">Claim</a>
 <a href="/roadmap.html">Roadmap</a>
 <a href="/whitepaper.html">Whitepaper</a>
 
@@ -582,7 +581,7 @@ Login Pi
 <div>
 
 <div class="step-text">
-Mint LOLAGENT NFT
+Mint LOLAGENT NFT (1 PI)
 </div>
 
 <button
@@ -592,6 +591,33 @@ onclick="mintNFT()"
 disabled
 >
 Mint 1 PI
+</button>
+
+</div>
+
+</div>
+
+<!-- STEP 5 -->
+
+<div class="step">
+
+<div class="step-number">
+5
+</div>
+
+<div>
+
+<div class="step-text">
+Mine LOLAGENT every 24 hours
+</div>
+
+<button
+id="mineBtn"
+class="btn btn-green disabled"
+onclick="startMining()"
+disabled
+>
+Start Mining
 </button>
 
 </div>
@@ -671,18 +697,31 @@ function completeFollow(){
     '_blank'
   );
 
-  followDone = true;
+  setTimeout(()=>{
 
-  const telegramBtn =
-  document.getElementById(
-    'telegramBtn'
-  );
+    followDone = true;
 
-  telegramBtn.disabled = false;
+    localStorage.setItem(
+      'x_follow',
+      'true'
+    );
 
-  telegramBtn.classList.remove(
-    'disabled'
-  );
+    const telegramBtn =
+    document.getElementById(
+      'telegramBtn'
+    );
+
+    telegramBtn.disabled = false;
+
+    telegramBtn.classList.remove(
+      'disabled'
+    );
+
+    alert(
+      'X Follow Verified 🚀'
+    );
+
+  },3000);
 
 }
 
@@ -704,18 +743,31 @@ function completeTelegram(){
     '_blank'
   );
 
-  telegramDone = true;
+  setTimeout(()=>{
 
-  const piBtn =
-  document.getElementById(
-    'piBtn'
-  );
+    telegramDone = true;
 
-  piBtn.disabled = false;
+    localStorage.setItem(
+      'telegram_join',
+      'true'
+    );
 
-  piBtn.classList.remove(
-    'disabled'
-  );
+    const piBtn =
+    document.getElementById(
+      'piBtn'
+    );
+
+    piBtn.disabled = false;
+
+    piBtn.classList.remove(
+      'disabled'
+    );
+
+    alert(
+      'Telegram Joined 🚀'
+    );
+
+  },3000);
 
 }
 
@@ -750,6 +802,11 @@ async function loginPi(){
 
     piDone = true;
 
+    localStorage.setItem(
+      'pi_login',
+      'true'
+    );
+
     const mintBtn =
     document.getElementById(
       'mintBtn'
@@ -758,6 +815,17 @@ async function loginPi(){
     mintBtn.disabled = false;
 
     mintBtn.classList.remove(
+      'disabled'
+    );
+
+    const mineBtn =
+    document.getElementById(
+      'mineBtn'
+    );
+
+    mineBtn.disabled = false;
+
+    mineBtn.classList.remove(
       'disabled'
     );
 
@@ -778,9 +846,13 @@ async function loginPi(){
     ${auth.user.wallet_address || 'Hidden'}
     <br><br>
 
-    Pi Balance:
-    100 PI
+    Mining Status:
+    ACTIVE ⛏️
     `;
+
+    alert(
+      'Pi Login Success 🚀'
+    );
 
   }catch(err){
 
@@ -823,6 +895,11 @@ async function mintNFT(){
 
       nftDone = true;
 
+      localStorage.setItem(
+        'nft_minted',
+        'true'
+      );
+
       const claimBtn =
       document.getElementById(
         'claimBtn'
@@ -838,17 +915,72 @@ async function mintNFT(){
         'NFT Mint Success 🚀'
       );
 
-    },2000);
+    },3000);
 
   }catch(err){
 
     console.log(err);
 
     alert(
-      'Payment failed'
+      'NFT Payment Failed'
     );
 
   }
+
+}
+
+/* STEP 5 */
+
+function startMining(){
+
+  if(!piDone){
+
+    alert(
+      'Login Pi first'
+    );
+
+    return;
+  }
+
+  const lastMining =
+  localStorage.getItem(
+    'lastMining'
+  );
+
+  const now = Date.now();
+
+  if(lastMining){
+
+    const diff =
+    now - parseInt(lastMining);
+
+    const hours =
+    diff / (1000 * 60 * 60);
+
+    if(hours < 24){
+
+      const remain =
+      (24 - hours).toFixed(1);
+
+      alert(
+        'Mining available in '
+        + remain +
+        ' hours'
+      );
+
+      return;
+    }
+
+  }
+
+  localStorage.setItem(
+    'lastMining',
+    now
+  );
+
+  alert(
+    'Mining Success ⛏️\n+100 LOLA'
+  );
 
 }
 
@@ -856,10 +988,18 @@ async function mintNFT(){
 
 function claimLOL(){
 
+  if(!piDone){
+
+    alert(
+      'Login Pi first'
+    );
+
+    return;
+  }
+
   if(
     !followDone ||
     !telegramDone ||
-    !piDone ||
     !nftDone
   ){
 
@@ -871,10 +1011,58 @@ function claimLOL(){
   }
 
   alert(
-    'LOLAGENT claimed successfully 🎉'
+    'LOLAGENT Claimed Successfully 🎉'
   );
 
 }
+
+/* AUTO RESTORE */
+
+window.onload = ()=>{
+
+  if(
+    localStorage.getItem(
+      'x_follow'
+    ) === 'true'
+  ){
+
+    followDone = true;
+
+    const telegramBtn =
+    document.getElementById(
+      'telegramBtn'
+    );
+
+    telegramBtn.disabled = false;
+
+    telegramBtn.classList.remove(
+      'disabled'
+    );
+
+  }
+
+  if(
+    localStorage.getItem(
+      'telegram_join'
+    ) === 'true'
+  ){
+
+    telegramDone = true;
+
+    const piBtn =
+    document.getElementById(
+      'piBtn'
+    );
+
+    piBtn.disabled = false;
+
+    piBtn.classList.remove(
+      'disabled'
+    );
+
+  }
+
+};
 
 </script>
 
