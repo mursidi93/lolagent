@@ -469,7 +469,7 @@ LOLAGENT
 
 <img
 class="logo"
-src="logo.png"
+src="assets/logo.png"
 alt="LOLAGENT"
 />
 
@@ -858,7 +858,7 @@ function mintNFT(){
         try{
 
           await fetch(
-            "https://lolagent-backend-production.up.railway.app/api/approve",
+            "https://lolagent-backend-production.up.railway.app/api/payment/approve",
             {
 
               method:"POST",
@@ -899,7 +899,7 @@ function mintNFT(){
         try{
 
           await fetch(
-            "https://lolagent-backend-production.up.railway.app/api/complete",
+            "https://lolagent-backend-production.up.railway.app/api/payment/complete",
             {
 
               method:"POST",
