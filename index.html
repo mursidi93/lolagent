@@ -1,222 +1,1015 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LOLAgent Giveaway</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
 
-    body {
-      background: linear-gradient(135deg, #0f172a, #111827, #1e293b);
-      color: white;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
+<meta charset="UTF-8" />
 
-    .container {
-      width: 100%;
-      max-width: 700px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 24px;
-      padding: 40px;
-      text-align: center;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-    }
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
 
-    .logo {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      margin-bottom: 20px;
-      border: 4px solid #38bdf8;
-    }
+<title>LOLAGENT × Pi Network</title>
 
-    h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-      color: #38bdf8;
-    }
+<!-- PI SDK -->
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
-    .subtitle {
-      font-size: 20px;
-      color: #cbd5e1;
-      margin-bottom: 30px;
-    }
+<style>
 
-    .reward-box {
-      background: linear-gradient(135deg, #0ea5e9, #2563eb);
-      padding: 25px;
-      border-radius: 20px;
-      margin-bottom: 30px;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
 
-    .reward-box h2 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
+body{
 
-    .steps {
-      text-align: left;
-      margin-bottom: 30px;
-    }
+  background:
+  linear-gradient(
+    135deg,
+    #0f172a,
+    #111827,
+    #1e293b
+  );
 
-    .step {
-      background: rgba(255,255,255,0.05);
-      padding: 20px;
-      border-radius: 16px;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+  color:white;
 
-    .step-number {
-      width: 40px;
-      height: 40px;
-      background: #38bdf8;
-      color: black;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 20px;
-    }
+  min-height:100vh;
 
-    .step-text {
-      font-size: 18px;
-    }
+  padding:20px;
 
-    .buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+  overflow-x:hidden;
+}
 
-    .btn {
-      text-decoration: none;
-      padding: 16px 28px;
-      border-radius: 14px;
-      font-size: 18px;
-      font-weight: bold;
-      transition: 0.3s;
-      display: inline-block;
-    }
+/* BACKGROUND */
 
-    .btn-x {
-      background: white;
-      color: black;
-    }
+.bg1{
 
-    .btn-telegram {
-      background: #229ED9;
-      color: white;
-    }
+  position:fixed;
 
-    .btn:hover {
-      transform: translateY(-3px);
-      opacity: 0.9;
-    }
+  width:500px;
+  height:500px;
 
-    .footer {
-      margin-top: 30px;
-      color: #94a3b8;
-      font-size: 14px;
-    }
+  background:#38bdf8;
 
-    @media(max-width: 600px) {
-      h1 {
-        font-size: 36px;
-      }
+  filter:blur(180px);
 
-      .reward-box h2 {
-        font-size: 28px;
-      }
+  opacity:0.12;
 
-      .step-text {
-        font-size: 16px;
-      }
+  top:-150px;
+  right:-100px;
 
-      .container {
-        padding: 25px;
-      }
-    }
-  </style>
+  z-index:0;
+}
+
+.bg2{
+
+  position:fixed;
+
+  width:500px;
+  height:500px;
+
+  background:#7c3aed;
+
+  filter:blur(180px);
+
+  opacity:0.12;
+
+  bottom:-150px;
+  left:-100px;
+
+  z-index:0;
+}
+
+/* CONTAINER */
+
+.container{
+
+  position:relative;
+
+  z-index:1;
+
+  width:100%;
+
+  max-width:950px;
+
+  margin:auto;
+
+  background:
+  rgba(255,255,255,0.05);
+
+  border:
+  1px solid rgba(255,255,255,0.1);
+
+  backdrop-filter:blur(10px);
+
+  border-radius:28px;
+
+  padding:40px;
+
+  box-shadow:
+  0 10px 40px rgba(0,0,0,0.4);
+}
+
+/* NAVBAR */
+
+.navbar{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-bottom:40px;
+
+  flex-wrap:wrap;
+
+  gap:20px;
+}
+
+.logo-text{
+
+  font-size:30px;
+
+  font-weight:bold;
+
+  color:#38bdf8;
+
+  letter-spacing:2px;
+}
+
+.nav-menu{
+
+  display:flex;
+
+  gap:20px;
+
+  flex-wrap:wrap;
+}
+
+.nav-menu a{
+
+  color:#cbd5e1;
+
+  text-decoration:none;
+
+  transition:0.3s;
+
+  font-weight:bold;
+}
+
+.nav-menu a:hover{
+
+  color:#38bdf8;
+}
+
+/* HERO */
+
+.hero{
+
+  text-align:center;
+}
+
+.logo{
+
+  width:140px;
+
+  height:140px;
+
+  border-radius:50%;
+
+  border:4px solid #38bdf8;
+
+  object-fit:cover;
+
+  margin-bottom:25px;
+
+  box-shadow:
+  0 0 25px rgba(56,189,248,0.5);
+}
+
+h1{
+
+  font-size:58px;
+
+  margin-bottom:12px;
+
+  color:#38bdf8;
+
+  text-shadow:
+  0 0 20px rgba(56,189,248,0.5);
+}
+
+.subtitle{
+
+  font-size:22px;
+
+  color:#cbd5e1;
+
+  margin-bottom:35px;
+}
+
+/* GIVEAWAY */
+
+.reward-box{
+
+  background:
+  linear-gradient(
+    135deg,
+    #0ea5e9,
+    #2563eb,
+    #7c3aed
+  );
+
+  padding:30px;
+
+  border-radius:24px;
+
+  margin-bottom:35px;
+
+  box-shadow:
+  0 10px 30px rgba(37,99,235,0.3);
+}
+
+.reward-box h2{
+
+  font-size:42px;
+
+  margin-bottom:10px;
+}
+
+.reward-box p{
+
+  color:#e2e8f0;
+
+  font-size:18px;
+}
+
+/* STEPS */
+
+.steps{
+
+  text-align:left;
+
+  margin-bottom:35px;
+}
+
+.step{
+
+  background:
+  rgba(255,255,255,0.05);
+
+  padding:20px;
+
+  border-radius:18px;
+
+  margin-bottom:15px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:15px;
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+}
+
+.step-number{
+
+  width:45px;
+
+  height:45px;
+
+  background:#38bdf8;
+
+  color:black;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-weight:bold;
+
+  font-size:20px;
+
+  flex-shrink:0;
+}
+
+.step-text{
+
+  font-size:18px;
+
+  color:#f1f5f9;
+}
+
+/* BUTTONS */
+
+.buttons{
+
+  display:flex;
+
+  gap:20px;
+
+  justify-content:center;
+
+  flex-wrap:wrap;
+
+  margin-bottom:35px;
+}
+
+.btn{
+
+  border:none;
+
+  text-decoration:none;
+
+  padding:16px 28px;
+
+  border-radius:16px;
+
+  font-size:18px;
+
+  font-weight:bold;
+
+  transition:0.3s;
+
+  display:inline-block;
+
+  cursor:pointer;
+}
+
+.btn:hover{
+
+  transform:translateY(-4px);
+
+  opacity:0.9;
+}
+
+.btn-x{
+
+  background:white;
+
+  color:black;
+}
+
+.btn-telegram{
+
+  background:#229ED9;
+
+  color:white;
+}
+
+.btn-pi{
+
+  background:#fbbf24;
+
+  color:black;
+}
+
+.btn-claim{
+
+  background:#22c55e;
+
+  color:black;
+}
+
+/* USER */
+
+.user-box{
+
+  background:
+  rgba(255,255,255,0.05);
+
+  padding:25px;
+
+  border-radius:20px;
+
+  margin-bottom:35px;
+
+  text-align:center;
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+}
+
+.user-box h2{
+
+  color:#38bdf8;
+
+  margin-bottom:15px;
+}
+
+.user-info{
+
+  color:#e2e8f0;
+
+  line-height:2;
+}
+
+/* RPC */
+
+.rpc-section{
+
+  margin-top:20px;
+
+  background:
+  rgba(255,255,255,0.05);
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+
+  border-radius:24px;
+
+  padding:35px;
+}
+
+.rpc-section h2{
+
+  font-size:40px;
+
+  color:#38bdf8;
+
+  margin-bottom:15px;
+}
+
+.rpc-section p{
+
+  color:#cbd5e1;
+
+  margin-bottom:25px;
+
+  font-size:18px;
+}
+
+.rpc-url{
+
+  background:
+  rgba(0,0,0,0.25);
+
+  padding:15px;
+
+  border-radius:12px;
+
+  margin-bottom:25px;
+
+  word-break:break-all;
+}
+
+.rpc-buttons{
+
+  display:flex;
+
+  gap:15px;
+
+  justify-content:center;
+
+  flex-wrap:wrap;
+}
+
+.rpc-btn{
+
+  border:none;
+
+  padding:15px 25px;
+
+  border-radius:14px;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.rpc-btn:hover{
+
+  transform:translateY(-4px);
+
+  opacity:0.9;
+}
+
+.rpc-blue{
+
+  background:#38bdf8;
+
+  color:black;
+}
+
+.rpc-yellow{
+
+  background:#fbbf24;
+
+  color:black;
+}
+
+.rpc-output{
+
+  margin-top:25px;
+
+  text-align:left;
+
+  background:
+  rgba(255,255,255,0.05);
+
+  padding:20px;
+
+  border-radius:18px;
+
+  overflow:auto;
+}
+
+pre{
+
+  white-space:pre-wrap;
+
+  word-break:break-word;
+
+  color:#e2e8f0;
+}
+
+/* FOOTER */
+
+.footer{
+
+  margin-top:40px;
+
+  text-align:center;
+
+  color:#94a3b8;
+
+  font-size:14px;
+
+  line-height:1.8;
+}
+
+.footer-links{
+
+  margin-bottom:15px;
+}
+
+.footer-links a{
+
+  color:#38bdf8;
+
+  text-decoration:none;
+
+  margin:0 10px;
+
+  transition:0.3s;
+}
+
+.footer-links a:hover{
+
+  opacity:0.8;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+  h1{
+    font-size:40px;
+  }
+
+  .reward-box h2{
+    font-size:30px;
+  }
+
+  .step-text{
+    font-size:16px;
+  }
+
+  .container{
+    padding:25px;
+  }
+
+}
+
+</style>
+
 </head>
+
 <body>
-  <div class="container">
-    <img
-      class="logo"
-      src="https://pbs.twimg.com/profile_images/2056162589487546368/8X6japMV_400x400.jpg"
-      alt="LOLAgent"
-    />
 
-    <h1>LOLAGENT GIVEAWAY</h1>
-    <p class="subtitle">
-      Join the AI Meme Revolution 🚀
-    </p>
+<div class="bg1"></div>
+<div class="bg2"></div>
 
-    <div class="reward-box">
-      <h2>100,000 LOLAGENT</h2>
-      <p>Massive community giveaway for early supporters 🔥</p>
-    </div>
+<div class="container">
 
-    <div class="steps">
-      <div class="step">
-        <div class="step-number">1</div>
-        <div class="step-text">
-          Follow @LolAgentAi on X
-        </div>
-      </div>
+<!-- NAVBAR -->
 
-      <div class="step">
-        <div class="step-number">2</div>
-        <div class="step-text">
-          Join Telegram Community
-        </div>
-      </div>
+<div class="navbar">
 
-      <div class="step">
-        <div class="step-number">3</div>
-        <div class="step-text">
-          Stay active and wait for winner announcement 🎉
-        </div>
-      </div>
-    </div>
+<div class="logo-text">
+LOLAGENT
+</div>
 
-    <div class="buttons">
-      <a
-        class="btn btn-x"
-        href="https://x.com/LolAgentAi"
-        target="_blank"
-      >
-        Follow on X
-      </a>
+<div class="nav-menu">
 
-      <a
-        class="btn btn-telegram"
-        href="https://t.me/LOLAgentHQ"
-        target="_blank"
-      >
-        Join Telegram
-      </a>
-    </div>
+<a href="/">
+Home
+</a>
 
-    <div class="footer">
-      © 2026 LOLAgent AI • Powered by Meme Culture & AI Agents
-    </div>
-  </div>
+<a href="/node.html">
+Node
+</a>
+
+<a href="/shop.html">
+Shop
+</a>
+
+<a href="/giveaway.html">
+Give Away
+</a>
+
+<a href="/spin-wheel.html">
+Spin Wheel
+</a>
+
+<a href="/claim.html">
+Claim
+</a>
+
+<a href="/roadmap.html">
+Roadmap
+</a>
+
+<a href="/whitepaper.html">
+Whitepaper
+</a>
+
+</div>
+
+</div>
+
+<!-- HERO -->
+
+<div class="hero">
+
+<img
+class="logo"
+src="assets/logo.png"
+alt="LOLAGENT"
+/>
+
+<h1>
+LOLAGENT GIVEAWAY
+</h1>
+
+<p class="subtitle">
+Join the AI Meme Revolution 🚀
+</p>
+
+</div>
+
+<!-- GIVEAWAY -->
+
+<div class="reward-box">
+
+<h2>
+100,000,000 LOLAGENT
+</h2>
+
+<p>
+Massive community giveaway
+for early supporters 🔥
+</p>
+
+</div>
+
+<!-- STEPS -->
+
+<div class="steps">
+
+<div class="step">
+
+<div class="step-number">
+1
+</div>
+
+<div class="step-text">
+Follow @LolAgentAi on X
+</div>
+
+</div>
+
+<div class="step">
+
+<div class="step-number">
+2
+</div>
+
+<div class="step-text">
+Join Telegram Community
+</div>
+
+</div>
+
+<div class="step">
+
+<div class="step-number">
+3
+</div>
+
+<div class="step-text">
+Login with Pi Browser
+and claim LOLAGENT 🎉
+</div>
+
+</div>
+
+</div>
+
+<!-- BUTTONS -->
+
+<div class="buttons">
+
+<a
+class="btn btn-x"
+href="https://x.com/LolAgentAi"
+target="_blank"
+>
+Follow on X
+</a>
+
+<a
+class="btn btn-telegram"
+href="https://t.me/LOLAgentHQ"
+target="_blank"
+>
+Join Telegram
+</a>
+
+<button
+class="btn btn-pi"
+onclick="loginPi()"
+>
+Login Pi
+</button>
+
+<button
+class="btn btn-claim"
+onclick="claimLOL()"
+>
+Claim LOLAGENT
+</button>
+
+</div>
+
+<!-- USER -->
+
+<div class="user-box">
+
+<h2>
+Pi User Dashboard
+</h2>
+
+<div
+id="user-info"
+class="user-info"
+>
+Not connected
+</div>
+
+</div>
+
+<!-- RPC -->
+
+<div class="rpc-section">
+
+<h2>
+LOLAGENT RPC 🚀
+</h2>
+
+<p>
+Public RPC gateway for
+Pi ecosystem
+</p>
+
+<div class="rpc-url">
+https://lolagent-chi.vercel.app/api/rpc
+</div>
+
+<div class="rpc-buttons">
+
+<button
+class="rpc-btn rpc-blue"
+onclick="testRPC()"
+>
+Test RPC
+</button>
+
+<button
+class="rpc-btn rpc-yellow"
+onclick="checkWallet()"
+>
+Check Wallet
+</button>
+
+</div>
+
+<div
+id="rpc-output"
+class="rpc-output"
+>
+Waiting for RPC request...
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<div class="footer-links">
+
+<a href="/terms.html">
+Terms of Service
+</a>
+
+<a href="/privacy.html">
+Privacy Policy
+</a>
+
+</div>
+
+© 2026 LOLAGENT AI <br>
+
+Powered by Meme Culture
+• AI Agents • Pi Network
+
+</div>
+
+</div>
+
+<script>
+
+/* PI SDK */
+
+Pi.init({
+  version:"2.0",
+  sandbox:true
+});
+
+let currentUser = null;
+
+/* LOGIN PI */
+
+async function loginPi(){
+
+  try{
+
+    const scopes = [
+      'username',
+      'payments',
+      'wallet_address'
+    ];
+
+    const auth =
+    await Pi.authenticate(
+      scopes,
+      onIncompletePaymentFound
+    );
+
+    currentUser = auth;
+
+    document.getElementById(
+      'user-info'
+    ).innerHTML =
+
+    `
+    Username:
+    ${auth.user.username}
+    <br><br>
+
+    UID:
+    ${auth.user.uid}
+    `;
+
+  }catch(err){
+
+    console.error(err);
+
+    alert(
+      'Pi login failed'
+    );
+
+  }
+
+}
+
+function onIncompletePaymentFound(
+  payment
+){
+  console.log(payment);
+}
+
+/* CLAIM */
+
+async function claimLOL(){
+
+  if(!currentUser){
+
+    alert(
+      'Login Pi first'
+    );
+
+    return;
+  }
+
+  alert(
+    'LOLAGENT claimed successfully for '
+    + currentUser.user.username
+  );
+
+}
+
+/* RPC */
+
+async function testRPC(){
+
+  try{
+
+    const response =
+    await fetch(
+      '/api/rpc?method=network'
+    );
+
+    const data =
+    await response.json();
+
+    document.getElementById(
+      'rpc-output'
+    ).innerHTML =
+    '<pre>' +
+    JSON.stringify(
+      data,
+      null,
+      2
+    ) +
+    '</pre>';
+
+  }catch(err){
+
+    document.getElementById(
+      'rpc-output'
+    ).innerHTML =
+    err.message;
+
+  }
+
+}
+
+async function checkWallet(){
+
+  const wallet =
+  prompt(
+    'Enter Pi Wallet Address'
+  );
+
+  if(!wallet) return;
+
+  try{
+
+    const response =
+    await fetch(
+      '/api/rpc?method=account&wallet='
+      + wallet
+    );
+
+    const data =
+    await response.json();
+
+    document.getElementById(
+      'rpc-output'
+    ).innerHTML =
+    '<pre>' +
+    JSON.stringify(
+      data,
+      null,
+      2
+    ) +
+    '</pre>';
+
+  }catch(err){
+
+    document.getElementById(
+      'rpc-output'
+    ).innerHTML =
+    err.message;
+
+  }
+
+}
+
+</script>
+
 </body>
 </html>
