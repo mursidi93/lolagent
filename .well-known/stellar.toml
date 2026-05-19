@@ -1,0 +1,10 @@
+NETWORK_PASSPHRASE="Pi Testnet"
+
+[[CURRENCIES]]
+code="LOLA"
+issuer="GCVQVX4QZ3JQLYO5CZ4WEVUIISZOMXM5HWWJUYM3N6XDFLML42NOZTPJ"
+name="LOLAGENT"
+desc="LOLAGENT Official Token"
+image="https://lolagent-chi.vercel.app/assets/logo.png"
+status="live"
+display_decimals=7
