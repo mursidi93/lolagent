@@ -455,6 +455,7 @@ LOLAGENT
 <a href="/">Home</a>
 <a href="/giveaway.html">Giveaway</a>
 <a href="/claim.html">Claim</a>
+<a href="/shop.html">Shop</a>
 <a href="/roadmap.html">Roadmap</a>
 <a href="/whitepaper.html">Whitepaper</a>
 
@@ -468,7 +469,7 @@ LOLAGENT
 
 <img
 class="logo"
-src="logo.png"
+src="assets/logo.png"
 alt="LOLAGENT"
 />
 
@@ -586,7 +587,7 @@ Login Pi
 <div>
 
 <div class="step-text">
-GM on LOLAGENT
+Mint LOLAGENT NFT
 </div>
 
 <button
@@ -595,7 +596,7 @@ class="btn btn-green disabled"
 onclick="mintNFT()"
 disabled
 >
-GM 0.01 PI
+Mint 0.01 PI
 </button>
 
 </div>
@@ -660,65 +661,59 @@ Privacy
 
 <script>
 
-/* ==================================
+/* ===============================
    PI SDK INIT
-================================== */
+================================ */
 
 Pi.init({
-  version: "2.0",
-  sandbox: true
+  version:"2.0",
+  sandbox:true
 });
-
-/* ==================================
-   CONFIG
-================================== */
-
-const API_BASE =
-"https://lolagent-backend-production.up.railway.app/api/payment";
 
 let currentUser = null;
 
 let nftDone = false;
 
-let paymentProcessing = false;
 
-/* ==================================
+/* ===============================
    FOLLOW X
-================================== */
+================================ */
 
 function completeFollow(){
 
   window.open(
-    "https://x.com/LolAgentAi",
-    "_blank"
+    'https://x.com/LolAgentAi',
+    '_blank'
   );
 
   alert(
-    "Follow success 🚀"
+    'Follow success 🚀'
   );
 
 }
 
-/* ==================================
+
+/* ===============================
    TELEGRAM
-================================== */
+================================ */
 
 function completeTelegram(){
 
   window.open(
-    "https://t.me/LOLAgentHQ",
-    "_blank"
+    'https://t.me/LOLAgentHQ',
+    '_blank'
   );
 
   alert(
-    "Telegram joined 🚀"
+    'Telegram joined 🚀'
   );
 
 }
 
-/* ==================================
+
+/* ===============================
    LOGIN PI
-================================== */
+================================ */
 
 async function loginPi(){
 
@@ -726,13 +721,14 @@ async function loginPi(){
 
     const scopes = [
 
-      "payments",
-      "username",
-      "wallet_address"
+      'payments',
+      'username',
+      'wallet_address'
 
     ];
 
-    const auth = await Pi.authenticate(
+    const auth =
+    await Pi.authenticate(
 
       scopes,
 
@@ -742,8 +738,10 @@ async function loginPi(){
 
     currentUser = auth;
 
+    console.log(auth);
+
     document.getElementById(
-      "user-info"
+      'user-info'
     ).innerHTML =
 
     `
@@ -756,7 +754,7 @@ async function loginPi(){
     <br><br>
 
     Wallet:
-    ${auth.user.wallet_address || "Hidden"}
+    ${auth.user.wallet_address || 'Hidden'}
     <br><br>
 
     Status:
@@ -765,17 +763,17 @@ async function loginPi(){
 
     const mintBtn =
     document.getElementById(
-      "mintBtn"
+      'mintBtn'
     );
 
     mintBtn.disabled = false;
 
     mintBtn.classList.remove(
-      "disabled"
+      'disabled'
     );
 
     alert(
-      "Pi Login Success 🚀"
+      'Pi Login Success 🚀'
     );
 
   }catch(err){
@@ -783,16 +781,17 @@ async function loginPi(){
     console.log(err);
 
     alert(
-      "Pi Login Failed"
+      'Pi Login Failed'
     );
 
   }
 
 }
 
-/* ==================================
+
+/* ===============================
    INCOMPLETE PAYMENT
-================================== */
+================================ */
 
 function onIncompletePaymentFound(
   payment
@@ -806,19 +805,14 @@ function onIncompletePaymentFound(
 
 }
 
-/* ==================================
-   GM PAYMENT
-================================== */
 
-async function mintNFT(){
+/* ===============================
+   MINT NFT
+================================ */
+
+function mintNFT(){
 
   try{
-
-    if(paymentProcessing){
-
-      return;
-
-    }
 
     if(!currentUser){
 
@@ -830,50 +824,41 @@ async function mintNFT(){
 
     }
 
-    paymentProcessing = true;
-
-    const mintBtn =
-    document.getElementById(
-      "mintBtn"
+    console.log(
+      "START PAYMENT"
     );
 
-    mintBtn.innerHTML =
-    "Processing...";
+    Pi.createPayment({
 
-    mintBtn.disabled = true;
+      amount: 0.01,
 
-    await Pi.createPayment(
+      memo:
+      "LOLAGENT NFT",
 
-      {
+      metadata: {
 
-        amount: 0.01,
+        type:
+        "LOLAGENT_NFT"
 
-        memo:
-        "LOLAGENT GM",
+      }
 
-        metadata: {
+    }, {
 
-          type:
-          "LOLAGENT_GM"
+      /* APPROVE */
 
-        }
+      onReadyForServerApproval:
+      async function(paymentId){
 
-      },
+        console.log(
+          "READY APPROVE"
+        );
 
-      {
+        console.log(paymentId);
 
-        /* APPROVE */
+        try{
 
-        onReadyForServerApproval:
-        async function(paymentId){
-
-          console.log(paymentId);
-
-          const response =
           await fetch(
-
-            `${API_BASE}/approve`,
-
+            "https://lolagent-backend-production.up.railway.app/api/approve",
             {
 
               method:"POST",
@@ -888,29 +873,33 @@ async function mintNFT(){
               })
 
             }
-
           );
 
-          const data =
-          await response.json();
+        }catch(err){
 
-          console.log(data);
+          console.log(err);
 
-        },
+        }
 
-        /* COMPLETE */
+      },
 
-        onReadyForServerCompletion:
-        async function(
-          paymentId,
-          txid
-        ){
 
-          const response =
+      /* COMPLETE */
+
+      onReadyForServerCompletion:
+      async function(paymentId, txid){
+
+        console.log(
+          "READY COMPLETE"
+        );
+
+        console.log(paymentId);
+        console.log(txid);
+
+        try{
+
           await fetch(
-
-            `${API_BASE}/complete`,
-
+            "https://lolagent-backend-production.up.railway.app/api/complete",
             {
 
               method:"POST",
@@ -928,102 +917,88 @@ async function mintNFT(){
               })
 
             }
-
           );
-
-          const data =
-          await response.json();
-
-          console.log(data);
 
           nftDone = true;
 
           const claimBtn =
           document.getElementById(
-            "claimBtn"
+            'claimBtn'
           );
 
           claimBtn.disabled = false;
 
           claimBtn.classList.remove(
-            "disabled"
+            'disabled'
           );
-
-          mintBtn.innerHTML =
-          "GM Success ✅";
 
           alert(
-            "GM Success 🚀"
+            "NFT Mint Success 🚀"
           );
 
-        },
+        }catch(err){
 
-        /* CANCEL */
-
-        onCancel:function(paymentId){
-
-          console.log(paymentId);
-
-          paymentProcessing = false;
-
-          mintBtn.disabled = false;
-
-          mintBtn.innerHTML =
-          "GM 0.01 PI";
-
-          alert(
-            "Payment Cancelled"
-          );
-
-        },
-
-        /* ERROR */
-
-        onError:function(error){
-
-          console.log(error);
-
-          paymentProcessing = false;
-
-          mintBtn.disabled = false;
-
-          mintBtn.innerHTML =
-          "GM 0.01 PI";
-
-          alert(
-            "Payment Failed"
-          );
+          console.log(err);
 
         }
 
+      },
+
+
+      /* CANCEL */
+
+      onCancel:function(paymentId){
+
+        console.log(
+          "PAYMENT CANCELLED"
+        );
+
+        console.log(paymentId);
+
+        alert(
+          "Payment Cancelled"
+        );
+
+      },
+
+
+      /* ERROR */
+
+      onError:function(error){
+
+        console.log(
+          "PAYMENT ERROR"
+        );
+
+        console.log(error);
+
+        alert(
+          JSON.stringify(error)
+        );
+
       }
 
-    );
+    });
 
   }catch(err){
 
     console.log(err);
 
-    paymentProcessing = false;
-
-    alert(
-      "Payment Failed"
-    );
-
   }
 
 }
 
-/* ==================================
+
+/* ===============================
    CLAIM
-================================== */
+================================ */
 
 function claimLOL(){
 
   if(!nftDone){
 
     alert(
-      "GM first"
+      "Mint NFT first"
     );
 
     return;
@@ -1031,7 +1006,7 @@ function claimLOL(){
   }
 
   alert(
-    "LOLAGENT Claimed Successfully 🎉"
+    "LOLAGENT Claimed 🎉"
   );
 
 }
