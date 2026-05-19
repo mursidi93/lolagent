@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>LOLAGENT Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Holder Dashboard</h1>
+
+  <div id="holders"></div>
+
+</div>
+
+<script>
+
+async function load() {
+
+  const res = await fetch('/api/holders');
+  const data = await res.json();
+
+  let html = "";
+
+  data.holders.forEach(h => {
+
+    html += `
+      <div class="card">
+        <h3>${h.wallet}</h3>
+        <p>${h.amount} LOLAGENT</p>
+      </div>
+    `;
+
+  });
+
+  document.getElementById("holders").innerHTML = html;
+
+}
+
+load();
+
+</script>
+
+</body>
+</html>

@@ -1,14 +1,45 @@
 body {
-  background: #111;
+  margin: 0;
+  background: #05050a;
   color: white;
-  font-family: Arial, sans-serif;
+  font-family: Arial;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 40px;
   text-align: center;
-  margin-top: 100px;
+}
+
+h1 {
+  color: #b84dff;
+  font-size: 60px;
 }
 
 button {
-  padding: 12px 20px;
+  padding: 15px 30px;
+  margin: 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: 15px;
+  background: #7a2cff;
+  color: white;
+  font-size: 16px;
   cursor: pointer;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+#result {
+  margin-top: 40px;
+}
+
+.card {
+  background: #101018;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 20px;
+  border: 1px solid #7a2cff;
 }

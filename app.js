@@ -1,18 +1,50 @@
-Pi.init({ version: "2.0" });
+async function loginPi() {
 
-function loginPi() {
-  const scopes = ['username', 'payments'];
+  const res = await fetch('/api/auth');
+  const data = await res.json();
 
-  Pi.authenticate(scopes, onIncompletePaymentFound)
-    .then(auth => {
-      alert("Welcome " + auth.user.username);
-      console.log(auth);
-    })
-    .catch(error => {
-      console.error(error);
-    });
+  document.getElementById('result').innerHTML = `
+    <h2>${data.message}</h2>
+  `;
+
 }
 
-function onIncompletePaymentFound(payment) {
-  console.log(payment);
+async function loadPrice() {
+
+  const res = await fetch('/api/price');
+  const data = await res.json();
+
+  document.getElementById('result').innerHTML = `
+
+    <div class="card">
+      <h2>${data.token}</h2>
+      <p>Price: $${data.price}</p>
+      <p>Market Cap: $${data.marketcap}</p>
+      <p>Holders: ${data.holders}</p>
+    </div>
+
+  `;
+
+}
+
+async function loadMeme() {
+
+  const res = await fetch('/api/meme-ai');
+  const data = await res.json();
+
+  document.getElementById('result').innerHTML = `
+
+    <div class="card">
+      <h2>AI Meme</h2>
+      <p>${data.meme}</p>
+    </div>
+
+  `;
+
+}
+
+async function loadHolders() {
+
+  window.location.href = '/dashboard.html';
+
 }

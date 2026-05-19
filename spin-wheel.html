@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOLAGENT Lucky Wheel</title>
+
+<style>
+
+body{
+  background:#020617;
+  color:white;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  flex-direction:column;
+}
+
+.wheel{
+  width:320px;
+  height:320px;
+  border-radius:50%;
+  border:10px solid #111827;
+
+  background:
+  conic-gradient(
+    #38bdf8 0deg 60deg,
+    #8b5cf6 60deg 120deg,
+    #22c55e 120deg 180deg,
+    #f59e0b 180deg 240deg,
+    #ef4444 240deg 300deg,
+    #ffffff 300deg 360deg
+  );
+
+  transition:5s;
+}
+
+button{
+  margin-top:30px;
+  background:#38bdf8;
+  border:none;
+  padding:15px 25px;
+  border-radius:14px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+</style>
+
+</head>
+<body>
+
+<h1>🎡 LOLAGENT LUCKY WHEEL</h1>
+
+<div class="wheel" id="wheel"></div>
+
+<button onclick="spinWheel()">
+SPIN NOW
+</button>
+
+<script>
+
+function spinWheel(){
+
+const wheel = document.getElementById('wheel');
+
+const random = Math.floor(
+Math.random()*5000+2000
+);
+
+wheel.style.transform =
+`rotate(${random}deg)`;
+
+}
+
+</script>
+
+</body>
+</html>
