@@ -1,10 +1,23 @@
 NETWORK_PASSPHRASE="Pi Testnet"
 
+VERSION="2.0.0"
+
+ACCOUNTS=[
+"GCVQVX4QZ3JQLYO5CZ4WEVUIISZOMXM5HWWJUYM3N6XDFLML42NOZTPJ"
+]
+
+[DOCUMENTATION]
+ORG_NAME="LOLAGENT"
+ORG_URL="https://lolagent-chi.vercel.app/"
+ORG_LOGO="https://lolagent-chi.vercel.app/logo.png"
+ORG_DESCRIPTION="Ai Agent for the Pioneer Generation"
+
 [[CURRENCIES]]
 code="LOLA"
 issuer="GCVQVX4QZ3JQLYO5CZ4WEVUIISZOMXM5HWWJUYM3N6XDFLML42NOZTPJ"
 name="LOLAGENT"
-desc="LOLAGENT Official Token"
-image="https://lolagent-chi.vercel.app/assets/logo.png"
+desc="Ai Agent for the Pioneer Generation"
+image="https://lolagent-chi.vercel.app/logo.png"
+fixed_number=10000000000
 status="live"
 display_decimals=7
