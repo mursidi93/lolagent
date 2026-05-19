@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8" />
@@ -11,6 +12,7 @@ content="width=device-width, initial-scale=1.0"
 
 <title>LOLAGENT × Pi Network</title>
 
+<!-- PI SDK -->
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
 <style>
@@ -440,6 +442,8 @@ h1{
 
 <div class="container">
 
+<!-- NAVBAR -->
+
 <div class="navbar">
 
 <div class="logo-text">
@@ -458,11 +462,13 @@ LOLAGENT
 
 </div>
 
+<!-- HERO -->
+
 <div class="hero">
 
 <img
 class="logo"
-src="logo.png"
+src="assets/logo.png"
 alt="LOLAGENT"
 />
 
@@ -476,16 +482,21 @@ AI Agents × Meme Culture × Pi Network
 
 </div>
 
+<!-- REWARD -->
+
 <div class="reward-box">
 
 <h2>
 100,000,000 LOLA
 </h2>
 
-🎁 EXCLUSIVE GIVEAWAY FOR THE FIRST 1000 PIONEERS 🏆
-🔥 100,000,000 LOLAGENT (LOLA) 🚀
+<p>
+Exclusive giveaway for early Pi pioneers 🚀
+</p>
 
 </div>
+
+<!-- STEPS -->
 
 <div class="steps">
 
@@ -584,7 +595,7 @@ class="btn btn-green disabled"
 onclick="mintNFT()"
 disabled
 >
-Mint 0.1 PI
+GM 0.01 PI
 </button>
 
 </div>
@@ -592,6 +603,8 @@ Mint 0.1 PI
 </div>
 
 </div>
+
+<!-- USER -->
 
 <div class="user-box">
 
@@ -608,6 +621,8 @@ Not connected
 
 </div>
 
+<!-- CLAIM -->
+
 <div style="text-align:center;">
 
 <button
@@ -616,10 +631,12 @@ class="btn btn-green disabled"
 onclick="claimLOL()"
 disabled
 >
-Claim 100.000 LOLAGENT
+Claim LOLAGENT
 </button>
 
 </div>
+
+<!-- FOOTER -->
 
 <div class="footer">
 
@@ -643,89 +660,90 @@ Privacy
 
 <script>
 
-/* PI SDK */
+/* ==================================
+   PI SDK INIT
+================================== */
 
 Pi.init({
-  version:"2.0",
-  sandbox:true
+  version: "2.0",
+  sandbox: true
 });
+
+/* ==================================
+   CONFIG
+================================== */
+
+const API_BASE =
+"https://lolagent-production.up.railway.app/api/payment";
 
 let currentUser = null;
 
-let followDone = false;
-let telegramDone = false;
-let piDone = false;
 let nftDone = false;
 
-/* FOLLOW X */
+let paymentProcessing = false;
+
+/* ==================================
+   FOLLOW X
+================================== */
 
 function completeFollow(){
 
   window.open(
-    'https://x.com/LolAgentAi',
-    '_blank'
+    "https://x.com/LolAgentAi",
+    "_blank"
   );
 
-  followDone = true;
-
   alert(
-    'Follow success 🚀'
+    "Follow success 🚀"
   );
 
 }
 
-/* TELEGRAM */
+/* ==================================
+   TELEGRAM
+================================== */
 
 function completeTelegram(){
 
   window.open(
-    'https://t.me/LOLAgentHQ',
-    '_blank'
+    "https://t.me/LOLAgentHQ",
+    "_blank"
   );
 
-  telegramDone = true;
-
   alert(
-    'Telegram joined 🚀'
+    "Telegram joined 🚀"
   );
 
 }
 
-/* LOGIN PI */
+/* ==================================
+   LOGIN PI
+================================== */
 
 async function loginPi(){
 
   try{
 
     const scopes = [
-      'username',
-      'payments',
-      'wallet_address'
+
+      "payments",
+      "username",
+      "wallet_address"
+
     ];
 
-    const auth =
-    await Pi.authenticate(
+    const auth = await Pi.authenticate(
+
       scopes,
+
       onIncompletePaymentFound
+
     );
 
     currentUser = auth;
 
-    piDone = true;
-
-    const mintBtn =
     document.getElementById(
-      'mintBtn'
-    );
-
-    mintBtn.disabled = false;
-
-    mintBtn.classList.remove(
-      'disabled'
-    );
-
-    document.getElementById(
-      'user-info'
+      "user-info"
     ).innerHTML =
 
     `
@@ -738,15 +756,26 @@ async function loginPi(){
     <br><br>
 
     Wallet:
-    ${auth.user.wallet_address || 'Hidden'}
+    ${auth.user.wallet_address || "Hidden"}
     <br><br>
 
     Status:
     Connected ✅
     `;
 
+    const mintBtn =
+    document.getElementById(
+      "mintBtn"
+    );
+
+    mintBtn.disabled = false;
+
+    mintBtn.classList.remove(
+      "disabled"
+    );
+
     alert(
-      'Pi Login Success 🚀'
+      "Pi Login Success 🚀"
     );
 
   }catch(err){
@@ -754,155 +783,255 @@ async function loginPi(){
     console.log(err);
 
     alert(
-      'Pi Login Failed'
+      "Pi Login Failed"
     );
 
   }
 
 }
+
+/* ==================================
+   INCOMPLETE PAYMENT
+================================== */
 
 function onIncompletePaymentFound(
   payment
 ){
+
+  console.log(
+    "INCOMPLETE PAYMENT"
+  );
+
   console.log(payment);
+
 }
 
-/* MINT NFT PAYMENT */
+/* ==================================
+   GM PAYMENT
+================================== */
 
 async function mintNFT(){
 
-  if(!piDone){
-
-    alert(
-      'Login Pi first'
-    );
-
-    return;
-  }
-
   try{
 
-    const paymentData = {
+    if(paymentProcessing){
 
-      amount: 1,
+      return;
 
-      memo:
-      "LOLAGENT NFT Mint",
+    }
 
-      metadata: {
-        type: "LOLAGENT_NFT"
-      }
+    if(!currentUser){
 
-    };
+      alert(
+        "Login first"
+      );
 
-    const callbacks = {
+      return;
 
-      onReadyForServerApproval:
-      async function(paymentId){
+    }
 
-        console.log(
-          "Ready For Approval",
-          paymentId
-        );
+    paymentProcessing = true;
 
-      },
+    const mintBtn =
+    document.getElementById(
+      "mintBtn"
+    );
 
-      onReadyForServerCompletion:
-      async function(paymentId, txid){
+    mintBtn.innerHTML =
+    "Processing...";
 
-        console.log(
-          "Payment Success",
-          paymentId,
-          txid
-        );
-
-        nftDone = true;
-
-        const claimBtn =
-        document.getElementById(
-          'claimBtn'
-        );
-
-        claimBtn.disabled = false;
-
-        claimBtn.classList.remove(
-          'disabled'
-        );
-
-        alert(
-          'NFT Mint Success 🚀'
-        );
-
-      },
-
-      onCancel: function(paymentId){
-
-        console.log(
-          "Payment Cancelled",
-          paymentId
-        );
-
-        alert(
-          'Payment cancelled'
-        );
-
-      },
-
-      onError: function(error){
-
-        console.log(
-          error
-        );
-
-        alert(
-          'Payment failed'
-        );
-
-      }
-
-    };
+    mintBtn.disabled = true;
 
     await Pi.createPayment(
-      paymentData,
-      callbacks
+
+      {
+
+        amount: 0.01,
+
+        memo:
+        "LOLAGENT GM",
+
+        metadata: {
+
+          type:
+          "LOLAGENT_GM"
+
+        }
+
+      },
+
+      {
+
+        /* APPROVE */
+
+        onReadyForServerApproval:
+        async function(paymentId){
+
+          console.log(paymentId);
+
+          const response =
+          await fetch(
+
+            `${API_BASE}/approve`,
+
+            {
+
+              method:"POST",
+
+              headers:{
+                "Content-Type":
+                "application/json"
+              },
+
+              body:JSON.stringify({
+                paymentId
+              })
+
+            }
+
+          );
+
+          const data =
+          await response.json();
+
+          console.log(data);
+
+        },
+
+        /* COMPLETE */
+
+        onReadyForServerCompletion:
+        async function(
+          paymentId,
+          txid
+        ){
+
+          const response =
+          await fetch(
+
+            `${API_BASE}/complete`,
+
+            {
+
+              method:"POST",
+
+              headers:{
+                "Content-Type":
+                "application/json"
+              },
+
+              body:JSON.stringify({
+
+                paymentId,
+                txid
+
+              })
+
+            }
+
+          );
+
+          const data =
+          await response.json();
+
+          console.log(data);
+
+          nftDone = true;
+
+          const claimBtn =
+          document.getElementById(
+            "claimBtn"
+          );
+
+          claimBtn.disabled = false;
+
+          claimBtn.classList.remove(
+            "disabled"
+          );
+
+          mintBtn.innerHTML =
+          "GM Success ✅";
+
+          alert(
+            "GM Success 🚀"
+          );
+
+        },
+
+        /* CANCEL */
+
+        onCancel:function(paymentId){
+
+          console.log(paymentId);
+
+          paymentProcessing = false;
+
+          mintBtn.disabled = false;
+
+          mintBtn.innerHTML =
+          "GM 0.01 PI";
+
+          alert(
+            "Payment Cancelled"
+          );
+
+        },
+
+        /* ERROR */
+
+        onError:function(error){
+
+          console.log(error);
+
+          paymentProcessing = false;
+
+          mintBtn.disabled = false;
+
+          mintBtn.innerHTML =
+          "GM 0.01 PI";
+
+          alert(
+            "Payment Failed"
+          );
+
+        }
+
+      }
+
     );
 
   }catch(err){
 
     console.log(err);
 
+    paymentProcessing = false;
+
     alert(
-      'Mint failed'
+      "Payment Failed"
     );
 
   }
 
 }
 
-/* CLAIM */
+/* ==================================
+   CLAIM
+================================== */
 
 function claimLOL(){
-
-  if(!piDone){
-
-    alert(
-      'Login Pi first'
-    );
-
-    return;
-  }
 
   if(!nftDone){
 
     alert(
-      'Mint NFT first'
+      "GM first"
     );
 
     return;
+
   }
 
   alert(
-    'LOLAGENT Claimed Successfully 🎉'
+    "LOLAGENT Claimed Successfully 🎉"
   );
 
 }
