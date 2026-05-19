@@ -532,9 +532,8 @@ Join Telegram Community
 
 <button
 id="telegramBtn"
-class="btn btn-telegram disabled"
+class="btn btn-telegram"
 onclick="completeTelegram()"
-disabled
 >
 Join Telegram
 </button>
@@ -559,9 +558,8 @@ Login with Pi Browser
 
 <button
 id="piBtn"
-class="btn btn-pi disabled"
+class="btn btn-pi"
 onclick="loginPi()"
-disabled
 >
 Login Pi
 </button>
@@ -581,7 +579,7 @@ Login Pi
 <div>
 
 <div class="step-text">
-Mint LOLAGENT NFT (1 PI)
+Mint LOLAGENT NFT
 </div>
 
 <button
@@ -596,9 +594,6 @@ Mint 1 PI
 </div>
 
 </div>
-
-
-
 
 </div>
 
@@ -682,37 +677,17 @@ function completeFollow(){
       'true'
     );
 
-    const telegramBtn =
-    document.getElementById(
-      'telegramBtn'
-    );
-
-    telegramBtn.disabled = false;
-
-    telegramBtn.classList.remove(
-      'disabled'
-    );
-
     alert(
       'X Follow Verified 🚀'
     );
 
-  },3000);
+  },2000);
 
 }
 
 /* STEP 2 */
 
 function completeTelegram(){
-
-  if(!followDone){
-
-    alert(
-      'Follow X first'
-    );
-
-    return;
-  }
 
   window.open(
     'https://t.me/LOLAgentHQ',
@@ -728,37 +703,17 @@ function completeTelegram(){
       'true'
     );
 
-    const piBtn =
-    document.getElementById(
-      'piBtn'
-    );
-
-    piBtn.disabled = false;
-
-    piBtn.classList.remove(
-      'disabled'
-    );
-
     alert(
       'Telegram Joined 🚀'
     );
 
-  },3000);
+  },2000);
 
 }
 
 /* STEP 3 */
 
 async function loginPi(){
-
-  if(!telegramDone){
-
-    alert(
-      'Join Telegram first'
-    );
-
-    return;
-  }
 
   try{
 
@@ -794,17 +749,6 @@ async function loginPi(){
       'disabled'
     );
 
-    const mineBtn =
-    document.getElementById(
-      'mineBtn'
-    );
-
-    mineBtn.disabled = false;
-
-    mineBtn.classList.remove(
-      'disabled'
-    );
-
     document.getElementById(
       'user-info'
     ).innerHTML =
@@ -822,8 +766,8 @@ async function loginPi(){
     ${auth.user.wallet_address || 'Hidden'}
     <br><br>
 
-    Mining Status:
-    ACTIVE ⛏️
+    Status:
+    Connected ✅
     `;
 
     alert(
@@ -905,61 +849,6 @@ async function mintNFT(){
 
 }
 
-/* STEP 5 */
-
-function startMining(){
-
-  if(!piDone){
-
-    alert(
-      'Login Pi first'
-    );
-
-    return;
-  }
-
-  const lastMining =
-  localStorage.getItem(
-    'lastMining'
-  );
-
-  const now = Date.now();
-
-  if(lastMining){
-
-    const diff =
-    now - parseInt(lastMining);
-
-    const hours =
-    diff / (1000 * 60 * 60);
-
-    if(hours < 24){
-
-      const remain =
-      (24 - hours).toFixed(1);
-
-      alert(
-        'Mining available in '
-        + remain +
-        ' hours'
-      );
-
-      return;
-    }
-
-  }
-
-  localStorage.setItem(
-    'lastMining',
-    now
-  );
-
-  alert(
-    'Mining Success ⛏️\n+100 LOLA'
-  );
-
-}
-
 /* CLAIM */
 
 function claimLOL(){
@@ -973,14 +862,10 @@ function claimLOL(){
     return;
   }
 
-  if(
-    !followDone ||
-    !telegramDone ||
-    !nftDone
-  ){
+  if(!nftDone){
 
     alert(
-      'Complete all steps first'
+      'Mint NFT first'
     );
 
     return;
@@ -1001,20 +886,7 @@ window.onload = ()=>{
       'x_follow'
     ) === 'true'
   ){
-
     followDone = true;
-
-    const telegramBtn =
-    document.getElementById(
-      'telegramBtn'
-    );
-
-    telegramBtn.disabled = false;
-
-    telegramBtn.classList.remove(
-      'disabled'
-    );
-
   }
 
   if(
@@ -1022,20 +894,7 @@ window.onload = ()=>{
       'telegram_join'
     ) === 'true'
   ){
-
     telegramDone = true;
-
-    const piBtn =
-    document.getElementById(
-      'piBtn'
-    );
-
-    piBtn.disabled = false;
-
-    piBtn.classList.remove(
-      'disabled'
-    );
-
   }
 
 };
