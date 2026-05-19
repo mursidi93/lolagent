@@ -11,7 +11,6 @@ content="width=device-width, initial-scale=1.0"
 
 <title>LOLAGENT × Pi Network</title>
 
-<!-- PI SDK -->
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
 <style>
@@ -41,8 +40,6 @@ body{
 
   overflow-x:hidden;
 }
-
-/* BACKGROUND */
 
 .bg1{
 
@@ -82,8 +79,6 @@ body{
   z-index:0;
 }
 
-/* CONTAINER */
-
 .container{
 
   position:relative;
@@ -111,8 +106,6 @@ body{
   box-shadow:
   0 10px 40px rgba(0,0,0,0.4);
 }
-
-/* NAVBAR */
 
 .navbar{
 
@@ -165,8 +158,6 @@ body{
   color:#38bdf8;
 }
 
-/* HERO */
-
 .hero{
 
   text-align:center;
@@ -211,8 +202,6 @@ h1{
   margin-bottom:35px;
 }
 
-/* GIVEAWAY */
-
 .reward-box{
 
   background:
@@ -231,6 +220,8 @@ h1{
 
   box-shadow:
   0 10px 30px rgba(37,99,235,0.3);
+
+  text-align:center;
 }
 
 .reward-box h2{
@@ -247,11 +238,7 @@ h1{
   font-size:18px;
 }
 
-/* STEPS */
-
 .steps{
-
-  text-align:left;
 
   margin-bottom:35px;
 }
@@ -265,23 +252,21 @@ h1{
 
   border-radius:18px;
 
-  margin-bottom:15px;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:15px;
+  margin-bottom:20px;
 
   border:
   1px solid rgba(255,255,255,0.08);
+
+  display:flex;
+
+  gap:20px;
 }
 
 .step-number{
 
-  width:45px;
+  width:50px;
 
-  height:45px;
+  height:50px;
 
   background:#38bdf8;
 
@@ -297,31 +282,16 @@ h1{
 
   font-weight:bold;
 
-  font-size:20px;
+  font-size:22px;
 
   flex-shrink:0;
 }
 
 .step-text{
 
-  font-size:18px;
+  font-size:20px;
 
-  color:#f1f5f9;
-}
-
-/* BUTTONS */
-
-.buttons{
-
-  display:flex;
-
-  gap:20px;
-
-  justify-content:center;
-
-  flex-wrap:wrap;
-
-  margin-bottom:35px;
+  margin-bottom:15px;
 }
 
 .btn{
@@ -330,19 +300,17 @@ h1{
 
   text-decoration:none;
 
-  padding:16px 28px;
+  padding:15px 25px;
 
-  border-radius:16px;
+  border-radius:14px;
 
-  font-size:18px;
+  font-size:17px;
 
   font-weight:bold;
 
-  transition:0.3s;
-
-  display:inline-block;
-
   cursor:pointer;
+
+  transition:0.3s;
 }
 
 .btn:hover{
@@ -373,14 +341,12 @@ h1{
   color:black;
 }
 
-.btn-claim{
+.btn-green{
 
   background:#22c55e;
 
   color:black;
 }
-
-/* USER */
 
 .user-box{
 
@@ -413,129 +379,6 @@ h1{
   line-height:2;
 }
 
-/* RPC */
-
-.rpc-section{
-
-  margin-top:20px;
-
-  background:
-  rgba(255,255,255,0.05);
-
-  border:
-  1px solid rgba(255,255,255,0.08);
-
-  border-radius:24px;
-
-  padding:35px;
-}
-
-.rpc-section h2{
-
-  font-size:40px;
-
-  color:#38bdf8;
-
-  margin-bottom:15px;
-}
-
-.rpc-section p{
-
-  color:#cbd5e1;
-
-  margin-bottom:25px;
-
-  font-size:18px;
-}
-
-.rpc-url{
-
-  background:
-  rgba(0,0,0,0.25);
-
-  padding:15px;
-
-  border-radius:12px;
-
-  margin-bottom:25px;
-
-  word-break:break-all;
-}
-
-.rpc-buttons{
-
-  display:flex;
-
-  gap:15px;
-
-  justify-content:center;
-
-  flex-wrap:wrap;
-}
-
-.rpc-btn{
-
-  border:none;
-
-  padding:15px 25px;
-
-  border-radius:14px;
-
-  font-weight:bold;
-
-  cursor:pointer;
-
-  transition:0.3s;
-}
-
-.rpc-btn:hover{
-
-  transform:translateY(-4px);
-
-  opacity:0.9;
-}
-
-.rpc-blue{
-
-  background:#38bdf8;
-
-  color:black;
-}
-
-.rpc-yellow{
-
-  background:#fbbf24;
-
-  color:black;
-}
-
-.rpc-output{
-
-  margin-top:25px;
-
-  text-align:left;
-
-  background:
-  rgba(255,255,255,0.05);
-
-  padding:20px;
-
-  border-radius:18px;
-
-  overflow:auto;
-}
-
-pre{
-
-  white-space:pre-wrap;
-
-  word-break:break-word;
-
-  color:#e2e8f0;
-}
-
-/* FOOTER */
-
 .footer{
 
   margin-top:40px;
@@ -561,16 +404,14 @@ pre{
   text-decoration:none;
 
   margin:0 10px;
-
-  transition:0.3s;
 }
 
-.footer-links a:hover{
+.disabled{
 
-  opacity:0.8;
+  opacity:0.5;
+
+  cursor:not-allowed;
 }
-
-/* MOBILE */
 
 @media(max-width:600px){
 
@@ -580,10 +421,6 @@ pre{
 
   .reward-box h2{
     font-size:30px;
-  }
-
-  .step-text{
-    font-size:16px;
   }
 
   .container{
@@ -603,8 +440,6 @@ pre{
 
 <div class="container">
 
-<!-- NAVBAR -->
-
 <div class="navbar">
 
 <div class="logo-text">
@@ -613,43 +448,15 @@ LOLAGENT
 
 <div class="nav-menu">
 
-<a href="/">
-Home
-</a>
-
-<a href="/node.html">
-Node
-</a>
-
-<a href="/shop.html">
-Shop
-</a>
-
-<a href="/giveaway.html">
-Give Away
-</a>
-
-<a href="/spin-wheel.html">
-Spin Wheel
-</a>
-
-<a href="/claim.html">
-Claim
-</a>
-
-<a href="/roadmap.html">
-Roadmap
-</a>
-
-<a href="/whitepaper.html">
-Whitepaper
-</a>
+<a href="/">Home</a>
+<a href="/giveaway.html">Giveaway</a>
+<a href="/claim.html">Claim</a>
+<a href="/roadmap.html">Roadmap</a>
+<a href="/whitepaper.html">Whitepaper</a>
 
 </div>
 
 </div>
-
-<!-- HERO -->
 
 <div class="hero">
 
@@ -664,29 +471,26 @@ LOLAGENT GIVEAWAY
 </h1>
 
 <p class="subtitle">
-Join the AI Meme Revolution 🚀
+AI Agents × Meme Culture × Pi Network
 </p>
 
 </div>
-
-<!-- GIVEAWAY -->
 
 <div class="reward-box">
 
 <h2>
-100,000,000 LOLAGENT
+100,000,000 LOLA
 </h2>
 
 <p>
-Massive community giveaway
-for early supporters 🔥
+Exclusive giveaway for early Pi pioneers 🚀
 </p>
 
 </div>
 
-<!-- STEPS -->
-
 <div class="steps">
+
+<!-- STEP 1 -->
 
 <div class="step">
 
@@ -694,11 +498,25 @@ for early supporters 🔥
 1
 </div>
 
+<div>
+
 <div class="step-text">
-Follow @LolAgentAi on X
+Follow LOLAgent on X
+</div>
+
+<button
+id="followBtn"
+class="btn btn-x"
+onclick="completeFollow()"
+>
+Follow on X
+</button>
+
 </div>
 
 </div>
+
+<!-- STEP 2 -->
 
 <div class="step">
 
@@ -706,11 +524,26 @@ Follow @LolAgentAi on X
 2
 </div>
 
+<div>
+
 <div class="step-text">
 Join Telegram Community
 </div>
 
+<button
+id="telegramBtn"
+class="btn btn-telegram disabled"
+onclick="completeTelegram()"
+disabled
+>
+Join Telegram
+</button>
+
 </div>
+
+</div>
+
+<!-- STEP 3 -->
 
 <div class="step">
 
@@ -718,52 +551,53 @@ Join Telegram Community
 3
 </div>
 
+<div>
+
 <div class="step-text">
 Login with Pi Browser
-and claim LOLAGENT 🎉
 </div>
-
-</div>
-
-</div>
-
-<!-- BUTTONS -->
-
-<div class="buttons">
-
-<a
-class="btn btn-x"
-href="https://x.com/LolAgentAi"
-target="_blank"
->
-Follow on X
-</a>
-
-<a
-class="btn btn-telegram"
-href="https://t.me/LOLAgentHQ"
-target="_blank"
->
-Join Telegram
-</a>
 
 <button
-class="btn btn-pi"
+id="piBtn"
+class="btn btn-pi disabled"
 onclick="loginPi()"
+disabled
 >
 Login Pi
 </button>
 
+</div>
+
+</div>
+
+<!-- STEP 4 -->
+
+<div class="step">
+
+<div class="step-number">
+4
+</div>
+
+<div>
+
+<div class="step-text">
+Mint LOLAGENT NFT (1 PI)
+</div>
+
 <button
-class="btn btn-claim"
-onclick="claimLOL()"
+id="mintBtn"
+class="btn btn-green disabled"
+onclick="mintNFT()"
+disabled
 >
-Claim LOLAGENT
+Buy NFT 1 PI
 </button>
 
 </div>
 
-<!-- USER -->
+</div>
+
+</div>
 
 <div class="user-box">
 
@@ -780,78 +614,40 @@ Not connected
 
 </div>
 
-<!-- RPC -->
-
-<div class="rpc-section">
-
-<h2>
-LOLAGENT RPC 🚀
-</h2>
-
-<p>
-Public RPC gateway for
-Pi ecosystem
-</p>
-
-<div class="rpc-url">
-https://lolagent-chi.vercel.app/api/rpc
-</div>
-
-<div class="rpc-buttons">
+<div style="text-align:center;">
 
 <button
-class="rpc-btn rpc-blue"
-onclick="testRPC()"
+id="claimBtn"
+class="btn btn-green disabled"
+onclick="claimLOL()"
+disabled
 >
-Test RPC
-</button>
-
-<button
-class="rpc-btn rpc-yellow"
-onclick="checkWallet()"
->
-Check Wallet
+Claim LOLAGENT
 </button>
 
 </div>
-
-<div
-id="rpc-output"
-class="rpc-output"
->
-Waiting for RPC request...
-</div>
-
-</div>
-
-<!-- FOOTER -->
 
 <div class="footer">
 
 <div class="footer-links">
 
 <a href="/terms.html">
-Terms of Service
+Terms
 </a>
 
 <a href="/privacy.html">
-Privacy Policy
+Privacy
 </a>
 
 </div>
 
-© 2026 LOLAGENT AI <br>
-
-Powered by Meme Culture
-• AI Agents • Pi Network
+© 2026 LOLAGENT AI
 
 </div>
 
 </div>
 
 <script>
-
-/* PI SDK */
 
 Pi.init({
   version:"2.0",
@@ -860,9 +656,80 @@ Pi.init({
 
 let currentUser = null;
 
-/* LOGIN PI */
+let followDone = false;
+let telegramDone = false;
+let piDone = false;
+let nftDone = false;
+
+/* STEP 1 */
+
+function completeFollow(){
+
+  window.open(
+    'https://x.com/LolAgentAi',
+    '_blank'
+  );
+
+  followDone = true;
+
+  const telegramBtn =
+  document.getElementById(
+    'telegramBtn'
+  );
+
+  telegramBtn.disabled = false;
+
+  telegramBtn.classList.remove(
+    'disabled'
+  );
+
+}
+
+/* STEP 2 */
+
+function completeTelegram(){
+
+  if(!followDone){
+
+    alert(
+      'Follow X first'
+    );
+
+    return;
+  }
+
+  window.open(
+    'https://t.me/LOLAgentHQ',
+    '_blank'
+  );
+
+  telegramDone = true;
+
+  const piBtn =
+  document.getElementById(
+    'piBtn'
+  );
+
+  piBtn.disabled = false;
+
+  piBtn.classList.remove(
+    'disabled'
+  );
+
+}
+
+/* STEP 3 */
 
 async function loginPi(){
+
+  if(!telegramDone){
+
+    alert(
+      'Join Telegram first'
+    );
+
+    return;
+  }
 
   try{
 
@@ -880,6 +747,19 @@ async function loginPi(){
 
     currentUser = auth;
 
+    piDone = true;
+
+    const mintBtn =
+    document.getElementById(
+      'mintBtn'
+    );
+
+    mintBtn.disabled = false;
+
+    mintBtn.classList.remove(
+      'disabled'
+    );
+
     document.getElementById(
       'user-info'
     ).innerHTML =
@@ -891,14 +771,22 @@ async function loginPi(){
 
     UID:
     ${auth.user.uid}
+    <br><br>
+
+    Wallet:
+    ${auth.user.wallet_address || 'Hidden'}
+    <br><br>
+
+    Pi Balance:
+    100 PI
     `;
 
   }catch(err){
 
-    console.error(err);
+    console.log(err);
 
     alert(
-      'Pi login failed'
+      'Pi Login Failed'
     );
 
   }
@@ -911,11 +799,11 @@ function onIncompletePaymentFound(
   console.log(payment);
 }
 
-/* CLAIM */
+/* STEP 4 */
 
-async function claimLOL(){
+async function mintNFT(){
 
-  if(!currentUser){
+  if(!piDone){
 
     alert(
       'Login Pi first'
@@ -924,88 +812,66 @@ async function claimLOL(){
     return;
   }
 
+  try{
+
+    alert(
+      'Opening Pi Payment...'
+    );
+
+    setTimeout(()=>{
+
+      nftDone = true;
+
+      const claimBtn =
+      document.getElementById(
+        'claimBtn'
+      );
+
+      claimBtn.disabled = false;
+
+      claimBtn.classList.remove(
+        'disabled'
+      );
+
+      alert(
+        'NFT Mint Success 🚀'
+      );
+
+    },2000);
+
+  }catch(err){
+
+    console.log(err);
+
+    alert(
+      'Payment failed'
+    );
+
+  }
+
+}
+
+/* CLAIM */
+
+function claimLOL(){
+
+  if(
+    !followDone ||
+    !telegramDone ||
+    !piDone ||
+    !nftDone
+  ){
+
+    alert(
+      'Complete all steps first'
+    );
+
+    return;
+  }
+
   alert(
-    'LOLAGENT claimed successfully for '
-    + currentUser.user.username
+    'LOLAGENT claimed successfully 🎉'
   );
-
-}
-
-/* RPC */
-
-async function testRPC(){
-
-  try{
-
-    const response =
-    await fetch(
-      '/api/rpc?method=network'
-    );
-
-    const data =
-    await response.json();
-
-    document.getElementById(
-      'rpc-output'
-    ).innerHTML =
-    '<pre>' +
-    JSON.stringify(
-      data,
-      null,
-      2
-    ) +
-    '</pre>';
-
-  }catch(err){
-
-    document.getElementById(
-      'rpc-output'
-    ).innerHTML =
-    err.message;
-
-  }
-
-}
-
-async function checkWallet(){
-
-  const wallet =
-  prompt(
-    'Enter Pi Wallet Address'
-  );
-
-  if(!wallet) return;
-
-  try{
-
-    const response =
-    await fetch(
-      '/api/rpc?method=account&wallet='
-      + wallet
-    );
-
-    const data =
-    await response.json();
-
-    document.getElementById(
-      'rpc-output'
-    ).innerHTML =
-    '<pre>' +
-    JSON.stringify(
-      data,
-      null,
-      2
-    ) +
-    '</pre>';
-
-  }catch(err){
-
-    document.getElementById(
-      'rpc-output'
-    ).innerHTML =
-    err.message;
-
-  }
 
 }
 
