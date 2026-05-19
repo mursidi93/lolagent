@@ -505,7 +505,6 @@ Follow LOLAgent on X
 </div>
 
 <button
-id="followBtn"
 class="btn btn-x"
 onclick="completeFollow()"
 >
@@ -531,7 +530,6 @@ Join Telegram Community
 </div>
 
 <button
-id="telegramBtn"
 class="btn btn-telegram"
 onclick="completeTelegram()"
 >
@@ -557,7 +555,6 @@ Login with Pi Browser
 </div>
 
 <button
-id="piBtn"
 class="btn btn-pi"
 onclick="loginPi()"
 >
@@ -647,6 +644,8 @@ Privacy
 
 <script>
 
+/* PI SDK */
+
 Pi.init({
   version:"2.0",
   sandbox:true
@@ -659,7 +658,7 @@ let telegramDone = false;
 let piDone = false;
 let nftDone = false;
 
-/* STEP 1 */
+/* FOLLOW X */
 
 function completeFollow(){
 
@@ -668,24 +667,15 @@ function completeFollow(){
     '_blank'
   );
 
-  setTimeout(()=>{
+  followDone = true;
 
-    followDone = true;
-
-    localStorage.setItem(
-      'x_follow',
-      'true'
-    );
-
-    alert(
-      'X Follow Verified 🚀'
-    );
-
-  },2000);
+  alert(
+    'Follow success 🚀'
+  );
 
 }
 
-/* STEP 2 */
+/* TELEGRAM */
 
 function completeTelegram(){
 
@@ -694,24 +684,15 @@ function completeTelegram(){
     '_blank'
   );
 
-  setTimeout(()=>{
+  telegramDone = true;
 
-    telegramDone = true;
-
-    localStorage.setItem(
-      'telegram_join',
-      'true'
-    );
-
-    alert(
-      'Telegram Joined 🚀'
-    );
-
-  },2000);
+  alert(
+    'Telegram joined 🚀'
+  );
 
 }
 
-/* STEP 3 */
+/* LOGIN PI */
 
 async function loginPi(){
 
@@ -732,11 +713,6 @@ async function loginPi(){
     currentUser = auth;
 
     piDone = true;
-
-    localStorage.setItem(
-      'pi_login',
-      'true'
-    );
 
     const mintBtn =
     document.getElementById(
@@ -792,7 +768,7 @@ function onIncompletePaymentFound(
   console.log(payment);
 }
 
-/* STEP 4 */
+/* MINT NFT PAYMENT */
 
 async function mintNFT(){
 
@@ -807,42 +783,97 @@ async function mintNFT(){
 
   try{
 
-    alert(
-      'Opening Pi Payment...'
+    const paymentData = {
+
+      amount: 1,
+
+      memo:
+      "LOLAGENT NFT Mint",
+
+      metadata: {
+        type: "LOLAGENT_NFT"
+      }
+
+    };
+
+    const callbacks = {
+
+      onReadyForServerApproval:
+      async function(paymentId){
+
+        console.log(
+          "Ready For Approval",
+          paymentId
+        );
+
+      },
+
+      onReadyForServerCompletion:
+      async function(paymentId, txid){
+
+        console.log(
+          "Payment Success",
+          paymentId,
+          txid
+        );
+
+        nftDone = true;
+
+        const claimBtn =
+        document.getElementById(
+          'claimBtn'
+        );
+
+        claimBtn.disabled = false;
+
+        claimBtn.classList.remove(
+          'disabled'
+        );
+
+        alert(
+          'NFT Mint Success 🚀'
+        );
+
+      },
+
+      onCancel: function(paymentId){
+
+        console.log(
+          "Payment Cancelled",
+          paymentId
+        );
+
+        alert(
+          'Payment cancelled'
+        );
+
+      },
+
+      onError: function(error){
+
+        console.log(
+          error
+        );
+
+        alert(
+          'Payment failed'
+        );
+
+      }
+
+    };
+
+    await Pi.createPayment(
+      paymentData,
+      callbacks
     );
-
-    setTimeout(()=>{
-
-      nftDone = true;
-
-      localStorage.setItem(
-        'nft_minted',
-        'true'
-      );
-
-      const claimBtn =
-      document.getElementById(
-        'claimBtn'
-      );
-
-      claimBtn.disabled = false;
-
-      claimBtn.classList.remove(
-        'disabled'
-      );
-
-      alert(
-        'NFT Mint Success 🚀'
-      );
-
-    },3000);
 
   }catch(err){
 
     console.log(err);
 
     alert(
-      'NFT Payment Failed'
+      'Mint failed'
     );
 
   }
@@ -876,28 +907,6 @@ function claimLOL(){
   );
 
 }
-
-/* AUTO RESTORE */
-
-window.onload = ()=>{
-
-  if(
-    localStorage.getItem(
-      'x_follow'
-    ) === 'true'
-  ){
-    followDone = true;
-  }
-
-  if(
-    localStorage.getItem(
-      'telegram_join'
-    ) === 'true'
-  ){
-    telegramDone = true;
-  }
-
-};
 
 </script>
 
