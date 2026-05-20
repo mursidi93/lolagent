@@ -700,9 +700,9 @@ PI SDK INIT
 
 Pi.init({
 
-version:"2.0",
+    version: "2.0",
 
-sandbox:true
+    sandbox: true
 
 })
 
@@ -714,9 +714,9 @@ STATUS
 
 function setStatus(text){
 
-document.getElementById(
-'statusBox'
-).innerHTML = text
+    document.getElementById(
+        'statusBox'
+    ).innerHTML = text
 
 }
 
@@ -726,14 +726,14 @@ FOLLOW
 
 function completeFollow(){
 
-window.open(
-'https://x.com/LolAgentAi',
-'_blank'
-)
+    window.open(
+        'https://x.com/LolAgentAi',
+        '_blank'
+    )
 
-setStatus(
-'X Follow Success ✅'
-)
+    setStatus(
+        'X Follow Success ✅'
+    )
 
 }
 
@@ -743,14 +743,14 @@ TELEGRAM
 
 function completeTelegram(){
 
-window.open(
-'https://t.me/LOLAgentHQ',
-'_blank'
-)
+    window.open(
+        'https://t.me/LOLAgentHQ',
+        '_blank'
+    )
 
-setStatus(
-'Telegram Joined ✅'
-)
+    setStatus(
+        'Telegram Joined ✅'
+    )
 
 }
 
@@ -760,98 +760,98 @@ LOGIN PI
 
 async function loginPi(){
 
-try{
+    try{
 
-setStatus(
-'Connecting Pi Wallet...'
-)
+        setStatus(
+            'Connecting Pi Wallet...'
+        )
 
-const scopes = [
+        const scopes = [
 
-'payments',
-'username',
-'wallet_address'
+            'payments',
+            'username',
+            'wallet_address'
 
-]
+        ]
 
-const auth =
-await Pi.authenticate(
+        const auth =
+        await Pi.authenticate(
 
-scopes,
+            scopes,
 
-onIncompletePaymentFound
+            onIncompletePaymentFound
 
-)
+        )
 
-currentUser = auth
+        currentUser = auth
 
-console.log(auth)
+        console.log(auth)
 
-document.getElementById(
-'user-info'
-).innerHTML =
+        document.getElementById(
+            'user-info'
+        ).innerHTML =
 
-`
-Username:
-${auth.user.username}
+        `
+        Username:
+        ${auth.user.username}
 
-<br><br>
+        <br><br>
 
-UID:
-${auth.user.uid}
+        UID:
+        ${auth.user.uid}
 
-<br><br>
+        <br><br>
 
-Wallet:
-${auth.user.wallet_address}
+        Wallet:
+        ${auth.user.wallet_address}
 
-<br><br>
+        <br><br>
 
-Status:
-Connected ✅
-`
+        Status:
+        Connected ✅
+        `
 
-document
-.getElementById(
-'buyBtn'
-)
-.disabled = false
+        document
+        .getElementById(
+            'buyBtn'
+        )
+        .disabled = false
 
-document
-.getElementById(
-'buyBtn'
-)
-.classList.remove(
-'disabled'
-)
+        document
+        .getElementById(
+            'buyBtn'
+        )
+        .classList.remove(
+            'disabled'
+        )
 
-document
-.getElementById(
-'claimBtn'
-)
-.disabled = false
+        document
+        .getElementById(
+            'claimBtn'
+        )
+        .disabled = false
 
-document
-.getElementById(
-'claimBtn'
-)
-.classList.remove(
-'disabled'
-)
+        document
+        .getElementById(
+            'claimBtn'
+        )
+        .classList.remove(
+            'disabled'
+        )
 
-setStatus(
-'Pi Wallet Connected ✅'
-)
+        setStatus(
+            'Pi Wallet Connected ✅'
+        )
 
-}catch(err){
+    }catch(err){
 
-console.log(err)
+        console.log(err)
 
-setStatus(
-'Pi Login Failed ❌'
-)
+        setStatus(
+            'Pi Login Failed ❌'
+        )
 
-}
+    }
 
 }
 
@@ -859,11 +859,9 @@ setStatus(
 INCOMPLETE PAYMENT
 ========================= */
 
-function onIncompletePaymentFound(
-payment
-){
+function onIncompletePaymentFound(payment){
 
-console.log(payment)
+    console.log(payment)
 
 }
 
@@ -873,205 +871,230 @@ BUY LOLA
 
 function buyLOLA(){
 
-if(!currentUser){
+    if(!currentUser){
 
-alert(
-'Connect wallet first'
-)
+        alert(
+            'Connect wallet first'
+        )
 
-return
+        return
 
-}
+    }
 
-setStatus(
-'Opening Pi Payment...'
-)
+    setStatus(
+        'Opening Pi Payment...'
+    )
 
-Pi.createPayment({
+    Pi.createPayment({
 
-amount: 1,
+        amount: 1,
 
-memo:
-'BUY LOLA TOKEN',
+        memo:
+        'BUY LOLA TOKEN',
 
-metadata: {
+        metadata: {
 
-type:
-'BUY_LOLA'
+            type:
+            'BUY_LOLA'
 
-}
+        }
 
-}, {
+    }, {
 
-/* APPROVE */
+        /* =====================
+           SERVER APPROVAL
+        ===================== */
 
-onReadyForServerApproval:
-async function(paymentId){
+        onReadyForServerApproval:
+        async function(paymentId){
 
-try{
+            try{
 
-setStatus(
-'Waiting approval...'
-)
+                setStatus(
+                    'Approving payment...'
+                )
 
-const res =
-await fetch(
+                const res =
+                await fetch(
 
-'https://lolagent-backend-production.up.railway.app/api/approve',
+                    'https://lolagent-production.up.railway.app/api/approve',
 
-{
+                    {
 
-method:'POST',
+                        method:'POST',
 
-headers:{
-'Content-Type':
-'application/json'
-},
+                        headers:{
+                            'Content-Type':
+                            'application/json'
+                        },
 
-body:JSON.stringify({
+                        body:JSON.stringify({
 
-paymentId
+                            paymentId
 
-})
+                        })
 
-}
+                    }
 
-)
+                )
 
-const data =
-await res.json()
+                const data =
+                await res.json()
 
-console.log(data)
+                console.log(data)
 
-}catch(err){
+                if(!data.success){
 
-console.log(err)
+                    setStatus(
+                        'Approve Failed ❌'
+                    )
 
-setStatus(
-'Approve Failed ❌'
-)
+                }
 
-}
+            }catch(err){
 
-},
+                console.log(err)
 
-/* COMPLETE */
+                setStatus(
+                    'Approve Error ❌'
+                )
 
-onReadyForServerCompletion:
-async function(paymentId, txid){
+            }
 
-try{
+        },
 
-setStatus(
-'Completing payment...'
-)
+        /* =====================
+           SERVER COMPLETE
+        ===================== */
 
-const res =
-await fetch(
+        onReadyForServerCompletion:
+        async function(paymentId, txid){
 
-'https://lolagent-backend-production.up.railway.app/api/complete',
+            try{
 
-{
+                setStatus(
+                    'Completing payment...'
+                )
 
-method:'POST',
+                const res =
+                await fetch(
 
-headers:{
-'Content-Type':
-'application/json'
-},
+                    'https://lolagent-production.up.railway.app/api/complete',
 
-body:JSON.stringify({
+                    {
 
-paymentId,
-txid,
+                        method:'POST',
 
-wallet:
-currentUser.user.wallet_address
+                        headers:{
+                            'Content-Type':
+                            'application/json'
+                        },
 
-})
+                        body:JSON.stringify({
 
-}
+                            paymentId,
+                            txid,
 
-)
+                            wallet:
+                            currentUser.user.wallet_address
 
-const data =
-await res.json()
+                        })
 
-console.log(data)
+                    }
 
-if(data.success){
+                )
 
-setStatus(
+                const data =
+                await res.json()
 
-`
-Payment Success ✅
+                console.log(data)
 
-<br><br>
+                if(data.success){
 
-TXID:
-<br>
-${txid}
+                    setStatus(
 
-<br><br>
+                    `
+                    Payment Success ✅
 
-1000 LOLA Sent 🚀
-`
+                    <br><br>
 
-)
+                    TXID:
+                    <br>
 
-}else{
+                    ${txid}
 
-setStatus(
-data.error
-)
+                    <br><br>
 
-}
+                    1000 LOLA Purchase Success 🚀
+                    `
 
-}catch(err){
+                    )
 
-console.log(err)
+                }else{
 
-setStatus(
-'Payment Completion Failed ❌'
-)
+                    setStatus(
 
-}
+                    `
+                    Complete Failed ❌
 
-},
+                    <br><br>
 
-/* CANCEL */
+                    ${JSON.stringify(data)}
+                    `
 
-onCancel:function(paymentId){
+                    )
 
-console.log(paymentId)
+                }
 
-setStatus(
-'Payment Cancelled ❌'
-)
+            }catch(err){
 
-},
+                console.log(err)
 
-/* ERROR */
+                setStatus(
+                    'Completion Error ❌'
+                )
 
-onError:function(error){
+            }
 
-console.log(error)
+        },
 
-setStatus(
+        /* =====================
+           CANCEL
+        ===================== */
 
-`
-Payment Error ❌
+        onCancel:function(paymentId){
 
-<br><br>
+            console.log(paymentId)
 
-${JSON.stringify(error)}
-`
+            setStatus(
+                'Payment Cancelled ❌'
+            )
 
-)
+        },
 
-}
+        /* =====================
+           ERROR
+        ===================== */
 
-})
+        onError:function(error){
+
+            console.log(error)
+
+            setStatus(
+
+            `
+            Payment Error ❌
+
+            <br><br>
+
+            ${JSON.stringify(error)}
+            `
+
+            )
+
+        }
+
+    })
 
 }
 
@@ -1081,108 +1104,107 @@ CLAIM LOLA
 
 async function claimLOL(){
 
-if(!currentUser){
+    if(!currentUser){
 
-alert(
-'Connect wallet first'
-)
+        alert(
+            'Connect wallet first'
+        )
 
-return
+        return
 
-}
+    }
 
-try{
+    try{
 
-setStatus(
-'Processing Faucet Claim...'
-)
+        setStatus(
+            'Processing Faucet Claim...'
+        )
 
-const res =
-await fetch(
+        const res =
+        await fetch(
 
-'https://lolagent-backend-production.up.railway.app/api/claim',
+            'https://lolagent-production.up.railway.app/api/claim',
 
-{
+            {
 
-method:'POST',
+                method:'POST',
 
-headers:{
-'Content-Type':
-'application/json'
-},
+                headers:{
+                    'Content-Type':
+                    'application/json'
+                },
 
-body:JSON.stringify({
+                body:JSON.stringify({
 
-uid:
-currentUser.user.uid,
+                    uid:
+                    currentUser.user.uid,
 
-username:
-currentUser.user.username,
+                    username:
+                    currentUser.user.username,
 
-wallet:
-currentUser.user.wallet_address
+                    wallet:
+                    currentUser.user.wallet_address
 
-})
+                })
 
-}
+            }
 
-)
+        )
 
-const data =
-await res.json()
+        const data =
+        await res.json()
 
-console.log(data)
+        console.log(data)
 
-if(data.success){
+        if(data.success){
 
-setStatus(
+            setStatus(
 
-`
-Faucet Success ✅
+            `
+            Faucet Success ✅
 
-<br><br>
+            <br><br>
 
-100 LOLA Sent 🚀
+            100 LOLA Sent 🚀
 
-<br><br>
+            <br><br>
 
-TX HASH:
-<br>
+            TX HASH:
+            <br>
 
-${data.hash}
-`
+            ${data.hash}
+            `
 
-)
+            )
 
-}else{
+        }else{
 
-setStatus(
+            setStatus(
 
-`
-Claim Failed ❌
+            `
+            Claim Failed ❌
 
-<br><br>
+            <br><br>
 
-${data.error}
-`
+            ${JSON.stringify(data)}
+            `
 
-)
+            )
 
-}
+        }
 
-}catch(err){
+    }catch(err){
 
-console.log(err)
+        console.log(err)
 
-setStatus(
-'Server Error ❌'
-)
+        setStatus(
+            'Server Error ❌'
+        )
 
-}
+    }
 
 }
 
 </script>
-
 </body>
 </html>
