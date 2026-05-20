@@ -10,7 +10,7 @@ name="viewport"
 content="width=device-width, initial-scale=1.0"
 />
 
-<title>LOL AGENT × Pi Network</title>
+<title>LOLAGENT × Pi Network</title>
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
@@ -470,7 +470,7 @@ padding:25px;
 <div class="navbar">
 
 <div class="logo-text">
-LOL AGENT
+LOLAGENT
 </div>
 
 <div class="nav-menu">
@@ -495,7 +495,7 @@ alt="LOLAGENT"
 />
 
 <h1>
-LOL AGENT GIVEAWAY
+LOOL AGENT GIVEAWAY
 </h1>
 
 <p class="subtitle">
@@ -685,7 +685,7 @@ Privacy
 
 </div>
 
-© 2026 LOL AGENT
+© 2026 LOOL AGENT
 
 </div>
 
@@ -1191,172 +1191,7 @@ console.log(err)
 }
 
 }
-/* =========================
-MINING CONFIG
-========================= */
 
-const BASE_RATE = 1
-const HALVING_PERCENT = 0.05
-const MAX_SUPPLY = 4000000000
-
-/* =========================
-START MINING
-========================= */
-
-async function startMining(){
-
-if(!currentUser){
-
-alert(
-'Connect wallet first'
-)
-
-return
-
-}
-
-try{
-
-setStatus(
-'Starting mining session...'
-)
-
-const res = await fetch(
-
-'https://lolagent-backend-production.up.railway.app/api/mining/start',
-
-{
-method:'POST',
-
-headers:{
-'Content-Type':'application/json'
-},
-
-body:JSON.stringify({
-
-uid:currentUser.user.uid,
-username:currentUser.user.username,
-wallet:currentUser.user.wallet_address
-
-})
-
-}
-
-)
-
-const data = await res.json()
-
-console.log(data)
-
-if(data.success){
-
-setStatus(`
-
-Mining Started Successfully ✅
-
-<br><br>
-
-Mining Speed:
-${data.rate} LOLA/hour
-
-<br><br>
-
-Next Claim Available:
-${data.nextClaim}
-
-<br><br>
-
-Monthly Halving:
-5%
-
-<br><br>
-
-Maximum Mining Supply:
-4,000,000,000 LOLA
-
-`)
-
-}else{
-
-setStatus(`
-
-${data.error}
-
-`)
-
-}
-
-}catch(err){
-
-console.log(err)
-
-setStatus(
-'Mining Error ❌'
-)
-
-}
-
-}
-
-/* =========================
-LOAD MINING STATUS
-========================= */
-
-async function loadMiningData(){
-
-if(!currentUser) return
-
-try{
-
-const res = await fetch(
-
-'https://lolagent-backend-production.up.railway.app/api/mining/status?uid='
-+
-currentUser.user.uid
-
-)
-
-const data = await res.json()
-
-console.log(data)
-
-if(data.active){
-
-setStatus(`
-
-LOLA Mining Active ⛏️
-
-<br><br>
-
-Current Mining Speed:
-${data.rate} LOLA/hour
-
-<br><br>
-
-Claim Available In:
-${data.remaining}
-
-<br><br>
-
-Total LOLA Mined:
-${data.totalMined}
-
-<br><br>
-
-Monthly Halving:
-5%
-
-`)
-
-}
-
-}catch(err){
-
-console.log(err)
-
-}
-
-}
 </script>
 
 </body>
