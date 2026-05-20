@@ -9,7 +9,7 @@ name="viewport"
 content="width=device-width, initial-scale=1.0"
 />
 
-<title>LOLAGENT Staking</title>
+<title>LOLAGENT Launchpool</title>
 
 <link
 href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
@@ -31,16 +31,26 @@ body{
   overflow-x:hidden;
 }
 
-/* BACKGROUND */
-
-.bg-glow{
+.bg1{
   position:fixed;
   width:700px;
   height:700px;
   background:#7c3aed;
   filter:blur(180px);
-  opacity:0.15;
+  opacity:0.12;
   top:-200px;
+  left:-200px;
+  z-index:-1;
+}
+
+.bg2{
+  position:fixed;
+  width:700px;
+  height:700px;
+  background:#06b6d4;
+  filter:blur(180px);
+  opacity:0.12;
+  bottom:-200px;
   right:-200px;
   z-index:-1;
 }
@@ -62,22 +72,15 @@ body{
 }
 
 .logo{
-  font-size:28px;
+  font-size:30px;
   font-weight:800;
-  letter-spacing:1px;
 }
 
 .logo span{
   color:#8b5cf6;
 }
 
-.wallet-btn{
-  background:
-  linear-gradient(
-    90deg,
-    #8b5cf6,
-    #06b6d4
-  );
+.connect-btn{
 
   border:none;
 
@@ -90,6 +93,13 @@ body{
   font-weight:700;
 
   cursor:pointer;
+
+  background:
+  linear-gradient(
+    90deg,
+    #8b5cf6,
+    #06b6d4
+  );
 }
 
 /* HERO */
@@ -102,7 +112,7 @@ body{
   font-size:72px;
   line-height:1;
   margin-bottom:20px;
-  max-width:700px;
+  max-width:800px;
 }
 
 .gradient{
@@ -120,8 +130,8 @@ body{
 .hero p{
   color:#94a3b8;
   font-size:18px;
-  max-width:650px;
-  line-height:1.7;
+  line-height:1.8;
+  max-width:700px;
 }
 
 /* STATS */
@@ -133,10 +143,10 @@ body{
 
   gap:20px;
 
-  margin-bottom:70px;
+  margin-bottom:60px;
 }
 
-.stat-card{
+.stat{
 
   background:
   rgba(255,255,255,0.04);
@@ -147,14 +157,11 @@ body{
   border-radius:24px;
 
   padding:28px;
-
-  backdrop-filter:blur(20px);
 }
 
 .stat-title{
   color:#94a3b8;
-  margin-bottom:12px;
-  font-size:15px;
+  margin-bottom:10px;
 }
 
 .stat-value{
@@ -162,22 +169,7 @@ body{
   font-weight:800;
 }
 
-/* SECTION */
-
-.section-title{
-  font-size:34px;
-  margin-bottom:35px;
-}
-
-/* POOLS */
-
-.pools{
-  display:grid;
-  grid-template-columns:
-  repeat(auto-fit,minmax(320px,1fr));
-
-  gap:25px;
-}
+/* POOL */
 
 .pool{
 
@@ -191,63 +183,148 @@ body{
   border:
   1px solid rgba(255,255,255,0.08);
 
-  border-radius:28px;
+  border-radius:32px;
 
-  padding:30px;
+  padding:40px;
+
+  margin-bottom:40px;
+}
+
+.pool-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:40px;
+  flex-wrap:wrap;
+  gap:20px;
+}
+
+.pool-title{
+  font-size:38px;
+  font-weight:800;
+}
+
+.apr{
+  color:#22c55e;
+  font-size:28px;
+  font-weight:700;
+}
+
+/* POOL GRID */
+
+.pool-grid{
+  display:grid;
+  grid-template-columns:
+  repeat(auto-fit,minmax(250px,1fr));
+
+  gap:25px;
+
+  margin-bottom:35px;
+}
+
+.pool-card{
+
+  background:
+  rgba(255,255,255,0.03);
+
+  border:
+  1px solid rgba(255,255,255,0.06);
+
+  border-radius:24px;
+
+  padding:24px;
 
   transition:0.3s;
 }
 
-.pool:hover{
+.pool-card:hover{
   transform:translateY(-5px);
   border-color:#8b5cf6;
 }
 
-.pool-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:30px;
+.pool-card-title{
+  color:#94a3b8;
+  margin-bottom:12px;
 }
 
-.pool-name{
-  font-size:26px;
+.pool-card-value{
+  font-size:32px;
+  font-weight:800;
+}
+
+.pool-status{
+  margin-top:12px;
+  font-size:14px;
   font-weight:700;
 }
 
-.apy{
+.safe{
   color:#22c55e;
-  font-size:22px;
-  font-weight:700;
 }
 
-.pool-info{
-  margin-bottom:30px;
+.normal{
+  color:#38bdf8;
 }
 
-.info-row{
+.warning{
+  color:#facc15;
+}
+
+.acceptable{
+  color:#c084fc;
+}
+
+.pool-desc{
+  margin-top:18px;
+  color:#94a3b8;
+  line-height:1.7;
+  font-size:14px;
+}
+
+/* INPUT */
+
+.input-box{
+  margin-top:20px;
+}
+
+.input-box input{
+
+  width:100%;
+
+  padding:18px;
+
+  border-radius:18px;
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+
+  background:#0f172a;
+
+  color:white;
+
+  font-size:16px;
+
+  outline:none;
+}
+
+/* ACTIONS */
+
+.actions{
   display:flex;
-  justify-content:space-between;
-  margin-bottom:16px;
-  color:#cbd5e1;
+  gap:20px;
+  margin-top:25px;
+  flex-wrap:wrap;
 }
 
 button{
 
-  width:100%;
+  flex:1;
 
   border:none;
 
-  padding:16px;
+  padding:18px;
 
   border-radius:18px;
-
-  background:
-  linear-gradient(
-    90deg,
-    #8b5cf6,
-    #06b6d4
-  );
 
   color:white;
 
@@ -256,8 +333,19 @@ button{
   font-weight:700;
 
   cursor:pointer;
+}
 
-  transition:0.3s;
+.stake-btn{
+  background:
+  linear-gradient(
+    90deg,
+    #8b5cf6,
+    #06b6d4
+  );
+}
+
+.claim-btn{
+  background:#22c55e;
 }
 
 button:hover{
@@ -267,8 +355,8 @@ button:hover{
 /* FOOTER */
 
 .footer{
-  margin-top:90px;
   text-align:center;
+  margin-top:80px;
   color:#64748b;
   font-size:14px;
 }
@@ -286,6 +374,10 @@ button:hover{
   gap:20px;
 }
 
+.actions{
+  flex-direction:column;
+}
+
 }
 
 </style>
@@ -294,7 +386,8 @@ button:hover{
 
 <body>
 
-<div class="bg-glow"></div>
+<div class="bg1"></div>
+<div class="bg2"></div>
 
 <div class="container">
 
@@ -306,7 +399,10 @@ button:hover{
 LOL<span>AGENT</span>
 </div>
 
-<button class="wallet-btn">
+<button
+class="connect-btn"
+onclick="connectWallet()"
+>
 Connect Wallet
 </button>
 
@@ -318,17 +414,17 @@ Connect Wallet
 
 <h1>
 
-Stake Your
+LOLAGENT
 
 <span class="gradient">
-LOLAGENT
+Launchpool
 </span>
 
 </h1>
 
 <p>
-Lock your LOLAGENT tokens and earn passive rewards from the ecosystem.
-Secure staking pools with sustainable APY and community-driven rewards.
+Stake your LOLAGENT tokens and earn sustainable rewards
+through long-term ecosystem growth.
 </p>
 
 </div>
@@ -337,10 +433,10 @@ Secure staking pools with sustainable APY and community-driven rewards.
 
 <div class="stats">
 
-<div class="stat-card">
+<div class="stat">
 
 <div class="stat-title">
-Total LOLA Locked
+Total Value Locked
 </div>
 
 <div class="stat-value">
@@ -349,7 +445,7 @@ Total LOLA Locked
 
 </div>
 
-<div class="stat-card">
+<div class="stat">
 
 <div class="stat-title">
 Current Max APY
@@ -361,25 +457,235 @@ Current Max APY
 
 </div>
 
-<div class="stat-card">
+<div class="stat">
 
 <div class="stat-title">
-Total Stakers
+Total Farmers
 </div>
 
 <div class="stat-value">
-12,842
+14,281
 </div>
 
 </div>
 
-<div class="stat-card">
+<div class="stat">
 
 <div class="stat-title">
 Your Balance
 </div>
 
-<div class="stat-value">
+<div
+class="stat-value"
+id="balance"
+>
+500,000 LOLA
+</div>
+
+</div>
+
+</div>
+
+<!-- POOL -->
+
+<div class="pool">
+
+<div class="pool-header">
+
+<div class="pool-title">
+Choose Your Pool
+</div>
+
+<div class="apr">
+Up To 25% APY
+</div>
+
+</div>
+
+<div class="pool-grid">
+
+<!-- 7 DAYS -->
+
+<div class="pool-card">
+
+<div class="pool-card-title">
+7 Days Pool
+</div>
+
+<div class="pool-card-value">
+5%
+</div>
+
+<div class="pool-status safe">
+Very Safe
+</div>
+
+<div class="pool-desc">
+Low-risk short staking pool
+for stable ecosystem rewards.
+</div>
+
+<button
+class="stake-btn"
+style="margin-top:20px;"
+onclick="selectPool(
+7,
+5
+)"
+>
+Select Pool
+</button>
+
+</div>
+
+<!-- 30 DAYS -->
+
+<div class="pool-card">
+
+<div class="pool-card-title">
+30 Days Pool
+</div>
+
+<div class="pool-card-value">
+12%
+</div>
+
+<div class="pool-status normal">
+Normal
+</div>
+
+<div class="pool-desc">
+Balanced staking rewards
+with moderate lock duration.
+</div>
+
+<button
+class="stake-btn"
+style="margin-top:20px;"
+onclick="selectPool(
+30,
+12
+)"
+>
+Select Pool
+</button>
+
+</div>
+
+<!-- 90 DAYS -->
+
+<div class="pool-card">
+
+<div class="pool-card-title">
+90 Days Pool
+</div>
+
+<div class="pool-card-value">
+20%
+</div>
+
+<div class="pool-status warning">
+Still Reasonable
+</div>
+
+<div class="pool-desc">
+Longer staking period with
+higher community incentives.
+</div>
+
+<button
+class="stake-btn"
+style="margin-top:20px;"
+onclick="selectPool(
+90,
+20
+)"
+>
+Select Pool
+</button>
+
+</div>
+
+<!-- 180 DAYS -->
+
+<div class="pool-card">
+
+<div class="pool-card-title">
+180 Days Pool
+</div>
+
+<div class="pool-card-value">
+25%
+</div>
+
+<div class="pool-status acceptable">
+Acceptable
+</div>
+
+<div class="pool-desc">
+Maximum rewards for long-term
+LOLAGENT supporters.
+</div>
+
+<button
+class="stake-btn"
+style="margin-top:20px;"
+onclick="selectPool(
+180,
+25
+)"
+>
+Select Pool
+</button>
+
+</div>
+
+</div>
+
+<!-- STAKE INFO -->
+
+<div class="pool-grid">
+
+<div class="pool-card">
+
+<div class="pool-card-title">
+Selected Pool
+</div>
+
+<div
+class="pool-card-value"
+id="selectedPool"
+>
+None
+</div>
+
+</div>
+
+<div class="pool-card">
+
+<div class="pool-card-title">
+Your Staked
+</div>
+
+<div
+class="pool-card-value"
+id="staked"
+>
+0 LOLA
+</div>
+
+</div>
+
+<div class="pool-card">
+
+<div class="pool-card-title">
+Pending Rewards
+</div>
+
+<div
+class="pool-card-value"
+id="rewards"
+>
 0 LOLA
 </div>
 
@@ -387,174 +693,34 @@ Your Balance
 
 </div>
 
-<!-- STAKING POOLS -->
+<!-- INPUT -->
 
-<h2 class="section-title">
-Staking Pools
-</h2>
+<div class="input-box">
 
-<div class="pools">
-
-<!-- POOL 1 -->
-
-<div class="pool">
-
-<div class="pool-top">
-
-<div class="pool-name">
-7 Days Pool
-</div>
-
-<div class="apy">
-5% APY
-</div>
+<input
+type="number"
+id="stakeAmount"
+placeholder="Enter LOLA amount"
+/>
 
 </div>
 
-<div class="pool-info">
+<!-- ACTIONS -->
 
-<div class="info-row">
-<span>Minimum Stake</span>
-<span>10,000 LOLA</span>
-</div>
+<div class="actions">
 
-<div class="info-row">
-<span>Lock Duration</span>
-<span>7 Days</span>
-</div>
-
-<div class="info-row">
-<span>Rewards</span>
-<span>Daily</span>
-</div>
-
-</div>
-
-<button onclick="stake('7 Days Pool')">
+<button
+class="stake-btn"
+onclick="stakeTokens()"
+>
 Stake LOLA
 </button>
 
-</div>
-
-<!-- POOL 2 -->
-
-<div class="pool">
-
-<div class="pool-top">
-
-<div class="pool-name">
-30 Days Pool
-</div>
-
-<div class="apy">
-12% APY
-</div>
-
-</div>
-
-<div class="pool-info">
-
-<div class="info-row">
-<span>Minimum Stake</span>
-<span>50,000 LOLA</span>
-</div>
-
-<div class="info-row">
-<span>Lock Duration</span>
-<span>30 Days</span>
-</div>
-
-<div class="info-row">
-<span>Rewards</span>
-<span>Weekly</span>
-</div>
-
-</div>
-
-<button onclick="stake('30 Days Pool')">
-Stake LOLA
-</button>
-
-</div>
-
-<!-- POOL 3 -->
-
-<div class="pool">
-
-<div class="pool-top">
-
-<div class="pool-name">
-90 Days Pool
-</div>
-
-<div class="apy">
-20% APY
-</div>
-
-</div>
-
-<div class="pool-info">
-
-<div class="info-row">
-<span>Minimum Stake</span>
-<span>150,000 LOLA</span>
-</div>
-
-<div class="info-row">
-<span>Lock Duration</span>
-<span>90 Days</span>
-</div>
-
-<div class="info-row">
-<span>Rewards</span>
-<span>Monthly</span>
-</div>
-
-</div>
-
-<button onclick="stake('90 Days Pool')">
-Stake LOLA
-</button>
-
-</div>
-
-<!-- POOL 4 -->
-
-<div class="pool">
-
-<div class="pool-top">
-
-<div class="pool-name">
-180 Days Pool
-</div>
-
-<div class="apy">
-25% APY
-</div>
-
-</div>
-
-<div class="pool-info">
-
-<div class="info-row">
-<span>Minimum Stake</span>
-<span>500,000 LOLA</span>
-</div>
-
-<div class="info-row">
-<span>Lock Duration</span>
-<span>180 Days</span>
-</div>
-
-<div class="info-row">
-<span>Rewards</span>
-<span>Monthly</span>
-</div>
-
-</div>
-
-<button onclick="stake('180 Days Pool')">
-Stake LOLA
+<button
+class="claim-btn"
+onclick="claimRewards()"
+>
+Claim Rewards
 </button>
 
 </div>
@@ -564,20 +730,174 @@ Stake LOLA
 <!-- FOOTER -->
 
 <div class="footer">
-LOLAGENT STAKING © 2026
+LOLAGENT LAUNCHPOOL © 2026
 </div>
 
 </div>
 
 <script>
 
-function stake(pool){
+let user = null;
+
+let balance = 500000;
+let staked = 0;
+let rewards = 0;
+
+let selectedPool = null;
+let selectedAPY = 0;
+
+/* CONNECT */
+
+function connectWallet(){
+
+  user = {
+    username:"Pioneer"
+  };
+
+  document.querySelector(
+    ".connect-btn"
+  ).innerText =
+  user.username;
+
+}
+
+/* SELECT POOL */
+
+function selectPool(days,apy){
+
+  selectedPool = days;
+  selectedAPY = apy;
+
+  document.getElementById(
+    "selectedPool"
+  ).innerText =
+  `${days} Days`;
 
   alert(
-    "Welcome to " + pool
+    `${days} Days Pool Selected 🔥`
   );
 
 }
+
+/* UPDATE UI */
+
+function updateUI(){
+
+  document.getElementById(
+    "balance"
+  ).innerText =
+  balance.toLocaleString() +
+  " LOLA";
+
+  document.getElementById(
+    "staked"
+  ).innerText =
+  staked.toLocaleString() +
+  " LOLA";
+
+  document.getElementById(
+    "rewards"
+  ).innerText =
+  rewards.toLocaleString() +
+  " LOLA";
+
+}
+
+/* STAKE */
+
+function stakeTokens(){
+
+  if(!user){
+
+    alert(
+      "Connect Wallet First"
+    );
+
+    return;
+
+  }
+
+  if(!selectedPool){
+
+    alert(
+      "Select Pool First"
+    );
+
+    return;
+
+  }
+
+  const amount =
+  Number(
+    document.getElementById(
+      "stakeAmount"
+    ).value
+  );
+
+  if(amount <= 0){
+
+    alert(
+      "Invalid Amount"
+    );
+
+    return;
+
+  }
+
+  if(amount > balance){
+
+    alert(
+      "Insufficient Balance"
+    );
+
+    return;
+
+  }
+
+  balance -= amount;
+
+  staked += amount;
+
+  rewards += Math.floor(
+    amount *
+    (selectedAPY / 100)
+  );
+
+  updateUI();
+
+  alert(
+    `Stake ${selectedPool} Days Successful ✅`
+  );
+
+}
+
+/* CLAIM */
+
+function claimRewards(){
+
+  if(rewards <= 0){
+
+    alert(
+      "No Rewards"
+    );
+
+    return;
+
+  }
+
+  balance += rewards;
+
+  rewards = 0;
+
+  updateUI();
+
+  alert(
+    "Rewards Claimed ✅"
+  );
+
+}
+
+updateUI();
 
 </script>
 
