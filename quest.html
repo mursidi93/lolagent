@@ -193,13 +193,6 @@ body{
   border-radius:28px;
 
   padding:30px;
-
-  transition:0.3s;
-}
-
-.quest:hover{
-  transform:translateY(-5px);
-  border-color:#8b5cf6;
 }
 
 .quest-top{
@@ -210,14 +203,13 @@ body{
 }
 
 .quest-title{
-  font-size:26px;
+  font-size:24px;
   font-weight:700;
 }
 
 .reward{
   color:#22c55e;
   font-weight:700;
-  font-size:18px;
 }
 
 .quest-desc{
@@ -257,7 +249,12 @@ body{
   transition:0.4s;
 }
 
-.quest button{
+.action-group{
+  display:flex;
+  gap:12px;
+}
+
+button{
 
   width:100%;
 
@@ -283,11 +280,14 @@ body{
   cursor:pointer;
 }
 
-.quest button:hover{
-  opacity:0.9;
+.secondary-btn{
+  background:#111827;
+  border:1px solid rgba(255,255,255,0.1);
 }
 
-/* FOOTER */
+button:hover{
+  opacity:0.9;
+}
 
 .footer{
   text-align:center;
@@ -295,8 +295,6 @@ body{
   color:#64748b;
   font-size:14px;
 }
-
-/* MOBILE */
 
 @media(max-width:768px){
 
@@ -307,6 +305,10 @@ body{
 .navbar{
   flex-direction:column;
   gap:20px;
+}
+
+.action-group{
+  flex-direction:column;
 }
 
 }
@@ -354,8 +356,8 @@ Quest
 </h1>
 
 <p>
-Complete daily community missions and earn LOLA rewards.
-Grow the ecosystem and unlock bonus rewards every day.
+Complete daily ecosystem quests and earn LOLA rewards
+from the community reward pool.
 </p>
 
 </div>
@@ -363,33 +365,6 @@ Grow the ecosystem and unlock bonus rewards every day.
 <!-- STATS -->
 
 <div class="stats">
-
-<div class="stat">
-
-<div class="stat-title">
-Total Quest Rewards
-</div>
-
-<div class="stat-value">
-50M LOLA
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="stat-title">
-Completed Today
-</div>
-
-<div
-class="stat-value"
-id="completed"
->
-0
-</div>
-
-</div>
 
 <div class="stat">
 
@@ -409,11 +384,38 @@ id="balance"
 <div class="stat">
 
 <div class="stat-title">
-Daily Bonus
+Completed Quest
+</div>
+
+<div
+class="stat-value"
+id="completed"
+>
+0
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-title">
+Daily Reward
 </div>
 
 <div class="stat-value">
-500 LOLA
+25 LOLA
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-title">
+Community Pool
+</div>
+
+<div class="stat-value">
+5M LOLA
 </div>
 
 </div>
@@ -424,7 +426,7 @@ Daily Bonus
 
 <div class="quest-grid">
 
-<!-- QUEST 1 -->
+<!-- X QUEST -->
 
 <div class="quest">
 
@@ -441,8 +443,8 @@ Follow X
 </div>
 
 <div class="quest-desc">
-Follow LOLAGENT official X account
-to support ecosystem growth.
+Bind your X account and follow
+@LolAgentAi to claim reward.
 </div>
 
 <div class="progress">
@@ -452,13 +454,24 @@ id="bar1"
 ></div>
 </div>
 
-<button onclick="completeQuest(1,100)">
-Complete Quest
+<div class="action-group">
+
+<button onclick="bindX()">
+Bind
+</button>
+
+<button
+class="secondary-btn"
+onclick="followX()"
+>
+Follow
 </button>
 
 </div>
 
-<!-- QUEST 2 -->
+</div>
+
+<!-- TELEGRAM QUEST -->
 
 <div class="quest">
 
@@ -469,14 +482,14 @@ Join Telegram
 </div>
 
 <div class="reward">
-+150 LOLA
++100 LOLA
 </div>
 
 </div>
 
 <div class="quest-desc">
-Join the LOLAGENT community and stay
-updated with the latest news.
+Bind your Telegram account and join
+@LolAgentHQ community.
 </div>
 
 <div class="progress">
@@ -486,13 +499,58 @@ id="bar2"
 ></div>
 </div>
 
-<button onclick="completeQuest(2,150)">
-Complete Quest
+<div class="action-group">
+
+<button onclick="bindTelegram()">
+Bind
+</button>
+
+<button
+class="secondary-btn"
+onclick="joinTelegram()"
+>
+Join
 </button>
 
 </div>
 
-<!-- QUEST 3 -->
+</div>
+
+<!-- DAILY LIKE -->
+
+<div class="quest">
+
+<div class="quest-top">
+
+<div class="quest-title">
+Daily Like
+</div>
+
+<div class="reward">
++25 LOLA
+</div>
+
+</div>
+
+<div class="quest-desc">
+Like today's official tweet.
+Can only be claimed once every day.
+</div>
+
+<div class="progress">
+<div
+class="progress-bar"
+id="bar3"
+></div>
+</div>
+
+<button onclick="dailyLike()">
+Like Tweet
+</button>
+
+</div>
+
+<!-- DAILY MINING -->
 
 <div class="quest">
 
@@ -503,48 +561,14 @@ Daily Mining
 </div>
 
 <div class="reward">
-+200 LOLA
++25 LOLA
 </div>
 
 </div>
 
 <div class="quest-desc">
-Activate daily mining and claim
-your ecosystem rewards.
-</div>
-
-<div class="progress">
-<div
-class="progress-bar"
-id="bar3"
-></div>
-</div>
-
-<button onclick="completeQuest(3,200)">
-Complete Quest
-</button>
-
-</div>
-
-<!-- QUEST 4 -->
-
-<div class="quest">
-
-<div class="quest-top">
-
-<div class="quest-title">
-Invite Friends
-</div>
-
-<div class="reward">
-+500 LOLA
-</div>
-
-</div>
-
-<div class="quest-desc">
-Invite new pioneers using your
-referral link and earn bonuses.
+Activate daily mining and
+claim reward once every 24 hours.
 </div>
 
 <div class="progress">
@@ -554,15 +578,13 @@ id="bar4"
 ></div>
 </div>
 
-<button onclick="completeQuest(4,500)">
-Complete Quest
+<button onclick="dailyMining()">
+Start Mining
 </button>
 
 </div>
 
 </div>
-
-<!-- FOOTER -->
 
 <div class="footer">
 LOLAGENT DAILY QUEST © 2026
@@ -577,7 +599,37 @@ let user = null;
 let balance = 0;
 let completed = 0;
 
-const completedQuest = {};
+/* STORAGE */
+
+let xBound =
+localStorage.getItem(
+  "xBound"
+);
+
+let teleBound =
+localStorage.getItem(
+  "teleBound"
+);
+
+let xQuest =
+localStorage.getItem(
+  "xQuest"
+);
+
+let teleQuest =
+localStorage.getItem(
+  "teleQuest"
+);
+
+let dailyLikeDate =
+localStorage.getItem(
+  "dailyLikeDate"
+);
+
+let dailyMiningDate =
+localStorage.getItem(
+  "dailyMiningDate"
+);
 
 /* CONNECT */
 
@@ -611,44 +663,237 @@ function updateUI(){
 
 }
 
-/* COMPLETE QUEST */
+/* BIND X */
 
-function completeQuest(id,reward){
+function bindX(){
 
-  if(!user){
+  window.open(
+    "https://x.com/LolAgentAi",
+    "_blank"
+  );
+
+  setTimeout(()=>{
+
+    localStorage.setItem(
+      "xBound",
+      "true"
+    );
+
+    xBound = true;
 
     alert(
-      "Connect Wallet First"
+      "X Account Bound ✅"
+    );
+
+  },1000);
+
+}
+
+/* FOLLOW X */
+
+function followX(){
+
+  if(!xBound){
+
+    alert(
+      "Bind X Account First"
     );
 
     return;
 
   }
 
-  if(completedQuest[id]){
+  if(xQuest){
 
     alert(
-      "Quest Already Completed"
+      "Quest Already Claimed"
     );
 
     return;
 
   }
 
-  completedQuest[id] = true;
+  window.open(
+    "https://x.com/LolAgentAi",
+    "_blank"
+  );
 
-  balance += reward;
-
-  completed++;
+  localStorage.setItem(
+    "xQuest",
+    "done"
+  );
 
   document.getElementById(
-    `bar${id}`
+    "bar1"
   ).style.width = "100%";
+
+  balance += 100;
+  completed++;
 
   updateUI();
 
   alert(
-    `Quest Completed +${reward} LOLA 🔥`
+    "X Quest Completed ✅"
+  );
+
+}
+
+/* BIND TELEGRAM */
+
+function bindTelegram(){
+
+  window.open(
+    "https://t.me/LolAgentHQ",
+    "_blank"
+  );
+
+  setTimeout(()=>{
+
+    localStorage.setItem(
+      "teleBound",
+      "true"
+    );
+
+    teleBound = true;
+
+    alert(
+      "Telegram Bound ✅"
+    );
+
+  },1000);
+
+}
+
+/* JOIN TELEGRAM */
+
+function joinTelegram(){
+
+  if(!teleBound){
+
+    alert(
+      "Bind Telegram First"
+    );
+
+    return;
+
+  }
+
+  if(teleQuest){
+
+    alert(
+      "Quest Already Claimed"
+    );
+
+    return;
+
+  }
+
+  window.open(
+    "https://t.me/LolAgentHQ",
+    "_blank"
+  );
+
+  localStorage.setItem(
+    "teleQuest",
+    "done"
+  );
+
+  document.getElementById(
+    "bar2"
+  ).style.width = "100%";
+
+  balance += 100;
+  completed++;
+
+  updateUI();
+
+  alert(
+    "Telegram Quest Completed ✅"
+  );
+
+}
+
+/* DAILY LIKE */
+
+function dailyLike(){
+
+  const today =
+  new Date()
+  .toDateString();
+
+  if(dailyLikeDate === today){
+
+    alert(
+      "Already Claimed Today"
+    );
+
+    return;
+
+  }
+
+  window.open(
+    "https://x.com/LolAgentAi/status/123456789",
+    "_blank"
+  );
+
+  localStorage.setItem(
+    "dailyLikeDate",
+    today
+  );
+
+  dailyLikeDate = today;
+
+  document.getElementById(
+    "bar3"
+  ).style.width = "100%";
+
+  balance += 25;
+  completed++;
+
+  updateUI();
+
+  alert(
+    "Daily Reward Claimed 🔥"
+  );
+
+}
+
+/* DAILY MINING */
+
+function dailyMining(){
+
+  const today =
+  new Date()
+  .toDateString();
+
+  if(dailyMiningDate === today){
+
+    alert(
+      "Mining Already Claimed"
+    );
+
+    return;
+
+  }
+
+  localStorage.setItem(
+    "dailyMiningDate",
+    today
+  );
+
+  dailyMiningDate = today;
+
+  document.getElementById(
+    "bar4"
+  ).style.width = "100%";
+
+  balance += 25;
+  completed++;
+
+  updateUI();
+
+  alert(
+    "Mining Reward Claimed ⛏️"
   );
 
 }
