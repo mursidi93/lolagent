@@ -495,7 +495,7 @@ alt="LOLAGENT"
 />
 
 <h1>
-LOOL AGENT GIVEAWAY
+LOLAGENT GIVEAWAY
 </h1>
 
 <p class="subtitle">
@@ -631,7 +631,7 @@ Buy 1 PI = 1000 LOLA
 <div>
 
 <div class="step-text">
-Mining 1 LOLA/h
+Mining 1 LOLA / Hour
 </div>
 
 <button
@@ -641,6 +641,16 @@ onclick="startMining()"
 disabled
 >
 Start Mining
+</button>
+
+<button
+id="claimMiningBtn"
+class="btn btn-purple disabled"
+onclick="claimMining()"
+disabled
+style="margin-left:10px;"
+>
+Claim Mining
 </button>
 
 </div>
@@ -685,7 +695,7 @@ Privacy
 
 </div>
 
-© 2026 LOOL AGENT
+© 2026 LOLAGENT
 
 </div>
 
@@ -706,14 +716,6 @@ sandbox:true
 })
 
 let currentUser = null
-
-/* =========================
-MINING CONFIG
-========================= */
-
-const BASE_RATE = 1
-const HALVING_PERCENT = 0.05
-const MAX_SUPPLY = 4000000000
 
 /* =========================
 STATUS
@@ -844,11 +846,25 @@ document
 'disabled'
 )
 
+document
+.getElementById(
+'claimMiningBtn'
+)
+.disabled = false
+
+document
+.getElementById(
+'claimMiningBtn'
+)
+.classList.remove(
+'disabled'
+)
+
 setStatus(
 'Pi Wallet Connected ✅'
 )
 
-loadMiningData()
+loadMiningStatus()
 
 }catch(err){
 
@@ -866,9 +882,7 @@ setStatus(
 INCOMPLETE PAYMENT
 ========================= */
 
-function onIncompletePaymentFound(
-payment
-){
+function onIncompletePaymentFound(payment){
 
 console.log(payment)
 
@@ -915,9 +929,9 @@ setStatus(
 'Approving payment...'
 )
 
-const res = await fetch(
+await fetch(
 
-'https://lolagent-backend-production.up.railway.app/api/approve',
+'/approve',
 
 {
 method:'POST',
@@ -933,10 +947,6 @@ paymentId
 }
 
 )
-
-const data = await res.json()
-
-console.log(data)
 
 setStatus(
 'Payment Approved ✅'
@@ -963,9 +973,9 @@ setStatus(
 'Completing payment...'
 )
 
-const res = await fetch(
+await fetch(
 
-'https://lolagent-backend-production.up.railway.app/api/complete',
+'/complete',
 
 {
 method:'POST',
@@ -984,10 +994,6 @@ txid
 }
 
 )
-
-const data = await res.json()
-
-console.log(data)
 
 setStatus(`
 
@@ -1049,7 +1055,7 @@ ${JSON.stringify(error)}
 }
 
 /* =========================
-MINING
+START MINING
 ========================= */
 
 async function startMining(){
@@ -1072,7 +1078,7 @@ setStatus(
 
 const res = await fetch(
 
-'https://lolagent-backend-production.up.railway.app/api/mining/start',
+'/api/mining/start',
 
 {
 method:'POST',
@@ -1117,11 +1123,7 @@ ${data.nextClaim}
 
 }else{
 
-setStatus(`
-
-${data.error}
-
-`)
+setStatus(data.error)
 
 }
 
@@ -1138,10 +1140,97 @@ setStatus(
 }
 
 /* =========================
-LOAD MINING
+CLAIM MINING
 ========================= */
 
-async function loadMiningData(){
+async function claimMining(){
+
+if(!currentUser){
+
+alert(
+'Connect wallet first'
+)
+
+return
+
+}
+
+try{
+
+setStatus(
+'Claiming mining reward...'
+)
+
+const res = await fetch(
+
+'/api/mining/claim',
+
+{
+method:'POST',
+
+headers:{
+'Content-Type':'application/json'
+},
+
+body:JSON.stringify({
+
+uid:currentUser.user.uid
+
+})
+
+}
+
+)
+
+const data = await res.json()
+
+console.log(data)
+
+if(data.success){
+
+setStatus(`
+
+Mining Claim Success ✅
+
+<br><br>
+
+Reward:
+${data.reward} LOLA
+
+<br><br>
+
+Total Mined:
+${data.totalMined} LOLA
+
+`)
+
+}else{
+
+setStatus(`
+
+${data.error}
+
+`)
+
+}
+
+}catch(err){
+
+console.log(err)
+
+setStatus(
+'Claim Failed ❌'
+)
+
+}
+
+}
+
+/* =========================
+LOAD MINING STATUS
+========================= */
+
+async function loadMiningStatus(){
 
 if(!currentUser) return
 
@@ -1149,7 +1238,7 @@ try{
 
 const res = await fetch(
 
-'https://lolagent-backend-production.up.railway.app/api/mining/status?uid='
+'/api/mining/status?uid='
 +
 currentUser.user.uid
 
@@ -1167,18 +1256,18 @@ Mining Active ⛏️
 
 <br><br>
 
-Current Rate:
+Rate:
 ${data.rate} LOLA/hour
 
 <br><br>
 
-Claim In:
+Remaining:
 ${data.remaining}
 
 <br><br>
 
 Total Mined:
-${data.totalMined}
+${data.totalMined} LOLA
 
 `)
 
