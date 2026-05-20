@@ -10,7 +10,7 @@ name="viewport"
 content="width=device-width, initial-scale=1.0"
 />
 
-<title>LOOL AGENT × Pi Network</title>
+<title>LOLAGENT × Pi Network</title>
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
@@ -470,7 +470,7 @@ padding:25px;
 <div class="navbar">
 
 <div class="logo-text">
-LOOL AGENT
+LOLAGENT
 </div>
 
 <div class="nav-menu">
@@ -496,7 +496,7 @@ alt="LOLAGENT"
 />
 
 <h1>
-LOOL AGENT GIVEAWAY
+LOLAGENT GIVEAWAY
 </h1>
 
 <p class="subtitle">
@@ -632,16 +632,16 @@ Buy 1 PI = 1000 LOLA
 <div>
 
 <div class="step-text">
-Claim Faucet LOLA
+Mining LOLA (1 LOLA / Hour)
 </div>
 
 <button
-id="claimBtn"
+id="miningBtn"
 class="btn btn-green disabled"
-onclick="claimLOL()"
+onclick="startMining()"
 disabled
 >
-Claim 100 LOLA
+Start Mining
 </button>
 
 </div>
@@ -686,7 +686,7 @@ Privacy
 
 </div>
 
-© 2026 LOOL AGENT
+© 2026 LOLAGENT
 
 </div>
 
@@ -700,13 +700,21 @@ PI SDK INIT
 
 Pi.init({
 
-    version: "2.0",
+version:"2.0",
 
-    sandbox: true
+sandbox:true
 
 })
 
 let currentUser = null
+
+/* =========================
+MINING CONFIG
+========================= */
+
+const BASE_RATE = 1
+const HALVING_PERCENT = 0.05
+const MAX_SUPPLY = 4000000000
 
 /* =========================
 STATUS
@@ -714,9 +722,9 @@ STATUS
 
 function setStatus(text){
 
-    document.getElementById(
-        'statusBox'
-    ).innerHTML = text
+document.getElementById(
+'statusBox'
+).innerHTML = text
 
 }
 
@@ -726,14 +734,14 @@ FOLLOW
 
 function completeFollow(){
 
-    window.open(
-        'https://x.com/LolAgentAi',
-        '_blank'
-    )
+window.open(
+'https://x.com/LolAgentAi',
+'_blank'
+)
 
-    setStatus(
-        'X Follow Success ✅'
-    )
+setStatus(
+'X Follow Success ✅'
+)
 
 }
 
@@ -743,14 +751,14 @@ TELEGRAM
 
 function completeTelegram(){
 
-    window.open(
-        'https://t.me/LOLAgentHQ',
-        '_blank'
-    )
+window.open(
+'https://t.me/LOLAgentHQ',
+'_blank'
+)
 
-    setStatus(
-        'Telegram Joined ✅'
-    )
+setStatus(
+'Telegram Joined ✅'
+)
 
 }
 
@@ -760,98 +768,98 @@ LOGIN PI
 
 async function loginPi(){
 
-    try{
+try{
 
-        setStatus(
-            'Connecting Pi Wallet...'
-        )
+setStatus(
+'Connecting Pi Wallet...'
+)
 
-        const scopes = [
+const scopes = [
 
-            'payments',
-            'username',
-            'wallet_address'
+'payments',
+'username',
+'wallet_address'
 
-        ]
+]
 
-        const auth =
-        await Pi.authenticate(
+const auth =
+await Pi.authenticate(
 
-            scopes,
+scopes,
 
-            onIncompletePaymentFound
+onIncompletePaymentFound
 
-        )
+)
 
-        currentUser = auth
+currentUser = auth
 
-        console.log(auth)
+document.getElementById(
+'user-info'
+).innerHTML =
 
-        document.getElementById(
-            'user-info'
-        ).innerHTML =
+`
+Username:
+${auth.user.username}
 
-        `
-        Username:
-        ${auth.user.username}
+<br><br>
 
-        <br><br>
+UID:
+${auth.user.uid}
 
-        UID:
-        ${auth.user.uid}
+<br><br>
 
-        <br><br>
+Wallet:
+${auth.user.wallet_address}
 
-        Wallet:
-        ${auth.user.wallet_address}
+<br><br>
 
-        <br><br>
+Status:
+Connected ✅
+`
 
-        Status:
-        Connected ✅
-        `
+document
+.getElementById(
+'buyBtn'
+)
+.disabled = false
 
-        document
-        .getElementById(
-            'buyBtn'
-        )
-        .disabled = false
+document
+.getElementById(
+'buyBtn'
+)
+.classList.remove(
+'disabled'
+)
 
-        document
-        .getElementById(
-            'buyBtn'
-        )
-        .classList.remove(
-            'disabled'
-        )
+document
+.getElementById(
+'miningBtn'
+)
+.disabled = false
 
-        document
-        .getElementById(
-            'claimBtn'
-        )
-        .disabled = false
+document
+.getElementById(
+'miningBtn'
+)
+.classList.remove(
+'disabled'
+)
 
-        document
-        .getElementById(
-            'claimBtn'
-        )
-        .classList.remove(
-            'disabled'
-        )
+setStatus(
+'Pi Wallet Connected ✅'
+)
 
-        setStatus(
-            'Pi Wallet Connected ✅'
-        )
+loadMiningData()
 
-    }catch(err){
+}catch(err){
 
-        console.log(err)
+console.log(err)
 
-        setStatus(
-            'Pi Login Failed ❌'
-        )
+setStatus(
+'Pi Login Failed ❌'
+)
 
-    }
+}
 
 }
 
@@ -859,9 +867,11 @@ async function loginPi(){
 INCOMPLETE PAYMENT
 ========================= */
 
-function onIncompletePaymentFound(payment){
+function onIncompletePaymentFound(
+payment
+){
 
-    console.log(payment)
+console.log(payment)
 
 }
 
@@ -873,43 +883,38 @@ function buyLOLA(){
 
 if(!currentUser){
 
-alert('Connect wallet first')
+alert(
+'Connect wallet first'
+)
 
 return
 
 }
 
-setStatus('Opening Pi Payment...')
+setStatus(
+'Opening Pi Payment...'
+)
 
 Pi.createPayment({
 
-amount: 1,
+amount:1,
 
-memo: 'BUY LOLA TOKEN',
+memo:'BUY LOLA TOKEN',
 
-metadata: {
-type: 'BUY_LOLA'
+metadata:{
+type:'BUY_LOLA'
 }
 
-}, {
-
-/* ======================
-SERVER APPROVE
-====================== */
+},{
 
 onReadyForServerApproval:
 async function(paymentId){
 
-console.log(
-'READY FOR APPROVAL',
-paymentId
-)
+try{
 
 setStatus(
 'Approving payment...'
 )
-
-try{
 
 const res = await fetch(
 
@@ -925,6 +930,7 @@ headers:{
 body:JSON.stringify({
 paymentId
 })
+
 }
 
 )
@@ -933,16 +939,8 @@ const data = await res.json()
 
 console.log(data)
 
-if(!data.success){
-
-throw new Error(
-'Approve failed'
-)
-
-}
-
 setStatus(
-'Payment approved ✅'
+'Payment Approved ✅'
 )
 
 }catch(err){
@@ -950,32 +948,21 @@ setStatus(
 console.log(err)
 
 setStatus(
-'Approve error ❌'
+'Approve Error ❌'
 )
 
 }
 
 },
 
-/* ======================
-SERVER COMPLETE
-====================== */
-
 onReadyForServerCompletion:
-async function(paymentId, txid){
+async function(paymentId,txid){
 
-console.log(
-'READY FOR COMPLETION'
-)
-
-console.log(paymentId)
-console.log(txid)
+try{
 
 setStatus(
 'Completing payment...'
 )
-
-try{
 
 const res = await fetch(
 
@@ -1003,8 +990,6 @@ const data = await res.json()
 
 console.log(data)
 
-if(data.success){
-
 setStatus(`
 
 Payment Success ✅
@@ -1013,6 +998,7 @@ Payment Success ✅
 
 TXID:
 <br>
+
 ${txid}
 
 <br><br>
@@ -1021,55 +1007,29 @@ ${txid}
 
 `)
 
-}else{
-
-setStatus(`
-Complete failed ❌
-<br><br>
-${JSON.stringify(data)}
-`)
-
-}
-
 }catch(err){
 
 console.log(err)
 
 setStatus(
-'Complete server error ❌'
+'Complete Error ❌'
 )
 
 }
 
 },
 
-/* ======================
-CANCEL
-====================== */
-
 onCancel:function(paymentId){
-
-console.log(
-'PAYMENT CANCEL'
-)
 
 console.log(paymentId)
 
 setStatus(
-'Payment cancelled ❌'
+'Payment Cancelled ❌'
 )
 
 },
 
-/* ======================
-ERROR
-====================== */
-
 onError:function(error){
-
-console.log(
-'PAYMENT ERROR'
-)
 
 console.log(error)
 
@@ -1088,6 +1048,152 @@ ${JSON.stringify(error)}
 })
 
 }
+
+/* =========================
+MINING
+========================= */
+
+async function startMining(){
+
+if(!currentUser){
+
+alert(
+'Connect wallet first'
+)
+
+return
+
+}
+
+try{
+
+setStatus(
+'Starting mining session...'
+)
+
+const res = await fetch(
+
+'https://lolagent-backend-production.up.railway.app/api/mining/start',
+
+{
+method:'POST',
+
+headers:{
+'Content-Type':'application/json'
+},
+
+body:JSON.stringify({
+
+uid:currentUser.user.uid,
+username:currentUser.user.username,
+wallet:currentUser.user.wallet_address
+
+})
+
+}
+
+)
+
+const data = await res.json()
+
+console.log(data)
+
+if(data.success){
+
+setStatus(`
+
+Mining Started ✅
+
+<br><br>
+
+Rate:
+${data.rate} LOLA/hour
+
+<br><br>
+
+Next Claim:
+${data.nextClaim}
+
+`)
+
+}else{
+
+setStatus(`
+
+${data.error}
+
+`)
+
+}
+
+}catch(err){
+
+console.log(err)
+
+setStatus(
+'Mining Error ❌'
+)
+
+}
+
+}
+
+/* =========================
+LOAD MINING
+========================= */
+
+async function loadMiningData(){
+
+if(!currentUser) return
+
+try{
+
+const res = await fetch(
+
+'https://lolagent-backend-production.up.railway.app/api/mining/status?uid='
++
+currentUser.user.uid
+
+)
+
+const data = await res.json()
+
+console.log(data)
+
+if(data.active){
+
+setStatus(`
+
+Mining Active ⛏️
+
+<br><br>
+
+Current Rate:
+${data.rate} LOLA/hour
+
+<br><br>
+
+Claim In:
+${data.remaining}
+
+<br><br>
+
+Total Mined:
+${data.totalMined}
+
+`)
+
+}
+
+}catch(err){
+
+console.log(err)
+
+}
+
+}
+
 </script>
+
 </body>
 </html>
