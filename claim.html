@@ -1,67 +1,253 @@
 <!DOCTYPE html>
-<title>LOLAGENT Claim</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>LOLAGENT Faucet Claim</title>
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
 body{
-  background:#020617;
-  color:white;
-  font-family:Arial;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+background:#0f172a;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+padding:20px;
 }
 
 .card{
-  background:#111827;
-  padding:40px;
-  border-radius:24px;
-  width:400px;
-  text-align:center;
+width:100%;
+max-width:420px;
+background:#111827;
+border:1px solid #1f2937;
+border-radius:20px;
+padding:30px;
+box-shadow:0 0 30px rgba(0,0,0,0.4);
+}
+
+.logo{
+width:90px;
+height:90px;
+border-radius:50%;
+display:block;
+margin:auto;
+margin-bottom:20px;
+object-fit:cover;
+border:3px solid #7c3aed;
 }
 
 h1{
-  color:#38bdf8;
+text-align:center;
+font-size:28px;
+margin-bottom:10px;
+}
+
+.desc{
+text-align:center;
+color:#9ca3af;
+font-size:14px;
+margin-bottom:25px;
+line-height:1.5;
+}
+
+.info{
+background:#1e293b;
+padding:15px;
+border-radius:12px;
+margin-bottom:20px;
+}
+
+.info p{
+margin-bottom:8px;
+font-size:14px;
 }
 
 input{
-  width:100%;
-  padding:14px;
-  margin-top:20px;
-  border-radius:14px;
-  border:none;
-  background:#0f172a;
-  color:white;
+width:100%;
+padding:14px;
+border:none;
+outline:none;
+border-radius:12px;
+background:#1f2937;
+color:white;
+margin-bottom:18px;
+font-size:14px;
 }
 
 button{
-  width:100%;
-  margin-top:20px;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  background:#38bdf8;
-  color:black;
-  font-weight:bold;
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#7c3aed;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+opacity:0.9;
+transform:scale(1.02);
+}
+
+.status{
+margin-top:20px;
+padding:15px;
+border-radius:12px;
+font-size:14px;
+display:none;
+}
+
+.success{
+background:#064e3b;
+color:#6ee7b7;
+}
+
+.error{
+background:#7f1d1d;
+color:#fca5a5;
+}
+
+.loading{
+background:#1e3a8a;
+color:#93c5fd;
+}
+
+.footer{
+text-align:center;
+margin-top:20px;
+font-size:12px;
+color:#6b7280;
 }
 
 </style>
-
 </head>
+
 <body>
 
 <div class="card">
 
-<h1>CLAIM LOLA 💰</h1>
+<img
+class="logo"
+src="https://lolagent-chi.vercel.app/logo.png"
+/>
 
-<input type="text" placeholder="Enter Pi Username">
+<h1>LOLA Faucet</h1>
 
-<button>
-Claim Reward
+<p class="desc">
+Claim free LOLA tokens once per wallet.<br>
+Make sure your wallet already added LOLA trustline.
+</p>
+
+<div class="info">
+<p>🎁 Reward: <b>100 LOLA</b></p>
+<p>⏳ Claim: <b>1x per wallet</b></p>
+<p>🌐 Network: <b>Pi Testnet</b></p>
+</div>
+
+<input
+type="text"
+id="wallet"
+placeholder="Enter Pi Wallet Address"
+/>
+
+<button onclick="claimLOLA()">
+CLAIM LOLA
 </button>
 
+<div id="status" class="status"></div>
+
+<div class="footer">
+LOLAGENT © 2026
 </div>
+
+</div>
+
+<script>
+
+async function claimLOLA(){
+
+const wallet =
+document.getElementById("wallet").value;
+
+const status =
+document.getElementById("status");
+
+if(!wallet){
+
+status.style.display = "block";
+status.className = "status error";
+status.innerHTML = "Please enter wallet address";
+
+return;
+}
+
+try{
+
+status.style.display = "block";
+status.className = "status loading";
+status.innerHTML = "Processing claim...";
+
+const response = await fetch(
+"/api/claim",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+wallet
+})
+}
+);
+
+const data = await response.json();
+
+if(data.success){
+
+status.className = "status success";
+
+status.innerHTML = `
+✅ Claim Success<br><br>
+Hash:<br>
+${data.hash}
+`;
+
+}else{
+
+status.className = "status error";
+
+status.innerHTML = `
+❌ ${data.message}
+`;
+
+}
+
+}catch(err){
+
+status.className = "status error";
+
+status.innerHTML = `
+❌ Server error
+`;
+
+}
+
+}
+
+</script>
 
 </body>
 </html>
