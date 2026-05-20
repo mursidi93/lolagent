@@ -121,7 +121,7 @@ body{
   font-size:18px;
 }
 
-/* CARDS */
+/* GRID */
 
 .grid{
   display:grid;
@@ -203,10 +203,6 @@ body{
 
 /* REFERRAL */
 
-.ref-box{
-  margin-top:50px;
-}
-
 .ref-link{
 
   width:100%;
@@ -245,8 +241,6 @@ body{
 
   font-weight:700;
 }
-
-/* FOOTER */
 
 .footer{
   text-align:center;
@@ -288,7 +282,10 @@ body{
 LOL<span>AGENT</span>
 </div>
 
-<button class="connect-btn">
+<button
+class="connect-btn"
+onclick="connectWallet()"
+>
 Connect Wallet
 </button>
 
@@ -310,7 +307,7 @@ Mining
 
 <p>
 Mine LOLAGENT every 24 hours and grow your rewards through referrals.
-The bigger your community, the higher your earning potential.
+Build your community and earn more LOLA together.
 </p>
 
 </div>
@@ -325,7 +322,10 @@ The bigger your community, the higher your earning potential.
 Your Balance
 </div>
 
-<div class="card-value">
+<div
+class="card-value"
+id="balance"
+>
 0 LOLA
 </div>
 
@@ -334,7 +334,7 @@ Your Balance
 <div class="card">
 
 <div class="card-title">
-Daily Mining Rate
+Daily Mining Reward
 </div>
 
 <div class="card-value">
@@ -349,7 +349,10 @@ Daily Mining Rate
 Total Referrals
 </div>
 
-<div class="card-value">
+<div
+class="card-value"
+id="referrals"
+>
 0
 </div>
 
@@ -391,14 +394,17 @@ You can mine once every 24 hours
 
 <!-- REFERRAL -->
 
-<div class="card ref-box">
+<div
+class="card"
+style="margin-top:40px;"
+>
 
 <div class="card-title">
 Referral Program
 </div>
 
 <div class="card-value">
-Earn +25 LOLA
++25 LOLA
 </div>
 
 <p
@@ -408,15 +414,15 @@ color:#94a3b8;
 line-height:1.7;
 "
 >
-Invite your friends and earn additional LOLA rewards
-every time they start mining.
+Invite friends and earn bonus rewards
+when they start mining.
 </p>
 
 <div
 class="ref-link"
 id="refLink"
 >
-https://lolagent.xyz/?ref=USER123
+Loading...
 </div>
 
 <button
@@ -428,8 +434,6 @@ Copy Referral Link
 
 </div>
 
-<!-- FOOTER -->
-
 <div class="footer">
 LOLAGENT MINING © 2026
 </div>
@@ -438,75 +442,212 @@ LOLAGENT MINING © 2026
 
 <script>
 
-let mining = false;
+const API =
+"https://lolagent.servegame.com";
 
-function startMining(){
+let user = null;
 
-  if(mining){
-    return;
+/* REFERRAL SAVE */
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const ref =
+params.get("ref");
+
+if(ref){
+
+  localStorage.setItem(
+    "referral",
+    ref
+  );
+
+}
+
+/* CONNECT */
+
+async function connectWallet(){
+
+  user = {
+
+    uid:
+    "USER_" +
+    Math.floor(
+      Math.random() * 999999
+    ),
+
+    username:
+    "Pioneer"
+
+  };
+
+  document.querySelector(
+    ".connect-btn"
+  ).innerText =
+  user.username;
+
+  document.getElementById(
+    "refLink"
+  ).innerText =
+  `https://lolagent-chi.vercel.app/?ref=${user.uid}`;
+
+  loadUser();
+
+}
+
+/* LOAD USER */
+
+async function loadUser(){
+
+  try{
+
+    const res =
+    await fetch(
+      `${API}/api/user/${user.uid}`
+    );
+
+    const data =
+    await res.json();
+
+    if(data.user){
+
+      document.getElementById(
+        "balance"
+      ).innerText =
+      data.user.balance +
+      " LOLA";
+
+      document.getElementById(
+        "referrals"
+      ).innerText =
+      data.user.referrals;
+
+    }
+
+  }catch(err){
+
+    console.log(err);
+
   }
 
-  mining = true;
+}
 
-  document.getElementById(
-    "status"
-  ).innerText =
-  "Mining Active";
+/* START MINING */
 
+async function startMining(){
+
+  if(!user){
+
+    alert(
+      "Connect Wallet First"
+    );
+
+    return;
+
+  }
+
+  try{
+
+    const res =
+    await fetch(
+      `${API}/api/mining`,
+      {
+
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+          "application/json"
+        },
+
+        body:JSON.stringify({
+
+          uid:user.uid,
+
+          username:user.username,
+
+          referral:
+          localStorage.getItem(
+            "referral"
+          )
+
+        })
+
+      }
+    );
+
+    const data =
+    await res.json();
+
+    alert(data.message);
+
+    if(data.success){
+
+      document.getElementById(
+        "balance"
+      ).innerText =
+      data.balance +
+      " LOLA";
+
+      startCooldown(
+        data.remainingTime
+      );
+
+    }
+
+  }catch(err){
+
+    console.log(err);
+
+    alert(
+      "Mining Error"
+    );
+
+  }
+
+}
+
+/* TIMER */
+
+function startCooldown(seconds){
+
+  const btn =
   document.getElementById(
     "mineBtn"
-  ).innerText =
-  "Mining Started";
+  );
 
-  document.getElementById(
-    "mineBtn"
-  ).disabled = true;
-
-  let hours = 24;
-  let minutes = 0;
-  let seconds = 0;
+  btn.disabled = true;
 
   const timer =
-  setInterval(function(){
+  setInterval(()=>{
 
-    seconds--;
+    let h =
+    Math.floor(
+      seconds / 3600
+    );
 
-    if(seconds < 0){
-      seconds = 59;
-      minutes--;
-    }
+    let m =
+    Math.floor(
+      (seconds % 3600) / 60
+    );
 
-    if(minutes < 0){
-      minutes = 59;
-      hours--;
-    }
+    let s =
+    seconds % 60;
 
     document.getElementById(
       "timer"
     ).innerText =
-    `${hours}h ${minutes}m ${seconds}s remaining`;
+    `${h}h ${m}m ${s}s remaining`;
 
-    if(hours <= 0 &&
-       minutes <= 0 &&
-       seconds <= 0){
+    seconds--;
+
+    if(seconds < 0){
 
       clearInterval(timer);
 
-      mining = false;
-
-      document.getElementById(
-        "status"
-      ).innerText =
-      "Ready To Mine";
-
-      document.getElementById(
-        "mineBtn"
-      ).innerText =
-      "Start Mining";
-
-      document.getElementById(
-        "mineBtn"
-      ).disabled = false;
+      btn.disabled = false;
 
       document.getElementById(
         "timer"
@@ -519,6 +660,8 @@ function startMining(){
 
 }
 
+/* COPY REF */
+
 function copyReferral(){
 
   const link =
@@ -526,7 +669,9 @@ function copyReferral(){
     "refLink"
   ).innerText;
 
-  navigator.clipboard.writeText(link);
+  navigator.clipboard.writeText(
+    link
+  );
 
   alert(
     "Referral Link Copied ✅"
