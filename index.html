@@ -350,6 +350,13 @@ h1{
   color:black;
 }
 
+.btn-purple{
+
+  background:#7c3aed;
+
+  color:white;
+}
+
 .user-box{
 
   background:
@@ -379,6 +386,23 @@ h1{
   color:#e2e8f0;
 
   line-height:2;
+}
+
+.status-box{
+
+  background:#111827;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  padding:20px;
+
+  border-radius:20px;
+
+  margin-top:25px;
+
+  line-height:1.8;
+
+  color:#cbd5e1;
 }
 
 .footer{
@@ -588,16 +612,43 @@ Login Pi
 <div>
 
 <div class="step-text">
-Mint LOOL AGENT NFT
+Buy LOLA with Pi
 </div>
 
 <button
-id="mintBtn"
-class="btn btn-green disabled"
-onclick="mintNFT()"
+id="buyBtn"
+class="btn btn-purple disabled"
+onclick="buyLOLA()"
 disabled
 >
-Mint 1 PI
+Buy 1 PI
+</button>
+
+</div>
+
+</div>
+
+<!-- STEP 5 -->
+
+<div class="step">
+
+<div class="step-number">
+5
+</div>
+
+<div>
+
+<div class="step-text">
+Claim Faucet LOLA
+</div>
+
+<button
+id="claimBtn"
+class="btn btn-green disabled"
+onclick="claimLOL()"
+disabled
+>
+Claim LOLA
 </button>
 
 </div>
@@ -623,19 +674,13 @@ Not connected
 
 </div>
 
-<!-- CLAIM -->
+<!-- STATUS -->
 
-<div style="text-align:center;">
-
-<button
-id="claimBtn"
-class="btn btn-green disabled"
-onclick="claimLOL()"
-disabled
+<div
+class="status-box"
+id="statusBox"
 >
-Claim LOLA
-</button>
-
+Waiting action...
 </div>
 
 <!-- FOOTER -->
@@ -673,8 +718,6 @@ Pi.init({
 
 let currentUser = null;
 
-let nftDone = false;
-
 
 /* ===============================
    FOLLOW X
@@ -687,8 +730,8 @@ function completeFollow(){
     '_blank'
   );
 
-  alert(
-    'Follow success 🚀'
+  setStatus(
+    "X Follow completed ✅"
   );
 
 }
@@ -705,9 +748,22 @@ function completeTelegram(){
     '_blank'
   );
 
-  alert(
-    'Telegram joined 🚀'
+  setStatus(
+    "Telegram joined ✅"
   );
+
+}
+
+
+/* ===============================
+   STATUS
+================================ */
+
+function setStatus(text){
+
+  document.getElementById(
+    "statusBox"
+  ).innerHTML = text;
 
 }
 
@@ -719,6 +775,10 @@ function completeTelegram(){
 async function loginPi(){
 
   try{
+
+    setStatus(
+      "Connecting Pi Wallet..."
+    );
 
     const scopes = [
 
@@ -755,34 +815,51 @@ async function loginPi(){
     <br><br>
 
     Wallet:
-    ${auth.user.wallet_address || 'Hidden'}
+    ${auth.user.wallet_address}
     <br><br>
 
     Status:
     Connected ✅
     `;
 
-    const mintBtn =
-    document.getElementById(
-      'mintBtn'
-    );
+    document
+    .getElementById(
+      'buyBtn'
+    )
+    .disabled = false;
 
-    mintBtn.disabled = false;
-
-    mintBtn.classList.remove(
+    document
+    .getElementById(
+      'buyBtn'
+    )
+    .classList.remove(
       'disabled'
     );
 
-    alert(
-      'Pi Login Success 🚀'
+    document
+    .getElementById(
+      'claimBtn'
+    )
+    .disabled = false;
+
+    document
+    .getElementById(
+      'claimBtn'
+    )
+    .classList.remove(
+      'disabled'
+    );
+
+    setStatus(
+      "Pi Wallet Connected ✅"
     );
 
   }catch(err){
 
     console.log(err);
 
-    alert(
-      'Pi Login Failed'
+    setStatus(
+      "Pi Login Failed ❌"
     );
 
   }
@@ -808,207 +885,313 @@ function onIncompletePaymentFound(
 
 
 /* ===============================
-   MINT NFT
+   BUY LOLA
 ================================ */
 
-function mintNFT(){
+function buyLOLA(){
 
-  try{
-
-    if(!currentUser){
-
-      alert(
-        "Login first"
-      );
-
-      return;
-
-    }
-
-    console.log(
-      "START PAYMENT"
-    );
-
-    Pi.createPayment({
-
-      amount: 1,
-
-      memo:
-      "LOLAGENT NFT",
-
-      metadata: {
-
-        type:
-        "LOLAGENT_NFT"
-
-      }
-
-    }, {
-
-      /* APPROVE */
-
-      onReadyForServerApproval:
-      async function(paymentId){
-
-        console.log(
-          "READY APPROVE"
-        );
-
-        console.log(paymentId);
-
-        try{
-
-          await fetch(
-            "https://lolagent-backend-production.up.railway.app/api/approve",
-            {
-
-              method:"POST",
-
-              headers:{
-                "Content-Type":
-                "application/json"
-              },
-
-              body:JSON.stringify({
-                paymentId
-              })
-
-            }
-          );
-
-        }catch(err){
-
-          console.log(err);
-
-        }
-
-      },
-
-
-      /* COMPLETE */
-
-      onReadyForServerCompletion:
-      async function(paymentId, txid){
-
-        console.log(
-          "READY COMPLETE"
-        );
-
-        console.log(paymentId);
-        console.log(txid);
-
-        try{
-
-          await fetch(
-            "https://lolagent-backend-production.up.railway.app/api/complete",
-            {
-
-              method:"POST",
-
-              headers:{
-                "Content-Type":
-                "application/json"
-              },
-
-              body:JSON.stringify({
-
-                paymentId,
-                txid
-
-              })
-
-            }
-          );
-
-          nftDone = true;
-
-          const claimBtn =
-          document.getElementById(
-            'claimBtn'
-          );
-
-          claimBtn.disabled = false;
-
-          claimBtn.classList.remove(
-            'disabled'
-          );
-
-          alert(
-            "NFT Mint Success 🚀"
-          );
-
-        }catch(err){
-
-          console.log(err);
-
-        }
-
-      },
-
-
-      /* CANCEL */
-
-      onCancel:function(paymentId){
-
-        console.log(
-          "PAYMENT CANCELLED"
-        );
-
-        console.log(paymentId);
-
-        alert(
-          "Payment Cancelled"
-        );
-
-      },
-
-
-      /* ERROR */
-
-      onError:function(error){
-
-        console.log(
-          "PAYMENT ERROR"
-        );
-
-        console.log(error);
-
-        alert(
-          JSON.stringify(error)
-        );
-
-      }
-
-    });
-
-  }catch(err){
-
-    console.log(err);
-
-  }
-
-}
-
-
-/* ===============================
-   CLAIM
-================================ */
-
-function claimLOL(){
-
-  if(!nftDone){
+  if(!currentUser){
 
     alert(
-      "Mint NFT first"
+      "Login first"
     );
 
     return;
 
   }
 
-  alert(
-    "LOLA Claimed 🎉"
+  setStatus(
+    "Opening Pi Payment..."
   );
+
+  Pi.createPayment({
+
+    amount: 1,
+
+    memo:
+    "BUY LOLA TOKEN",
+
+    metadata: {
+
+      type:
+      "BUY_LOLA"
+
+    }
+
+  }, {
+
+    /* =======================
+       SERVER APPROVAL
+    ======================= */
+
+    onReadyForServerApproval:
+    async function(paymentId){
+
+      console.log(
+        "APPROVAL",
+        paymentId
+      );
+
+      try{
+
+        const res =
+        await fetch(
+
+          "https://lolagent-backend-production.up.railway.app/api/approve",
+
+          {
+
+            method:"POST",
+
+            headers:{
+              "Content-Type":
+              "application/json"
+            },
+
+            body:JSON.stringify({
+              paymentId
+            })
+
+          }
+
+        );
+
+        const data =
+        await res.json();
+
+        console.log(data);
+
+      }catch(err){
+
+        console.log(err);
+
+        setStatus(
+          "Approve failed ❌"
+        );
+
+      }
+
+    },
+
+
+    /* =======================
+       SERVER COMPLETE
+    ======================= */
+
+    onReadyForServerCompletion:
+    async function(paymentId, txid){
+
+      console.log(
+        "COMPLETE",
+        paymentId,
+        txid
+      );
+
+      try{
+
+        const res =
+        await fetch(
+
+          "https://lolagent-backend-production.up.railway.app/api/complete",
+
+          {
+
+            method:"POST",
+
+            headers:{
+              "Content-Type":
+              "application/json"
+            },
+
+            body:JSON.stringify({
+
+              paymentId,
+              txid
+
+            })
+
+          }
+
+        );
+
+        const data =
+        await res.json();
+
+        console.log(data);
+
+        setStatus(
+
+          `
+          Payment Success ✅
+          <br><br>
+
+          TXID:
+          <br>
+          ${txid}
+
+          <br><br>
+
+          LOLA sent successfully 🚀
+          `
+
+        );
+
+      }catch(err){
+
+        console.log(err);
+
+        setStatus(
+          "Completion failed ❌"
+        );
+
+      }
+
+    },
+
+
+    /* =======================
+       CANCEL
+    ======================= */
+
+    onCancel:function(paymentId){
+
+      console.log(paymentId);
+
+      setStatus(
+        "Payment cancelled ❌"
+      );
+
+    },
+
+
+    /* =======================
+       ERROR
+    ======================= */
+
+    onError:function(error){
+
+      console.log(error);
+
+      setStatus(
+
+        `
+        Payment Error ❌
+        <br><br>
+
+        ${JSON.stringify(error)}
+        `
+
+      );
+
+    }
+
+  });
+
+}
+
+
+/* ===============================
+   CLAIM LOLA
+================================ */
+
+async function claimLOL(){
+
+  if(!currentUser){
+
+    alert(
+      "Login first"
+    );
+
+    return;
+
+  }
+
+  try{
+
+    setStatus(
+      "Processing faucet claim..."
+    );
+
+    const res =
+    await fetch(
+
+      "https://lolagent-backend-production.up.railway.app/api/claim",
+
+      {
+
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+          "application/json"
+        },
+
+        body:JSON.stringify({
+
+          uid:
+          currentUser.user.uid,
+
+          username:
+          currentUser.user.username,
+
+          wallet:
+          currentUser.user.wallet_address
+
+        })
+
+      }
+
+    );
+
+    const data =
+    await res.json();
+
+    console.log(data);
+
+    if(data.success){
+
+      setStatus(
+
+        `
+        Faucet Success ✅
+        <br><br>
+
+        Amount:
+        100 LOLA
+
+        <br><br>
+
+        TX HASH:
+        <br>
+        ${data.hash}
+        `
+
+      );
+
+    }else{
+
+      setStatus(
+
+        `
+        Claim Failed ❌
+        <br><br>
+
+        ${data.error}
+        `
+
+      );
+
+    }
+
+  }catch(err){
+
+    console.log(err);
+
+    setStatus(
+      "Server error ❌"
+    );
+
+  }
 
 }
 
