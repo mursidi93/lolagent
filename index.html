@@ -3,431 +3,409 @@
 
 <head>
 
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 
 <meta
 name="viewport"
 content="width=device-width, initial-scale=1.0"
 />
 
-<title>LOOL AGENT × Pi Network</title>
+<title>LOLAGENT Faucet</title>
 
-<!-- PI SDK -->
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
 <style>
 
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
 
-  background:
-  linear-gradient(
-    135deg,
-    #0f172a,
-    #111827,
-    #1e293b
-  );
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#111827,
+#1e293b
+);
 
-  color:white;
+color:white;
 
-  min-height:100vh;
+min-height:100vh;
 
-  padding:20px;
+padding:20px;
 
-  overflow-x:hidden;
+overflow-x:hidden;
 }
 
 .bg1{
 
-  position:fixed;
+position:fixed;
 
-  width:500px;
-  height:500px;
+width:500px;
+height:500px;
 
-  background:#38bdf8;
+background:#38bdf8;
 
-  filter:blur(180px);
+filter:blur(180px);
 
-  opacity:0.12;
+opacity:0.12;
 
-  top:-150px;
-  right:-100px;
+top:-150px;
+right:-100px;
 
-  z-index:0;
+z-index:0;
 }
 
 .bg2{
 
-  position:fixed;
+position:fixed;
 
-  width:500px;
-  height:500px;
+width:500px;
+height:500px;
 
-  background:#7c3aed;
+background:#7c3aed;
 
-  filter:blur(180px);
+filter:blur(180px);
 
-  opacity:0.12;
+opacity:0.12;
 
-  bottom:-150px;
-  left:-100px;
+bottom:-150px;
+left:-100px;
 
-  z-index:0;
+z-index:0;
 }
 
 .container{
 
-  position:relative;
+position:relative;
 
-  z-index:1;
+z-index:1;
 
-  width:100%;
+width:100%;
 
-  max-width:950px;
+max-width:850px;
 
-  margin:auto;
+margin:auto;
 
-  background:
-  rgba(255,255,255,0.05);
+background:
+rgba(255,255,255,0.05);
 
-  border:
-  1px solid rgba(255,255,255,0.1);
+border:
+1px solid rgba(255,255,255,0.1);
 
-  backdrop-filter:blur(10px);
+backdrop-filter:blur(10px);
 
-  border-radius:28px;
+border-radius:28px;
 
-  padding:40px;
+padding:40px;
 
-  box-shadow:
-  0 10px 40px rgba(0,0,0,0.4);
+box-shadow:
+0 10px 40px rgba(0,0,0,0.4);
 }
 
 .navbar{
 
-  display:flex;
+display:flex;
 
-  justify-content:space-between;
+justify-content:space-between;
 
-  align-items:center;
+align-items:center;
 
-  margin-bottom:40px;
+margin-bottom:40px;
 
-  flex-wrap:wrap;
+flex-wrap:wrap;
 
-  gap:20px;
+gap:20px;
 }
 
 .logo-text{
 
-  font-size:30px;
+font-size:30px;
 
-  font-weight:bold;
+font-weight:bold;
 
-  color:#38bdf8;
+color:#38bdf8;
 
-  letter-spacing:2px;
+letter-spacing:2px;
 }
 
 .nav-menu{
 
-  display:flex;
+display:flex;
 
-  gap:20px;
+gap:20px;
 
-  flex-wrap:wrap;
+flex-wrap:wrap;
 }
 
 .nav-menu a{
 
-  color:#cbd5e1;
+color:#cbd5e1;
 
-  text-decoration:none;
+text-decoration:none;
 
-  transition:0.3s;
+transition:0.3s;
 
-  font-weight:bold;
+font-weight:bold;
 }
 
 .nav-menu a:hover{
 
-  color:#38bdf8;
+color:#38bdf8;
 }
 
 .hero{
 
-  text-align:center;
+text-align:center;
 }
 
 .logo{
 
-  width:140px;
+width:130px;
 
-  height:140px;
+height:130px;
 
-  border-radius:50%;
+border-radius:50%;
 
-  border:4px solid #38bdf8;
+border:4px solid #38bdf8;
 
-  object-fit:cover;
+object-fit:cover;
 
-  margin-bottom:25px;
+margin-bottom:25px;
 
-  box-shadow:
-  0 0 25px rgba(56,189,248,0.5);
+box-shadow:
+0 0 25px rgba(56,189,248,0.5);
 }
 
 h1{
 
-  font-size:58px;
+font-size:52px;
 
-  margin-bottom:12px;
+margin-bottom:10px;
 
-  color:#38bdf8;
-
-  text-shadow:
-  0 0 20px rgba(56,189,248,0.5);
+color:#38bdf8;
 }
 
 .subtitle{
 
-  font-size:22px;
+font-size:20px;
 
-  color:#cbd5e1;
+color:#cbd5e1;
 
-  margin-bottom:35px;
+margin-bottom:30px;
 }
 
 .reward-box{
 
-  background:
-  linear-gradient(
-    135deg,
-    #0ea5e9,
-    #2563eb,
-    #7c3aed
-  );
+background:
+linear-gradient(
+135deg,
+#0ea5e9,
+#2563eb,
+#7c3aed
+);
 
-  padding:30px;
+padding:30px;
 
-  border-radius:24px;
+border-radius:24px;
 
-  margin-bottom:35px;
+margin-bottom:35px;
 
-  box-shadow:
-  0 10px 30px rgba(37,99,235,0.3);
-
-  text-align:center;
+text-align:center;
 }
 
 .reward-box h2{
 
-  font-size:42px;
+font-size:42px;
 
-  margin-bottom:10px;
+margin-bottom:10px;
 }
 
 .reward-box p{
 
-  color:#e2e8f0;
+font-size:18px;
 
-  font-size:18px;
-}
-
-.steps{
-
-  margin-bottom:35px;
+color:#e2e8f0;
 }
 
 .step{
 
-  background:
-  rgba(255,255,255,0.05);
+background:
+rgba(255,255,255,0.05);
 
-  padding:20px;
+padding:20px;
 
-  border-radius:18px;
+border-radius:18px;
 
-  margin-bottom:20px;
+margin-bottom:20px;
 
-  border:
-  1px solid rgba(255,255,255,0.08);
+border:
+1px solid rgba(255,255,255,0.08);
 
-  display:flex;
+display:flex;
 
-  gap:20px;
+gap:20px;
 }
 
 .step-number{
 
-  width:50px;
+width:50px;
 
-  height:50px;
+height:50px;
 
-  background:#38bdf8;
+background:#38bdf8;
 
-  color:black;
+color:black;
 
-  border-radius:50%;
+border-radius:50%;
 
-  display:flex;
+display:flex;
 
-  align-items:center;
+align-items:center;
 
-  justify-content:center;
+justify-content:center;
 
-  font-weight:bold;
+font-weight:bold;
 
-  font-size:22px;
+font-size:22px;
 
-  flex-shrink:0;
+flex-shrink:0;
 }
 
 .step-text{
 
-  font-size:20px;
+font-size:20px;
 
-  margin-bottom:15px;
+margin-bottom:15px;
 }
 
 .btn{
 
-  border:none;
+border:none;
 
-  text-decoration:none;
+padding:15px 25px;
 
-  padding:15px 25px;
+border-radius:14px;
 
-  border-radius:14px;
+font-size:16px;
 
-  font-size:17px;
+font-weight:bold;
 
-  font-weight:bold;
+cursor:pointer;
 
-  cursor:pointer;
-
-  transition:0.3s;
+transition:0.3s;
 }
 
 .btn:hover{
 
-  transform:translateY(-4px);
+transform:translateY(-3px);
 
-  opacity:0.9;
+opacity:0.9;
 }
 
 .btn-x{
 
-  background:white;
+background:white;
 
-  color:black;
+color:black;
 }
 
 .btn-telegram{
 
-  background:#229ED9;
+background:#229ED9;
 
-  color:white;
+color:white;
 }
 
 .btn-pi{
 
-  background:#fbbf24;
+background:#fbbf24;
 
-  color:black;
+color:black;
 }
 
-.btn-green{
+.btn-claim{
 
-  background:#22c55e;
+background:#22c55e;
 
-  color:black;
+color:black;
 }
 
 .user-box{
 
-  background:
-  rgba(255,255,255,0.05);
+background:
+rgba(255,255,255,0.05);
 
-  padding:25px;
+padding:25px;
 
-  border-radius:20px;
+border-radius:20px;
 
-  margin-bottom:35px;
+margin-top:30px;
 
-  text-align:center;
+text-align:center;
 
-  border:
-  1px solid rgba(255,255,255,0.08);
-}
-
-.user-box h2{
-
-  color:#38bdf8;
-
-  margin-bottom:15px;
+border:
+1px solid rgba(255,255,255,0.08);
 }
 
 .user-info{
 
-  color:#e2e8f0;
+line-height:2;
 
-  line-height:2;
+word-break:break-all;
+
+color:#e2e8f0;
+}
+
+.status{
+
+margin-top:25px;
+
+padding:18px;
+
+border-radius:14px;
+
+background:#111827;
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+font-size:14px;
+
+line-height:1.8;
+
+word-break:break-word;
 }
 
 .footer{
 
-  margin-top:40px;
+margin-top:40px;
 
-  text-align:center;
+text-align:center;
 
-  color:#94a3b8;
+color:#94a3b8;
 
-  font-size:14px;
-
-  line-height:1.8;
-}
-
-.footer-links{
-
-  margin-bottom:15px;
-}
-
-.footer-links a{
-
-  color:#38bdf8;
-
-  text-decoration:none;
-
-  margin:0 10px;
-}
-
-.disabled{
-
-  opacity:0.5;
-
-  cursor:not-allowed;
+font-size:14px;
 }
 
 @media(max-width:600px){
 
-  h1{
-    font-size:40px;
-  }
+h1{
+font-size:38px;
+}
 
-  .reward-box h2{
-    font-size:30px;
-  }
+.reward-box h2{
+font-size:30px;
+}
 
-  .container{
-    padding:25px;
-  }
+.container{
+padding:25px;
+}
 
 }
 
@@ -447,16 +425,13 @@ h1{
 <div class="navbar">
 
 <div class="logo-text">
-LOOL AGENT
+LOLAGENT
 </div>
 
 <div class="nav-menu">
 
 <a href="/">Home</a>
 <a href="/claim.html">Faucet</a>
-<a href="/quest.html">Quest</a>
-<a href="/mining.html">Mining</a>
-<a href="/stake.html">Stake</a>
 <a href="/roadmap.html">Roadmap</a>
 <a href="/whitepaper.html">Whitepaper</a>
 
@@ -470,16 +445,15 @@ LOOL AGENT
 
 <img
 class="logo"
-src="logo.png"
-alt="LOLAGENT"
+src="https://lolagent-chi.vercel.app/logo.png"
 />
 
 <h1>
-LOOL AGENT GIVEAWAY
+LOLA FAUCET
 </h1>
 
 <p class="subtitle">
-LOOL AGENT × Pi Network
+Claim free LOLA token with Pi Browser 🚀
 </p>
 
 </div>
@@ -489,18 +463,14 @@ LOOL AGENT × Pi Network
 <div class="reward-box">
 
 <h2>
-100,000,000 LOLA
+100 LOLA
 </h2>
 
 <p>
-Exclusive giveaway for early Pi pioneers 🚀
+1x claim for every Pi wallet
 </p>
 
 </div>
-
-<!-- STEPS -->
-
-<div class="steps">
 
 <!-- STEP 1 -->
 
@@ -518,9 +488,9 @@ Follow LOLAgent on X
 
 <button
 class="btn btn-x"
-onclick="completeFollow()"
+onclick="followX()"
 >
-Follow on X
+Follow X
 </button>
 
 </div>
@@ -543,7 +513,7 @@ Join Telegram Community
 
 <button
 class="btn btn-telegram"
-onclick="completeTelegram()"
+onclick="joinTelegram()"
 >
 Join Telegram
 </button>
@@ -563,14 +533,14 @@ Join Telegram
 <div>
 
 <div class="step-text">
-Login with Pi Browser
+Connect Pi Wallet
 </div>
 
 <button
 class="btn btn-pi"
-onclick="loginPi()"
+onclick="connectPi()"
 >
-Login Pi
+Connect Pi
 </button>
 
 </div>
@@ -588,19 +558,15 @@ Login Pi
 <div>
 
 <div class="step-text">
-Mint LOOL AGENT NFT
+Claim LOLA Faucet
 </div>
 
 <button
-id="mintBtn"
-class="btn btn-green disabled"
-onclick="mintNFT()"
-disabled
+class="btn btn-claim"
+onclick="claimLOLA()"
 >
-Mint 1 PI
+Claim LOLA
 </button>
-
-</div>
 
 </div>
 
@@ -610,409 +576,338 @@ Mint 1 PI
 
 <div class="user-box">
 
-<h2>
-Pi User Dashboard
+<h2 style="margin-bottom:15px;color:#38bdf8;">
+Wallet Dashboard
 </h2>
 
 <div
 id="user-info"
 class="user-info"
 >
-Not connected
+Wallet not connected
 </div>
 
 </div>
 
-<!-- CLAIM -->
+<!-- STATUS -->
 
-<div style="text-align:center;">
-
-<button
-id="claimBtn"
-class="btn btn-green disabled"
-onclick="claimLOL()"
-disabled
+<div
+id="status"
+class="status"
 >
-Claim LOLA
-</button>
-
+Waiting action...
 </div>
 
 <!-- FOOTER -->
 
 <div class="footer">
-
-<div class="footer-links">
-
-<a href="/terms.html">
-Terms
-</a>
-
-<a href="/privacy.html">
-Privacy
-</a>
-
-</div>
-
-© 2026 LOOL AGENT AI
-
+© 2026 LOLAGENT AI
 </div>
 
 </div>
 
 <script>
 
-/* ===============================
-   PI SDK INIT
-================================ */
+/* =========================
+PI SDK
+========================= */
 
 Pi.init({
-  version:"2.0",
-  sandbox:true
+version:"2.0",
+sandbox:true
 });
+
+/* =========================
+GLOBAL
+========================= */
 
 let currentUser = null;
 
-let nftDone = false;
+/* =========================
+STATUS
+========================= */
 
+function setStatus(text){
 
-/* ===============================
-   FOLLOW X
-================================ */
-
-function completeFollow(){
-
-  window.open(
-    'https://x.com/LolAgentAi',
-    '_blank'
-  );
-
-  alert(
-    'Follow success 🚀'
-  );
+document.getElementById(
+'status'
+).innerHTML = text;
 
 }
 
+/* =========================
+FOLLOW X
+========================= */
 
-/* ===============================
-   TELEGRAM
-================================ */
+function followX(){
 
-function completeTelegram(){
+window.open(
+'https://x.com/LolAgentAi',
+'_blank'
+);
 
-  window.open(
-    'https://t.me/LOLAgentHQ',
-    '_blank'
-  );
-
-  alert(
-    'Telegram joined 🚀'
-  );
-
-}
-
-
-/* ===============================
-   LOGIN PI
-================================ */
-
-async function loginPi(){
-
-  try{
-
-    const scopes = [
-
-      'payments',
-      'username',
-      'wallet_address'
-
-    ];
-
-    const auth =
-    await Pi.authenticate(
-
-      scopes,
-
-      onIncompletePaymentFound
-
-    );
-
-    currentUser = auth;
-
-    console.log(auth);
-
-    document.getElementById(
-      'user-info'
-    ).innerHTML =
-
-    `
-    Username:
-    ${auth.user.username}
-    <br><br>
-
-    UID:
-    ${auth.user.uid}
-    <br><br>
-
-    Wallet:
-    ${auth.user.wallet_address || 'Hidden'}
-    <br><br>
-
-    Status:
-    Connected ✅
-    `;
-
-    const mintBtn =
-    document.getElementById(
-      'mintBtn'
-    );
-
-    mintBtn.disabled = false;
-
-    mintBtn.classList.remove(
-      'disabled'
-    );
-
-    alert(
-      'Pi Login Success 🚀'
-    );
-
-  }catch(err){
-
-    console.log(err);
-
-    alert(
-      'Pi Login Failed'
-    );
-
-  }
+setStatus(
+'Followed X account 🚀'
+);
 
 }
 
+/* =========================
+TELEGRAM
+========================= */
 
-/* ===============================
-   INCOMPLETE PAYMENT
-================================ */
+function joinTelegram(){
+
+window.open(
+'https://t.me/LOLAgentHQ',
+'_blank'
+);
+
+setStatus(
+'Telegram joined 🚀'
+);
+
+}
+
+/* =========================
+CONNECT PI
+========================= */
+
+async function connectPi(){
+
+try{
+
+setStatus(
+'Connecting Pi wallet...'
+);
+
+const scopes = [
+
+'payments',
+'username',
+'wallet_address'
+
+];
+
+const auth =
+await Pi.authenticate(
+
+scopes,
+
+onIncompletePaymentFound
+
+);
+
+currentUser = auth;
+
+console.log(auth);
+
+localStorage.setItem(
+"pi_user",
+JSON.stringify(auth)
+);
+
+document.getElementById(
+'user-info'
+).innerHTML =
+
+`
+Username:
+${auth.user.username}
+
+<br><br>
+
+UID:
+${auth.user.uid}
+
+<br><br>
+
+Wallet:
+${auth.wallet_address}
+
+<br><br>
+
+Status:
+Connected ✅
+`;
+
+setStatus(
+'Wallet connected successfully ✅'
+);
+
+}catch(err){
+
+console.log(err);
+
+setStatus(
+'Failed connect Pi wallet ❌'
+);
+
+}
+
+}
+
+/* =========================
+INCOMPLETE PAYMENT
+========================= */
 
 function onIncompletePaymentFound(
-  payment
+payment
 ){
 
-  console.log(
-    "INCOMPLETE PAYMENT"
-  );
-
-  console.log(payment);
+console.log(payment);
 
 }
 
+/* =========================
+CLAIM
+========================= */
 
-/* ===============================
-   MINT NFT
-================================ */
+async function claimLOLA(){
 
-function mintNFT(){
+try{
 
-  try{
+if(!currentUser){
 
-    if(!currentUser){
+alert(
+'Connect Pi wallet first'
+);
 
-      alert(
-        "Login first"
-      );
-
-      return;
-
-    }
-
-    console.log(
-      "START PAYMENT"
-    );
-
-    Pi.createPayment({
-
-      amount: 1,
-
-      memo:
-      "LOLAGENT NFT",
-
-      metadata: {
-
-        type:
-        "LOLAGENT_NFT"
-
-      }
-
-    }, {
-
-      /* APPROVE */
-
-      onReadyForServerApproval:
-      async function(paymentId){
-
-        console.log(
-          "READY APPROVE"
-        );
-
-        console.log(paymentId);
-
-        try{
-
-          await fetch(
-            "https://lolagent-backend-production.up.railway.app/api/approve",
-            {
-
-              method:"POST",
-
-              headers:{
-                "Content-Type":
-                "application/json"
-              },
-
-              body:JSON.stringify({
-                paymentId
-              })
-
-            }
-          );
-
-        }catch(err){
-
-          console.log(err);
-
-        }
-
-      },
-
-
-      /* COMPLETE */
-
-      onReadyForServerCompletion:
-      async function(paymentId, txid){
-
-        console.log(
-          "READY COMPLETE"
-        );
-
-        console.log(paymentId);
-        console.log(txid);
-
-        try{
-
-          await fetch(
-            "https://lolagent-backend-production.up.railway.app/api/complete",
-            {
-
-              method:"POST",
-
-              headers:{
-                "Content-Type":
-                "application/json"
-              },
-
-              body:JSON.stringify({
-
-                paymentId,
-                txid
-
-              })
-
-            }
-          );
-
-          nftDone = true;
-
-          const claimBtn =
-          document.getElementById(
-            'claimBtn'
-          );
-
-          claimBtn.disabled = false;
-
-          claimBtn.classList.remove(
-            'disabled'
-          );
-
-          alert(
-            "NFT Mint Success 🚀"
-          );
-
-        }catch(err){
-
-          console.log(err);
-
-        }
-
-      },
-
-
-      /* CANCEL */
-
-      onCancel:function(paymentId){
-
-        console.log(
-          "PAYMENT CANCELLED"
-        );
-
-        console.log(paymentId);
-
-        alert(
-          "Payment Cancelled"
-        );
-
-      },
-
-
-      /* ERROR */
-
-      onError:function(error){
-
-        console.log(
-          "PAYMENT ERROR"
-        );
-
-        console.log(error);
-
-        alert(
-          JSON.stringify(error)
-        );
-
-      }
-
-    });
-
-  }catch(err){
-
-    console.log(err);
-
-  }
+return;
 
 }
 
+setStatus(
+'Processing faucet claim...'
+);
 
-/* ===============================
-   CLAIM
-================================ */
+const response =
+await fetch(
 
-function claimLOL(){
+'https://lolagent-backend-production.up.railway.app/api/claim',
 
-  if(!nftDone){
+{
 
-    alert(
-      "Mint NFT first"
-    );
+method:'POST',
 
-    return;
+headers:{
+'Content-Type':'application/json'
+},
 
-  }
+body:JSON.stringify({
 
-  alert(
-    "LOLA Claimed 🎉"
-  );
+wallet:
+currentUser.wallet_address,
+
+username:
+currentUser.user.username,
+
+uid:
+currentUser.user.uid
+
+})
 
 }
+
+);
+
+const data =
+await response.json();
+
+console.log(data);
+
+if(data.success){
+
+setStatus(
+
+`
+✅ CLAIM SUCCESS
+
+<br><br>
+
+Amount:
+100 LOLA
+
+<br><br>
+
+TX HASH:
+<br><br>
+
+${data.hash}
+`
+
+);
+
+}else{
+
+setStatus(
+
+`
+❌ ${data.message}
+`
+
+);
+
+}
+
+}catch(err){
+
+console.log(err);
+
+setStatus(
+'Server error ❌'
+);
+
+}
+
+}
+
+/* =========================
+AUTO LOAD
+========================= */
+
+window.onload = () => {
+
+const saved =
+localStorage.getItem(
+"pi_user"
+);
+
+if(saved){
+
+currentUser =
+JSON.parse(saved);
+
+document.getElementById(
+'user-info'
+).innerHTML =
+
+`
+Username:
+${currentUser.user.username}
+
+<br><br>
+
+UID:
+${currentUser.user.uid}
+
+<br><br>
+
+Wallet:
+${currentUser.wallet_address}
+
+<br><br>
+
+Status:
+Connected ✅
+`;
+
+}
+
+};
 
 </script>
 
 </body>
+
 </html>
