@@ -10,448 +10,449 @@ name="viewport"
 content="width=device-width, initial-scale=1.0"
 />
 
-<title>LOOL AGENT × Pi Network</title>
+<title>LOLAGENT × Pi Network</title>
 
-<!-- PI SDK -->
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
 <style>
 
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
 
-  background:
-  linear-gradient(
-    135deg,
-    #0f172a,
-    #111827,
-    #1e293b
-  );
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#111827,
+#1e293b
+);
 
-  color:white;
+color:white;
 
-  min-height:100vh;
+min-height:100vh;
 
-  padding:20px;
+padding:20px;
 
-  overflow-x:hidden;
+overflow-x:hidden;
 }
 
 .bg1{
 
-  position:fixed;
+position:fixed;
 
-  width:500px;
-  height:500px;
+width:500px;
+height:500px;
 
-  background:#38bdf8;
+background:#38bdf8;
 
-  filter:blur(180px);
+filter:blur(180px);
 
-  opacity:0.12;
+opacity:0.12;
 
-  top:-150px;
-  right:-100px;
+top:-150px;
+right:-100px;
 
-  z-index:0;
+z-index:0;
 }
 
 .bg2{
 
-  position:fixed;
+position:fixed;
 
-  width:500px;
-  height:500px;
+width:500px;
+height:500px;
 
-  background:#7c3aed;
+background:#7c3aed;
 
-  filter:blur(180px);
+filter:blur(180px);
 
-  opacity:0.12;
+opacity:0.12;
 
-  bottom:-150px;
-  left:-100px;
+bottom:-150px;
+left:-100px;
 
-  z-index:0;
+z-index:0;
 }
 
 .container{
 
-  position:relative;
+position:relative;
 
-  z-index:1;
+z-index:1;
 
-  width:100%;
+width:100%;
 
-  max-width:950px;
+max-width:950px;
 
-  margin:auto;
+margin:auto;
 
-  background:
-  rgba(255,255,255,0.05);
+background:
+rgba(255,255,255,0.05);
 
-  border:
-  1px solid rgba(255,255,255,0.1);
+border:
+1px solid rgba(255,255,255,0.1);
 
-  backdrop-filter:blur(10px);
+backdrop-filter:blur(10px);
 
-  border-radius:28px;
+border-radius:28px;
 
-  padding:40px;
+padding:40px;
 
-  box-shadow:
-  0 10px 40px rgba(0,0,0,0.4);
+box-shadow:
+0 10px 40px rgba(0,0,0,0.4);
 }
 
 .navbar{
 
-  display:flex;
+display:flex;
 
-  justify-content:space-between;
+justify-content:space-between;
 
-  align-items:center;
+align-items:center;
 
-  margin-bottom:40px;
+margin-bottom:40px;
 
-  flex-wrap:wrap;
+flex-wrap:wrap;
 
-  gap:20px;
+gap:20px;
 }
 
 .logo-text{
 
-  font-size:30px;
+font-size:30px;
 
-  font-weight:bold;
+font-weight:bold;
 
-  color:#38bdf8;
+color:#38bdf8;
 
-  letter-spacing:2px;
+letter-spacing:2px;
 }
 
 .nav-menu{
 
-  display:flex;
+display:flex;
 
-  gap:20px;
+gap:20px;
 
-  flex-wrap:wrap;
+flex-wrap:wrap;
 }
 
 .nav-menu a{
 
-  color:#cbd5e1;
+color:#cbd5e1;
 
-  text-decoration:none;
+text-decoration:none;
 
-  transition:0.3s;
+transition:0.3s;
 
-  font-weight:bold;
+font-weight:bold;
 }
 
 .nav-menu a:hover{
 
-  color:#38bdf8;
+color:#38bdf8;
 }
 
 .hero{
 
-  text-align:center;
+text-align:center;
 }
 
 .logo{
 
-  width:140px;
+width:140px;
 
-  height:140px;
+height:140px;
 
-  border-radius:50%;
+border-radius:50%;
 
-  border:4px solid #38bdf8;
+border:4px solid #38bdf8;
 
-  object-fit:cover;
+object-fit:cover;
 
-  margin-bottom:25px;
+margin-bottom:25px;
 
-  box-shadow:
-  0 0 25px rgba(56,189,248,0.5);
+box-shadow:
+0 0 25px rgba(56,189,248,0.5);
 }
 
 h1{
 
-  font-size:58px;
+font-size:58px;
 
-  margin-bottom:12px;
+margin-bottom:12px;
 
-  color:#38bdf8;
+color:#38bdf8;
 
-  text-shadow:
-  0 0 20px rgba(56,189,248,0.5);
+text-shadow:
+0 0 20px rgba(56,189,248,0.5);
 }
 
 .subtitle{
 
-  font-size:22px;
+font-size:22px;
 
-  color:#cbd5e1;
+color:#cbd5e1;
 
-  margin-bottom:35px;
+margin-bottom:35px;
 }
 
 .reward-box{
 
-  background:
-  linear-gradient(
-    135deg,
-    #0ea5e9,
-    #2563eb,
-    #7c3aed
-  );
+background:
+linear-gradient(
+135deg,
+#0ea5e9,
+#2563eb,
+#7c3aed
+);
 
-  padding:30px;
+padding:30px;
 
-  border-radius:24px;
+border-radius:24px;
 
-  margin-bottom:35px;
+margin-bottom:35px;
 
-  box-shadow:
-  0 10px 30px rgba(37,99,235,0.3);
+box-shadow:
+0 10px 30px rgba(37,99,235,0.3);
 
-  text-align:center;
+text-align:center;
 }
 
 .reward-box h2{
 
-  font-size:42px;
+font-size:42px;
 
-  margin-bottom:10px;
+margin-bottom:10px;
 }
 
 .reward-box p{
 
-  color:#e2e8f0;
+color:#e2e8f0;
 
-  font-size:18px;
+font-size:18px;
 }
 
 .steps{
 
-  margin-bottom:35px;
+margin-bottom:35px;
 }
 
 .step{
 
-  background:
-  rgba(255,255,255,0.05);
+background:
+rgba(255,255,255,0.05);
 
-  padding:20px;
+padding:20px;
 
-  border-radius:18px;
+border-radius:18px;
 
-  margin-bottom:20px;
+margin-bottom:20px;
 
-  border:
-  1px solid rgba(255,255,255,0.08);
+border:
+1px solid rgba(255,255,255,0.08);
 
-  display:flex;
+display:flex;
 
-  gap:20px;
+gap:20px;
 }
 
 .step-number{
 
-  width:50px;
+width:50px;
 
-  height:50px;
+height:50px;
 
-  background:#38bdf8;
+background:#38bdf8;
 
-  color:black;
+color:black;
 
-  border-radius:50%;
+border-radius:50%;
 
-  display:flex;
+display:flex;
 
-  align-items:center;
+align-items:center;
 
-  justify-content:center;
+justify-content:center;
 
-  font-weight:bold;
+font-weight:bold;
 
-  font-size:22px;
+font-size:22px;
 
-  flex-shrink:0;
+flex-shrink:0;
 }
 
 .step-text{
 
-  font-size:20px;
+font-size:20px;
 
-  margin-bottom:15px;
+margin-bottom:15px;
 }
 
 .btn{
 
-  border:none;
+border:none;
 
-  text-decoration:none;
+text-decoration:none;
 
-  padding:15px 25px;
+padding:15px 25px;
 
-  border-radius:14px;
+border-radius:14px;
 
-  font-size:17px;
+font-size:17px;
 
-  font-weight:bold;
+font-weight:bold;
 
-  cursor:pointer;
+cursor:pointer;
 
-  transition:0.3s;
+transition:0.3s;
 }
 
 .btn:hover{
 
-  transform:translateY(-4px);
+transform:translateY(-4px);
 
-  opacity:0.9;
+opacity:0.9;
 }
 
 .btn-x{
 
-  background:white;
+background:white;
 
-  color:black;
+color:black;
 }
 
 .btn-telegram{
 
-  background:#229ED9;
+background:#229ED9;
 
-  color:white;
+color:white;
 }
 
 .btn-pi{
 
-  background:#fbbf24;
+background:#fbbf24;
 
-  color:black;
+color:black;
 }
 
 .btn-green{
 
-  background:#22c55e;
+background:#22c55e;
 
-  color:black;
+color:black;
 }
 
 .btn-purple{
 
-  background:#7c3aed;
+background:#7c3aed;
 
-  color:white;
+color:white;
 }
 
 .user-box{
 
-  background:
-  rgba(255,255,255,0.05);
+background:
+rgba(255,255,255,0.05);
 
-  padding:25px;
+padding:25px;
 
-  border-radius:20px;
+border-radius:20px;
 
-  margin-bottom:35px;
+margin-bottom:35px;
 
-  text-align:center;
+text-align:center;
 
-  border:
-  1px solid rgba(255,255,255,0.08);
+border:
+1px solid rgba(255,255,255,0.08);
 }
 
 .user-box h2{
 
-  color:#38bdf8;
+color:#38bdf8;
 
-  margin-bottom:15px;
+margin-bottom:15px;
 }
 
 .user-info{
 
-  color:#e2e8f0;
+color:#e2e8f0;
 
-  line-height:2;
+line-height:2;
 }
 
 .status-box{
 
-  background:#111827;
+background:#111827;
 
-  border:1px solid rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.08);
 
-  padding:20px;
+padding:20px;
 
-  border-radius:20px;
+border-radius:20px;
 
-  margin-top:25px;
+margin-top:25px;
 
-  line-height:1.8;
+line-height:1.8;
 
-  color:#cbd5e1;
+color:#cbd5e1;
+
+word-break:break-word;
 }
 
 .footer{
 
-  margin-top:40px;
+margin-top:40px;
 
-  text-align:center;
+text-align:center;
 
-  color:#94a3b8;
+color:#94a3b8;
 
-  font-size:14px;
+font-size:14px;
 
-  line-height:1.8;
+line-height:1.8;
 }
 
 .footer-links{
 
-  margin-bottom:15px;
+margin-bottom:15px;
 }
 
 .footer-links a{
 
-  color:#38bdf8;
+color:#38bdf8;
 
-  text-decoration:none;
+text-decoration:none;
 
-  margin:0 10px;
+margin:0 10px;
 }
 
 .disabled{
 
-  opacity:0.5;
+opacity:0.5;
 
-  cursor:not-allowed;
+cursor:not-allowed;
 }
 
 @media(max-width:600px){
 
-  h1{
-    font-size:40px;
-  }
+h1{
+font-size:40px;
+}
 
-  .reward-box h2{
-    font-size:30px;
-  }
+.reward-box h2{
+font-size:30px;
+}
 
-  .container{
-    padding:25px;
-  }
+.container{
+padding:25px;
+}
 
 }
 
@@ -466,12 +467,10 @@ h1{
 
 <div class="container">
 
-<!-- NAVBAR -->
-
 <div class="navbar">
 
 <div class="logo-text">
-LOOL AGENT
+LOLAGENT
 </div>
 
 <div class="nav-menu">
@@ -488,8 +487,6 @@ LOOL AGENT
 
 </div>
 
-<!-- HERO -->
-
 <div class="hero">
 
 <img
@@ -499,16 +496,14 @@ alt="LOLAGENT"
 />
 
 <h1>
-LOOL AGENT GIVEAWAY
+LOLAGENT GIVEAWAY
 </h1>
 
 <p class="subtitle">
-LOOL AGENT × Pi Network
+AI Agent × Pi Network
 </p>
 
 </div>
-
-<!-- REWARD -->
 
 <div class="reward-box">
 
@@ -521,8 +516,6 @@ Exclusive giveaway for early Pi pioneers 🚀
 </p>
 
 </div>
-
-<!-- STEPS -->
 
 <div class="steps">
 
@@ -594,7 +587,7 @@ Login with Pi Browser
 class="btn btn-pi"
 onclick="loginPi()"
 >
-Login Pi
+Connect Pi Wallet
 </button>
 
 </div>
@@ -612,7 +605,7 @@ Login Pi
 <div>
 
 <div class="step-text">
-Buy LOLA with Pi
+Buy LOLA with PI
 </div>
 
 <button
@@ -621,7 +614,7 @@ class="btn btn-purple disabled"
 onclick="buyLOLA()"
 disabled
 >
-Buy 1 PI
+Buy 1 PI = 1000 LOLA
 </button>
 
 </div>
@@ -648,7 +641,7 @@ class="btn btn-green disabled"
 onclick="claimLOL()"
 disabled
 >
-Claim LOLA
+Claim 100 LOLA
 </button>
 
 </div>
@@ -656,8 +649,6 @@ Claim LOLA
 </div>
 
 </div>
-
-<!-- USER -->
 
 <div class="user-box">
 
@@ -669,12 +660,10 @@ Pi User Dashboard
 id="user-info"
 class="user-info"
 >
-Not connected
+Wallet not connected
 </div>
 
 </div>
-
-<!-- STATUS -->
 
 <div
 class="status-box"
@@ -682,8 +671,6 @@ id="statusBox"
 >
 Waiting action...
 </div>
-
-<!-- FOOTER -->
 
 <div class="footer">
 
@@ -699,7 +686,7 @@ Privacy
 
 </div>
 
-© 2026 LOOL AGENT AI
+© 2026 LOLAGENT AI
 
 </div>
 
@@ -707,491 +694,491 @@ Privacy
 
 <script>
 
-/* ===============================
-   PI SDK INIT
-================================ */
+/* =========================
+PI SDK INIT
+========================= */
 
 Pi.init({
-  version:"2.0",
-  sandbox:true
-});
 
-let currentUser = null;
+version:"2.0",
 
+sandbox:true
 
-/* ===============================
-   FOLLOW X
-================================ */
+})
 
-function completeFollow(){
+let currentUser = null
 
-  window.open(
-    'https://x.com/LolAgentAi',
-    '_blank'
-  );
-
-  setStatus(
-    "X Follow completed ✅"
-  );
-
-}
-
-
-/* ===============================
-   TELEGRAM
-================================ */
-
-function completeTelegram(){
-
-  window.open(
-    'https://t.me/LOLAgentHQ',
-    '_blank'
-  );
-
-  setStatus(
-    "Telegram joined ✅"
-  );
-
-}
-
-
-/* ===============================
-   STATUS
-================================ */
+/* =========================
+STATUS
+========================= */
 
 function setStatus(text){
 
-  document.getElementById(
-    "statusBox"
-  ).innerHTML = text;
+document.getElementById(
+'statusBox'
+).innerHTML = text
 
 }
 
+/* =========================
+FOLLOW
+========================= */
 
-/* ===============================
-   LOGIN PI
-================================ */
+function completeFollow(){
+
+window.open(
+'https://x.com/LolAgentAi',
+'_blank'
+)
+
+setStatus(
+'X Follow Success ✅'
+)
+
+}
+
+/* =========================
+TELEGRAM
+========================= */
+
+function completeTelegram(){
+
+window.open(
+'https://t.me/LOLAgentHQ',
+'_blank'
+)
+
+setStatus(
+'Telegram Joined ✅'
+)
+
+}
+
+/* =========================
+LOGIN PI
+========================= */
 
 async function loginPi(){
 
-  try{
+try{
 
-    setStatus(
-      "Connecting Pi Wallet..."
-    );
+setStatus(
+'Connecting Pi Wallet...'
+)
 
-    const scopes = [
+const scopes = [
 
-      'payments',
-      'username',
-      'wallet_address'
+'payments',
+'username',
+'wallet_address'
 
-    ];
+]
 
-    const auth =
-    await Pi.authenticate(
+const auth =
+await Pi.authenticate(
 
-      scopes,
+scopes,
 
-      onIncompletePaymentFound
+onIncompletePaymentFound
 
-    );
+)
 
-    currentUser = auth;
+currentUser = auth
 
-    console.log(auth);
+console.log(auth)
 
-    document.getElementById(
-      'user-info'
-    ).innerHTML =
+document.getElementById(
+'user-info'
+).innerHTML =
 
-    `
-    Username:
-    ${auth.user.username}
-    <br><br>
+`
+Username:
+${auth.user.username}
 
-    UID:
-    ${auth.user.uid}
-    <br><br>
+<br><br>
 
-    Wallet:
-    ${auth.user.wallet_address}
-    <br><br>
+UID:
+${auth.user.uid}
 
-    Status:
-    Connected ✅
-    `;
+<br><br>
 
-    document
-    .getElementById(
-      'buyBtn'
-    )
-    .disabled = false;
+Wallet:
+${auth.user.wallet_address}
 
-    document
-    .getElementById(
-      'buyBtn'
-    )
-    .classList.remove(
-      'disabled'
-    );
+<br><br>
 
-    document
-    .getElementById(
-      'claimBtn'
-    )
-    .disabled = false;
+Status:
+Connected ✅
+`
 
-    document
-    .getElementById(
-      'claimBtn'
-    )
-    .classList.remove(
-      'disabled'
-    );
+document
+.getElementById(
+'buyBtn'
+)
+.disabled = false
 
-    setStatus(
-      "Pi Wallet Connected ✅"
-    );
+document
+.getElementById(
+'buyBtn'
+)
+.classList.remove(
+'disabled'
+)
 
-  }catch(err){
+document
+.getElementById(
+'claimBtn'
+)
+.disabled = false
 
-    console.log(err);
+document
+.getElementById(
+'claimBtn'
+)
+.classList.remove(
+'disabled'
+)
 
-    setStatus(
-      "Pi Login Failed ❌"
-    );
+setStatus(
+'Pi Wallet Connected ✅'
+)
 
-  }
+}catch(err){
+
+console.log(err)
+
+setStatus(
+'Pi Login Failed ❌'
+)
 
 }
 
+}
 
-/* ===============================
-   INCOMPLETE PAYMENT
-================================ */
+/* =========================
+INCOMPLETE PAYMENT
+========================= */
 
 function onIncompletePaymentFound(
-  payment
+payment
 ){
 
-  console.log(
-    "INCOMPLETE PAYMENT"
-  );
-
-  console.log(payment);
+console.log(payment)
 
 }
 
-
-/* ===============================
-   BUY LOLA
-================================ */
+/* =========================
+BUY LOLA
+========================= */
 
 function buyLOLA(){
 
-  if(!currentUser){
+if(!currentUser){
 
-    alert(
-      "Login first"
-    );
+alert(
+'Connect wallet first'
+)
 
-    return;
-
-  }
-
-  setStatus(
-    "Opening Pi Payment..."
-  );
-
-  Pi.createPayment({
-
-    amount: 1,
-
-    memo:
-    "BUY LOLA TOKEN",
-
-    metadata: {
-
-      type:
-      "BUY_LOLA"
-
-    }
-
-  }, {
-
-    /* =======================
-       SERVER APPROVAL
-    ======================= */
-
-    onReadyForServerApproval:
-    async function(paymentId){
-
-      console.log(
-        "APPROVAL",
-        paymentId
-      );
-
-      try{
-
-        const res =
-        await fetch(
-
-          "https://lolagent-backend-production.up.railway.app/api/approve",
-
-          {
-
-            method:"POST",
-
-            headers:{
-              "Content-Type":
-              "application/json"
-            },
-
-            body:JSON.stringify({
-              paymentId
-            })
-
-          }
-
-        );
-
-        const data =
-        await res.json();
-
-        console.log(data);
-
-      }catch(err){
-
-        console.log(err);
-
-        setStatus(
-          "Approve failed ❌"
-        );
-
-      }
-
-    },
-
-
-    /* =======================
-       SERVER COMPLETE
-    ======================= */
-
-    onReadyForServerCompletion:
-    async function(paymentId, txid){
-
-      console.log(
-        "COMPLETE",
-        paymentId,
-        txid
-      );
-
-      try{
-
-        const res =
-        await fetch(
-
-          "https://lolagent-backend-production.up.railway.app/api/complete",
-
-          {
-
-            method:"POST",
-
-            headers:{
-              "Content-Type":
-              "application/json"
-            },
-
-            body:JSON.stringify({
-
-              paymentId,
-              txid
-
-            })
-
-          }
-
-        );
-
-        const data =
-        await res.json();
-
-        console.log(data);
-
-        setStatus(
-
-          `
-          Payment Success ✅
-          <br><br>
-
-          TXID:
-          <br>
-          ${txid}
-
-          <br><br>
-
-          LOLA sent successfully 🚀
-          `
-
-        );
-
-      }catch(err){
-
-        console.log(err);
-
-        setStatus(
-          "Completion failed ❌"
-        );
-
-      }
-
-    },
-
-
-    /* =======================
-       CANCEL
-    ======================= */
-
-    onCancel:function(paymentId){
-
-      console.log(paymentId);
-
-      setStatus(
-        "Payment cancelled ❌"
-      );
-
-    },
-
-
-    /* =======================
-       ERROR
-    ======================= */
-
-    onError:function(error){
-
-      console.log(error);
-
-      setStatus(
-
-        `
-        Payment Error ❌
-        <br><br>
-
-        ${JSON.stringify(error)}
-        `
-
-      );
-
-    }
-
-  });
+return
 
 }
 
+setStatus(
+'Opening Pi Payment...'
+)
 
-/* ===============================
-   CLAIM LOLA
-================================ */
+Pi.createPayment({
+
+amount: 1,
+
+memo:
+'BUY LOLA TOKEN',
+
+metadata: {
+
+type:
+'BUY_LOLA'
+
+}
+
+}, {
+
+/* APPROVE */
+
+onReadyForServerApproval:
+async function(paymentId){
+
+try{
+
+setStatus(
+'Waiting approval...'
+)
+
+const res =
+await fetch(
+
+'https://lolagent-backend-production.up.railway.app/api/approve',
+
+{
+
+method:'POST',
+
+headers:{
+'Content-Type':
+'application/json'
+},
+
+body:JSON.stringify({
+
+paymentId
+
+})
+
+}
+
+)
+
+const data =
+await res.json()
+
+console.log(data)
+
+}catch(err){
+
+console.log(err)
+
+setStatus(
+'Approve Failed ❌'
+)
+
+}
+
+},
+
+/* COMPLETE */
+
+onReadyForServerCompletion:
+async function(paymentId, txid){
+
+try{
+
+setStatus(
+'Completing payment...'
+)
+
+const res =
+await fetch(
+
+'https://lolagent-backend-production.up.railway.app/api/complete',
+
+{
+
+method:'POST',
+
+headers:{
+'Content-Type':
+'application/json'
+},
+
+body:JSON.stringify({
+
+paymentId,
+txid,
+
+wallet:
+currentUser.user.wallet_address
+
+})
+
+}
+
+)
+
+const data =
+await res.json()
+
+console.log(data)
+
+if(data.success){
+
+setStatus(
+
+`
+Payment Success ✅
+
+<br><br>
+
+TXID:
+<br>
+${txid}
+
+<br><br>
+
+1000 LOLA Sent 🚀
+`
+
+)
+
+}else{
+
+setStatus(
+data.error
+)
+
+}
+
+}catch(err){
+
+console.log(err)
+
+setStatus(
+'Payment Completion Failed ❌'
+)
+
+}
+
+},
+
+/* CANCEL */
+
+onCancel:function(paymentId){
+
+console.log(paymentId)
+
+setStatus(
+'Payment Cancelled ❌'
+)
+
+},
+
+/* ERROR */
+
+onError:function(error){
+
+console.log(error)
+
+setStatus(
+
+`
+Payment Error ❌
+
+<br><br>
+
+${JSON.stringify(error)}
+`
+
+)
+
+}
+
+})
+
+}
+
+/* =========================
+CLAIM LOLA
+========================= */
 
 async function claimLOL(){
 
-  if(!currentUser){
+if(!currentUser){
 
-    alert(
-      "Login first"
-    );
+alert(
+'Connect wallet first'
+)
 
-    return;
+return
 
-  }
+}
 
-  try{
+try{
 
-    setStatus(
-      "Processing faucet claim..."
-    );
+setStatus(
+'Processing Faucet Claim...'
+)
 
-    const res =
-    await fetch(
+const res =
+await fetch(
 
-      "https://lolagent-backend-production.up.railway.app/api/claim",
+'https://lolagent-backend-production.up.railway.app/api/claim',
 
-      {
+{
 
-        method:"POST",
+method:'POST',
 
-        headers:{
-          "Content-Type":
-          "application/json"
-        },
+headers:{
+'Content-Type':
+'application/json'
+},
 
-        body:JSON.stringify({
+body:JSON.stringify({
 
-          uid:
-          currentUser.user.uid,
+uid:
+currentUser.user.uid,
 
-          username:
-          currentUser.user.username,
+username:
+currentUser.user.username,
 
-          wallet:
-          currentUser.user.wallet_address
+wallet:
+currentUser.user.wallet_address
 
-        })
+})
 
-      }
+}
 
-    );
+)
 
-    const data =
-    await res.json();
+const data =
+await res.json()
 
-    console.log(data);
+console.log(data)
 
-    if(data.success){
+if(data.success){
 
-      setStatus(
+setStatus(
 
-        `
-        Faucet Success ✅
-        <br><br>
+`
+Faucet Success ✅
 
-        Amount:
-        100 LOLA
+<br><br>
 
-        <br><br>
+100 LOLA Sent 🚀
 
-        TX HASH:
-        <br>
-        ${data.hash}
-        `
+<br><br>
 
-      );
+TX HASH:
+<br>
 
-    }else{
+${data.hash}
+`
 
-      setStatus(
+)
 
-        `
-        Claim Failed ❌
-        <br><br>
+}else{
 
-        ${data.error}
-        `
+setStatus(
 
-      );
+`
+Claim Failed ❌
 
-    }
+<br><br>
 
-  }catch(err){
+${data.error}
+`
 
-    console.log(err);
+)
 
-    setStatus(
-      "Server error ❌"
-    );
+}
 
-  }
+}catch(err){
+
+console.log(err)
+
+setStatus(
+'Server Error ❌'
+)
+
+}
 
 }
 
