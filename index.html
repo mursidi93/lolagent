@@ -871,340 +871,223 @@ BUY LOLA
 
 function buyLOLA(){
 
-    if(!currentUser){
+if(!currentUser){
 
-        alert(
-            'Connect wallet first'
-        )
+alert('Connect wallet first')
 
-        return
-
-    }
-
-    setStatus(
-        'Opening Pi Payment...'
-    )
-
-    Pi.createPayment({
-
-        amount: 1,
-
-        memo:
-        'BUY LOLA TOKEN',
-
-        metadata: {
-
-            type:
-            'BUY_LOLA'
-
-        }
-
-    }, {
-
-        /* =====================
-           SERVER APPROVAL
-        ===================== */
-
-        onReadyForServerApproval:
-        async function(paymentId){
-
-            try{
-
-                setStatus(
-                    'Approving payment...'
-                )
-
-                const res =
-                await fetch(
-
-                    'https://lolagent-production.up.railway.app/api/approve',
-
-                    {
-
-                        method:'POST',
-
-                        headers:{
-                            'Content-Type':
-                            'application/json'
-                        },
-
-                        body:JSON.stringify({
-
-                            paymentId
-
-                        })
-
-                    }
-
-                )
-
-                const data =
-                await res.json()
-
-                console.log(data)
-
-                if(!data.success){
-
-                    setStatus(
-                        'Approve Failed ❌'
-                    )
-
-                }
-
-            }catch(err){
-
-                console.log(err)
-
-                setStatus(
-                    'Approve Error ❌'
-                )
-
-            }
-
-        },
-
-        /* =====================
-           SERVER COMPLETE
-        ===================== */
-
-        onReadyForServerCompletion:
-        async function(paymentId, txid){
-
-            try{
-
-                setStatus(
-                    'Completing payment...'
-                )
-
-                const res =
-                await fetch(
-
-                    'https://lolagent-production.up.railway.app/api/complete',
-
-                    {
-
-                        method:'POST',
-
-                        headers:{
-                            'Content-Type':
-                            'application/json'
-                        },
-
-                        body:JSON.stringify({
-
-                            paymentId,
-                            txid,
-
-                            wallet:
-                            currentUser.user.wallet_address
-
-                        })
-
-                    }
-
-                )
-
-                const data =
-                await res.json()
-
-                console.log(data)
-
-                if(data.success){
-
-                    setStatus(
-
-                    `
-                    Payment Success ✅
-
-                    <br><br>
-
-                    TXID:
-                    <br>
-
-                    ${txid}
-
-                    <br><br>
-
-                    1000 LOLA Purchase Success 🚀
-                    `
-
-                    )
-
-                }else{
-
-                    setStatus(
-
-                    `
-                    Complete Failed ❌
-
-                    <br><br>
-
-                    ${JSON.stringify(data)}
-                    `
-
-                    )
-
-                }
-
-            }catch(err){
-
-                console.log(err)
-
-                setStatus(
-                    'Completion Error ❌'
-                )
-
-            }
-
-        },
-
-        /* =====================
-           CANCEL
-        ===================== */
-
-        onCancel:function(paymentId){
-
-            console.log(paymentId)
-
-            setStatus(
-                'Payment Cancelled ❌'
-            )
-
-        },
-
-        /* =====================
-           ERROR
-        ===================== */
-
-        onError:function(error){
-
-            console.log(error)
-
-            setStatus(
-
-            `
-            Payment Error ❌
-
-            <br><br>
-
-            ${JSON.stringify(error)}
-            `
-
-            )
-
-        }
-
-    })
+return
 
 }
 
-/* =========================
-CLAIM LOLA
-========================= */
+setStatus('Opening Pi Payment...')
 
-async function claimLOL(){
+Pi.createPayment({
 
-    if(!currentUser){
+amount: 1,
 
-        alert(
-            'Connect wallet first'
-        )
+memo: 'BUY LOLA TOKEN',
 
-        return
+metadata: {
+type: 'BUY_LOLA'
+}
 
-    }
+}, {
 
-    try{
+/* ======================
+SERVER APPROVE
+====================== */
 
-        setStatus(
-            'Processing Faucet Claim...'
-        )
+onReadyForServerApproval:
+async function(paymentId){
 
-        const res =
-        await fetch(
+console.log(
+'READY FOR APPROVAL',
+paymentId
+)
 
-            'https://lolagent-production.up.railway.app/api/claim',
+setStatus(
+'Approving payment...'
+)
 
-            {
+try{
 
-                method:'POST',
+const res = await fetch(
 
-                headers:{
-                    'Content-Type':
-                    'application/json'
-                },
+'https://lolagent-backend-production.up.railway.app/api/approve',
 
-                body:JSON.stringify({
+{
+method:'POST',
 
-                    uid:
-                    currentUser.user.uid,
+headers:{
+'Content-Type':'application/json'
+},
 
-                    username:
-                    currentUser.user.username,
+body:JSON.stringify({
+paymentId
+})
+}
 
-                    wallet:
-                    currentUser.user.wallet_address
+)
 
-                })
+const data = await res.json()
 
-            }
+console.log(data)
 
-        )
+if(!data.success){
 
-        const data =
-        await res.json()
-
-        console.log(data)
-
-        if(data.success){
-
-            setStatus(
-
-            `
-            Faucet Success ✅
-
-            <br><br>
-
-            100 LOLA Sent 🚀
-
-            <br><br>
-
-            TX HASH:
-            <br>
-
-            ${data.hash}
-            `
-
-            )
-
-        }else{
-
-            setStatus(
-
-            `
-            Claim Failed ❌
-
-            <br><br>
-
-            ${JSON.stringify(data)}
-            `
-
-            )
-
-        }
-
-    }catch(err){
-
-        console.log(err)
-
-        setStatus(
-            'Server Error ❌'
-        )
-
-    }
+throw new Error(
+'Approve failed'
+)
 
 }
 
+setStatus(
+'Payment approved ✅'
+)
+
+}catch(err){
+
+console.log(err)
+
+setStatus(
+'Approve error ❌'
+)
+
+}
+
+},
+
+/* ======================
+SERVER COMPLETE
+====================== */
+
+onReadyForServerCompletion:
+async function(paymentId, txid){
+
+console.log(
+'READY FOR COMPLETION'
+)
+
+console.log(paymentId)
+console.log(txid)
+
+setStatus(
+'Completing payment...'
+)
+
+try{
+
+const res = await fetch(
+
+'https://lolagent-backend-production.up.railway.app/api/complete',
+
+{
+method:'POST',
+
+headers:{
+'Content-Type':'application/json'
+},
+
+body:JSON.stringify({
+
+paymentId,
+txid
+
+})
+
+}
+
+)
+
+const data = await res.json()
+
+console.log(data)
+
+if(data.success){
+
+setStatus(`
+
+Payment Success ✅
+
+<br><br>
+
+TXID:
+<br>
+${txid}
+
+<br><br>
+
+1000 LOLA Purchased 🚀
+
+`)
+
+}else{
+
+setStatus(`
+Complete failed ❌
+<br><br>
+${JSON.stringify(data)}
+`)
+
+}
+
+}catch(err){
+
+console.log(err)
+
+setStatus(
+'Complete server error ❌'
+)
+
+}
+
+},
+
+/* ======================
+CANCEL
+====================== */
+
+onCancel:function(paymentId){
+
+console.log(
+'PAYMENT CANCEL'
+)
+
+console.log(paymentId)
+
+setStatus(
+'Payment cancelled ❌'
+)
+
+},
+
+/* ======================
+ERROR
+====================== */
+
+onError:function(error){
+
+console.log(
+'PAYMENT ERROR'
+)
+
+console.log(error)
+
+setStatus(`
+
+Payment Error ❌
+
+<br><br>
+
+${JSON.stringify(error)}
+
+`)
+
+}
+
+})
+
+}
 </script>
 </body>
 </html>
