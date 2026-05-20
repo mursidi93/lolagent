@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8" />
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
+<title>LOLAGENT Mining</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+rel="stylesheet"
+/>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#050816;
+  color:white;
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+}
+
+.bg-glow{
+  position:fixed;
+  width:700px;
+  height:700px;
+  background:#7c3aed;
+  filter:blur(180px);
+  opacity:0.15;
+  top:-200px;
+  right:-200px;
+  z-index:-1;
+}
+
+.container{
+  width:90%;
+  max-width:1200px;
+  margin:auto;
+  padding:40px 0;
+}
+
+/* NAVBAR */
+
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:60px;
+}
+
+.logo{
+  font-size:30px;
+  font-weight:800;
+}
+
+.logo span{
+  color:#8b5cf6;
+}
+
+.connect-btn{
+
+  border:none;
+
+  padding:12px 22px;
+
+  border-radius:14px;
+
+  color:white;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  background:
+  linear-gradient(
+    90deg,
+    #8b5cf6,
+    #06b6d4
+  );
+}
+
+/* HERO */
+
+.hero{
+  margin-bottom:60px;
+}
+
+.hero h1{
+  font-size:68px;
+  line-height:1;
+  margin-bottom:20px;
+}
+
+.gradient{
+  background:
+  linear-gradient(
+    90deg,
+    #8b5cf6,
+    #06b6d4
+  );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+  color:#94a3b8;
+  max-width:650px;
+  line-height:1.8;
+  font-size:18px;
+}
+
+/* CARDS */
+
+.grid{
+  display:grid;
+  grid-template-columns:
+  repeat(auto-fit,minmax(300px,1fr));
+
+  gap:25px;
+
+  margin-bottom:40px;
+}
+
+.card{
+
+  background:
+  rgba(255,255,255,0.04);
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+
+  border-radius:28px;
+
+  padding:30px;
+
+  backdrop-filter:blur(20px);
+}
+
+.card-title{
+  color:#94a3b8;
+  margin-bottom:14px;
+}
+
+.card-value{
+  font-size:38px;
+  font-weight:800;
+}
+
+/* MINING */
+
+.mining-box{
+  text-align:center;
+}
+
+.mine-btn{
+
+  width:100%;
+
+  margin-top:25px;
+
+  border:none;
+
+  padding:18px;
+
+  border-radius:18px;
+
+  font-size:18px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  color:white;
+
+  background:
+  linear-gradient(
+    90deg,
+    #8b5cf6,
+    #06b6d4
+  );
+}
+
+.mine-btn:hover{
+  opacity:0.9;
+}
+
+.timer{
+  margin-top:20px;
+  color:#94a3b8;
+}
+
+/* REFERRAL */
+
+.ref-box{
+  margin-top:50px;
+}
+
+.ref-link{
+
+  width:100%;
+
+  background:#0f172a;
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+
+  padding:16px;
+
+  border-radius:16px;
+
+  color:#38bdf8;
+
+  margin-top:20px;
+
+  word-break:break-all;
+}
+
+.copy-btn{
+
+  margin-top:15px;
+
+  border:none;
+
+  padding:14px 20px;
+
+  border-radius:14px;
+
+  background:#8b5cf6;
+
+  color:white;
+
+  cursor:pointer;
+
+  font-weight:700;
+}
+
+/* FOOTER */
+
+.footer{
+  text-align:center;
+  margin-top:80px;
+  color:#64748b;
+  font-size:14px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.hero h1{
+  font-size:46px;
+}
+
+.navbar{
+  flex-direction:column;
+  gap:20px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="bg-glow"></div>
+
+<div class="container">
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">
+LOL<span>AGENT</span>
+</div>
+
+<button class="connect-btn">
+Connect Wallet
+</button>
+
+</div>
+
+<!-- HERO -->
+
+<div class="hero">
+
+<h1>
+
+Daily
+
+<span class="gradient">
+Mining
+</span>
+
+</h1>
+
+<p>
+Mine LOLAGENT every 24 hours and grow your rewards through referrals.
+The bigger your community, the higher your earning potential.
+</p>
+
+</div>
+
+<!-- STATS -->
+
+<div class="grid">
+
+<div class="card">
+
+<div class="card-title">
+Your Balance
+</div>
+
+<div class="card-value">
+0 LOLA
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Daily Mining Rate
+</div>
+
+<div class="card-value">
+100 LOLA
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Total Referrals
+</div>
+
+<div class="card-value">
+0
+</div>
+
+</div>
+
+</div>
+
+<!-- MINING -->
+
+<div class="card mining-box">
+
+<div class="card-title">
+Mining Status
+</div>
+
+<div
+class="card-value"
+id="status"
+>
+Ready To Mine
+</div>
+
+<button
+class="mine-btn"
+onclick="startMining()"
+id="mineBtn"
+>
+Start Mining
+</button>
+
+<div
+class="timer"
+id="timer"
+>
+You can mine once every 24 hours
+</div>
+
+</div>
+
+<!-- REFERRAL -->
+
+<div class="card ref-box">
+
+<div class="card-title">
+Referral Program
+</div>
+
+<div class="card-value">
+Earn +25 LOLA
+</div>
+
+<p
+style="
+margin-top:15px;
+color:#94a3b8;
+line-height:1.7;
+"
+>
+Invite your friends and earn additional LOLA rewards
+every time they start mining.
+</p>
+
+<div
+class="ref-link"
+id="refLink"
+>
+https://lolagent.xyz/?ref=USER123
+</div>
+
+<button
+class="copy-btn"
+onclick="copyReferral()"
+>
+Copy Referral Link
+</button>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+LOLAGENT MINING © 2026
+</div>
+
+</div>
+
+<script>
+
+let mining = false;
+
+function startMining(){
+
+  if(mining){
+    return;
+  }
+
+  mining = true;
+
+  document.getElementById(
+    "status"
+  ).innerText =
+  "Mining Active";
+
+  document.getElementById(
+    "mineBtn"
+  ).innerText =
+  "Mining Started";
+
+  document.getElementById(
+    "mineBtn"
+  ).disabled = true;
+
+  let hours = 24;
+  let minutes = 0;
+  let seconds = 0;
+
+  const timer =
+  setInterval(function(){
+
+    seconds--;
+
+    if(seconds < 0){
+      seconds = 59;
+      minutes--;
+    }
+
+    if(minutes < 0){
+      minutes = 59;
+      hours--;
+    }
+
+    document.getElementById(
+      "timer"
+    ).innerText =
+    `${hours}h ${minutes}m ${seconds}s remaining`;
+
+    if(hours <= 0 &&
+       minutes <= 0 &&
+       seconds <= 0){
+
+      clearInterval(timer);
+
+      mining = false;
+
+      document.getElementById(
+        "status"
+      ).innerText =
+      "Ready To Mine";
+
+      document.getElementById(
+        "mineBtn"
+      ).innerText =
+      "Start Mining";
+
+      document.getElementById(
+        "mineBtn"
+      ).disabled = false;
+
+      document.getElementById(
+        "timer"
+      ).innerText =
+      "You can mine again";
+
+    }
+
+  },1000);
+
+}
+
+function copyReferral(){
+
+  const link =
+  document.getElementById(
+    "refLink"
+  ).innerText;
+
+  navigator.clipboard.writeText(link);
+
+  alert(
+    "Referral Link Copied ✅"
+  );
+
+}
+
+</script>
+
+</body>
+</html>
