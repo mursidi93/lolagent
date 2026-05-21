@@ -1,300 +1,1093 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta charset="UTF-8" />
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
 <title>LOOL AGENT × Pi Network</title>
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-<script src="/socket.io/socket.io.js"></script>
 
 <style>
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial;
+font-family:Arial,sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#0f172a,#111827,#1e293b);
+
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#111827,
+#1e293b
+);
+
 color:white;
+
 min-height:100vh;
+
 padding:20px;
+
+overflow-x:hidden;
+}
+
+.bg1{
+
+position:fixed;
+
+width:500px;
+height:500px;
+
+background:#38bdf8;
+
+filter:blur(180px);
+
+opacity:0.12;
+
+top:-150px;
+right:-100px;
+
+z-index:0;
+}
+
+.bg2{
+
+position:fixed;
+
+width:500px;
+height:500px;
+
+background:#7c3aed;
+
+filter:blur(180px);
+
+opacity:0.12;
+
+bottom:-150px;
+left:-100px;
+
+z-index:0;
 }
 
 .container{
+
+position:relative;
+
+z-index:1;
+
+width:100%;
+
 max-width:950px;
+
 margin:auto;
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.1);
+
+background:
+rgba(255,255,255,0.05);
+
+border:
+1px solid rgba(255,255,255,0.1);
+
 backdrop-filter:blur(10px);
+
 border-radius:28px;
-padding:30px;
+
+padding:40px;
+
+box-shadow:
+0 10px 40px rgba(0,0,0,0.4);
 }
 
-/* NAV */
 .navbar{
+
 display:flex;
+
 justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:40px;
+
 flex-wrap:wrap;
-margin-bottom:20px;
+
+gap:20px;
 }
 
-.logo-img{
-width:85px;
-height:85px;
-border-radius:50%;
-object-fit:cover;
-border:3px solid #38bdf8;
-box-shadow:0 0 15px rgba(56,189,248,0.5);
-}
+.logo-text{
 
-/* HERO */
-.hero{
-text-align:center;
-margin-bottom:20px;
-}
+font-size:30px;
 
-.hero h1{
+font-weight:bold;
+
 color:#38bdf8;
-font-size:34px;
+
+letter-spacing:2px;
 }
 
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-margin-top:20px;
+.nav-menu{
+
+display:flex;
+
+gap:20px;
+
+flex-wrap:wrap;
 }
 
-.card{
-background:#1e293b;
-padding:12px;
-border-radius:12px;
-border:1px solid #334155;
-}
+.nav-menu a{
 
-.value{
-color:#22c55e;
+color:#cbd5e1;
+
+text-decoration:none;
+
+transition:0.3s;
+
 font-weight:bold;
-margin-top:6px;
 }
 
-/* BUTTON */
-.btn{
-padding:10px 14px;
-border-radius:10px;
-border:none;
-cursor:pointer;
-font-weight:bold;
-margin:6px;
-font-size:13px;
+.nav-menu a:hover{
+
+color:#38bdf8;
 }
 
-.btn-pi{background:#fbbf24;}
-.btn-buy{background:#7c3aed;color:white;}
-.btn-claim{background:#22c55e;}
-.btn:disabled{opacity:0.4}
+.hero{
 
-/* LEADERBOARD */
-.leaderboard{
-margin-top:20px;
-background:#111827;
-padding:15px;
-border-radius:12px;
-border:1px solid #334155;
-}
-
-/* FOOTER */
-footer{
-margin-top:30px;
 text-align:center;
-font-size:12px;
-color:#94a3b8;
 }
-footer a{color:#38bdf8;margin:0 6px;text-decoration:none;}
+
+.logo{
+
+width:140px;
+
+height:140px;
+
+border-radius:50%;
+
+border:4px solid #38bdf8;
+
+object-fit:cover;
+
+margin-bottom:25px;
+
+box-shadow:
+0 0 25px rgba(56,189,248,0.5);
+}
+
+h1{
+
+font-size:58px;
+
+margin-bottom:12px;
+
+color:#38bdf8;
+
+text-shadow:
+0 0 20px rgba(56,189,248,0.5);
+}
+
+.subtitle{
+
+font-size:22px;
+
+color:#cbd5e1;
+
+margin-bottom:35px;
+}
+
+.reward-box{
+
+background:
+linear-gradient(
+135deg,
+#0ea5e9,
+#2563eb,
+#7c3aed
+);
+
+padding:30px;
+
+border-radius:24px;
+
+margin-bottom:35px;
+
+box-shadow:
+0 10px 30px rgba(37,99,235,0.3);
+
+text-align:center;
+}
+
+.reward-box h2{
+
+font-size:42px;
+
+margin-bottom:10px;
+}
+
+.reward-box p{
+
+color:#e2e8f0;
+
+font-size:18px;
+}
+
+.steps{
+
+margin-bottom:35px;
+}
+
+.step{
+
+background:
+rgba(255,255,255,0.05);
+
+padding:20px;
+
+border-radius:18px;
+
+margin-bottom:20px;
+
+border:
+1px solid rgba(255,255,255,0.08);
+
+display:flex;
+
+gap:20px;
+}
+
+.step-number{
+
+width:50px;
+
+height:50px;
+
+background:#38bdf8;
+
+color:black;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-weight:bold;
+
+font-size:22px;
+
+flex-shrink:0;
+}
+
+.step-text{
+
+font-size:20px;
+
+margin-bottom:15px;
+}
+
+.btn{
+
+border:none;
+
+text-decoration:none;
+
+padding:15px 25px;
+
+border-radius:14px;
+
+font-size:17px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:0.3s;
+}
+
+.btn:hover{
+
+transform:translateY(-4px);
+
+opacity:0.9;
+}
+
+.btn-x{
+
+background:white;
+
+color:black;
+}
+
+.btn-telegram{
+
+background:#229ED9;
+
+color:white;
+}
+
+.btn-pi{
+
+background:#fbbf24;
+
+color:black;
+}
+
+.btn-green{
+
+background:#22c55e;
+
+color:black;
+}
+
+.btn-purple{
+
+background:#7c3aed;
+
+color:white;
+}
+
+.user-box{
+
+background:
+rgba(255,255,255,0.05);
+
+padding:25px;
+
+border-radius:20px;
+
+margin-bottom:35px;
+
+text-align:center;
+
+border:
+1px solid rgba(255,255,255,0.08);
+}
+
+.user-box h2{
+
+color:#38bdf8;
+
+margin-bottom:15px;
+}
+
+.user-info{
+
+color:#e2e8f0;
+
+line-height:2;
+}
+
+.status-box{
+
+background:#111827;
+
+border:1px solid rgba(255,255,255,0.08);
+
+padding:20px;
+
+border-radius:20px;
+
+margin-top:25px;
+
+line-height:1.8;
+
+color:#cbd5e1;
+
+word-break:break-word;
+}
+
+.footer{
+
+margin-top:40px;
+
+text-align:center;
+
+color:#94a3b8;
+
+font-size:14px;
+
+line-height:1.8;
+}
+
+.footer-links{
+
+margin-bottom:15px;
+}
+
+.footer-links a{
+
+color:#38bdf8;
+
+text-decoration:none;
+
+margin:0 10px;
+}
+
+.disabled{
+
+opacity:0.5;
+
+cursor:not-allowed;
+}
+
+@media(max-width:600px){
+
+h1{
+font-size:40px;
+}
+
+.reward-box h2{
+font-size:30px;
+}
+
+.container{
+padding:25px;
+}
+
+}
+
 </style>
+
 </head>
 
 <body>
 
+<div class="bg1"></div>
+<div class="bg2"></div>
+
 <div class="container">
 
-<!-- NAV -->
 <div class="navbar">
-<img class="logo-img" src="logo.png"/>
-<div>
+
+<div class="logo-text">
+LOOL AGENT
+</div>
+
+<div class="nav-menu">
+
 <a href="/">Home</a>
 <a href="/claim.html">Faucet</a>
+<a href="/quest.html">Quest</a>
 <a href="/mining.html">Mining</a>
-</div>
+<a href="/stake.html">Stake</a>
+<a href="/roadmap.html">Roadmap</a>
+<a href="/whitepaper.html">Whitepaper</a>
+
 </div>
 
-<!-- HERO -->
+</div>
+
 <div class="hero">
-<h1>LOOL AGENT GIVE AWAY</h1>
-<h2 style="color:#38bdf8">100.000.000 LOLA</h2>
+
+<img
+class="logo"
+src="logo.png"
+alt="LOLAGENT"
+/>
+
+<h1>
+LOOL AGENT GIVEAWAY
+</h1>
+
+<p class="subtitle">
+AI Agent × Pi Network
+</p>
+
 </div>
 
-<!-- BUTTONS -->
-<div style="text-align:center">
+<div class="reward-box">
 
-<button class="btn btn-pi" onclick="followX()">Follow X</button>
-<button class="btn btn-pi" onclick="joinTG()">Join Telegram</button>
-<button class="btn btn-pi" onclick="loginPi()">Connect Pi Wallet</button>
+<h2>
+100,000,000 LOLA
+</h2>
 
-<br/>
+<p>
+Exclusive giveaway for early Pi pioneers 🚀
+</p>
 
-<button id="buyBtn" class="btn btn-buy" onclick="buyLOLA()" disabled>
+</div>
+
+<div class="steps">
+
+<!-- STEP 1 -->
+
+<div class="step">
+
+<div class="step-number">
+1
+</div>
+
+<div>
+
+<div class="step-text">
+Follow LOLAgent on X
+</div>
+
+<button
+class="btn btn-x"
+onclick="completeFollow()"
+>
+Follow on X
+</button>
+
+</div>
+
+</div>
+
+<!-- STEP 2 -->
+
+<div class="step">
+
+<div class="step-number">
+2
+</div>
+
+<div>
+
+<div class="step-text">
+Join Telegram Community
+</div>
+
+<button
+class="btn btn-telegram"
+onclick="completeTelegram()"
+>
+Join Telegram
+</button>
+
+</div>
+
+</div>
+
+<!-- STEP 3 -->
+
+<div class="step">
+
+<div class="step-number">
+3
+</div>
+
+<div>
+
+<div class="step-text">
+Login with Pi Browser
+</div>
+
+<button
+class="btn btn-pi"
+onclick="loginPi()"
+>
+Connect Pi Wallet
+</button>
+
+</div>
+
+</div>
+
+<!-- STEP 4 -->
+
+<div class="step">
+
+<div class="step-number">
+4
+</div>
+
+<div>
+
+<div class="step-text">
+Buy LOLA with PI
+</div>
+
+<button
+id="buyBtn"
+class="btn btn-purple disabled"
+onclick="buyLOLA()"
+disabled
+>
 Buy 1 PI = 1000 LOLA
 </button>
 
-<button id="claimBtn" class="btn btn-claim" onclick="claimLOLA()" disabled>
-Claim LOLA
+</div>
+
+</div>
+
+<!-- STEP 5 -->
+
+<div class="step">
+
+<div class="step-number">
+5
+</div>
+
+<div>
+
+<div class="step-text">
+Claim Faucet LOLA
+</div>
+
+<button
+id="claimBtn"
+class="btn btn-green disabled"
+onclick="claimLOL()"
+disabled
+>
+Claim 100 LOLA
 </button>
 
 </div>
 
-<!-- USER -->
-<div id="user-info" style="margin-top:15px;">Wallet not connected</div>
-
-<!-- ECONOMY -->
-<div class="grid">
-<div class="card">Supply <div class="value" id="supply">0</div></div>
-<div class="card">Circulating <div class="value" id="circulating">0</div></div>
-<div class="card">Reward <div class="value" id="reward">0</div></div>
-<div class="card">Burned <div class="value" id="burned">0</div></div>
 </div>
 
-<!-- LEADERBOARD -->
-<div class="leaderboard">
-<h3>🏆 Leaderboard</h3>
-<div id="leaderboard">Loading...</div>
 </div>
 
-<footer>
-<a href="/terms.html">Terms</a>
-<a href="/privacy.html">Privacy</a>
-<br/>
+<div class="user-box">
+
+<h2>
+Pi User Dashboard
+</h2>
+
+<div
+id="user-info"
+class="user-info"
+>
+Wallet not connected
+</div>
+
+</div>
+
+<div
+class="status-box"
+id="statusBox"
+>
+Waiting action...
+</div>
+
+<div class="footer">
+
+<div class="footer-links">
+
+<a href="/terms.html">
+Terms
+</a>
+
+<a href="/privacy.html">
+Privacy
+</a>
+
+</div>
+
 © 2026 LOOL AGENT
-</footer>
+
+</div>
 
 </div>
 
 <script>
 
-const socket = io();
-let currentUser = null;
+/* =========================
+PI SDK INIT
+========================= */
 
-/* STATUS */
-function setStatus(msg){
-document.getElementById("user-info").innerHTML = msg;
+Pi.init({
+
+    version: "2.0",
+
+    sandbox: true
+
+})
+
+let currentUser = null
+
+/* =========================
+STATUS
+========================= */
+
+function setStatus(text){
+
+    document.getElementById(
+        'statusBox'
+    ).innerHTML = text
+
 }
 
-/* SOCKET ECONOMY */
-socket.on("economy:update",(eco)=>{
-document.getElementById("supply").innerText = eco.totalSupply.toLocaleString();
-document.getElementById("circulating").innerText = eco.circulating.toLocaleString();
-document.getElementById("reward").innerText = eco.rewardPool.toLocaleString();
-document.getElementById("burned").innerText = eco.burned.toLocaleString();
-});
+/* =========================
+FOLLOW
+========================= */
 
-/* LEADERBOARD */
-socket.on("leaderboard:update",(data)=>{
-document.getElementById("leaderboard").innerHTML =
-data.map((u,i)=>
-`#${i+1} ${u.userId} - ${u.mined}`
-).join("<br>");
-});
+function completeFollow(){
 
-/* SOCIAL */
-function followX(){
-window.open("https://x.com/LolAgentAi","_blank");
+    window.open(
+        'https://x.com/LolAgentAi',
+        '_blank'
+    )
+
+    setStatus(
+        'X Follow Success ✅'
+    )
+
 }
 
-function joinTG(){
-window.open("https://t.me/LOLAgentHQ","_blank");
+/* =========================
+TELEGRAM
+========================= */
+
+function completeTelegram(){
+
+    window.open(
+        'https://t.me/LOLAgentHQ',
+        '_blank'
+    )
+
+    setStatus(
+        'Telegram Joined ✅'
+    )
+
 }
 
-/* PI INIT */
-Pi.init({ version:"2.0", sandbox:true });
+/* =========================
+LOGIN PI
+========================= */
 
-/* LOGIN */
 async function loginPi(){
-try{
 
-setStatus("Connecting Pi Wallet...");
+    try{
 
-const auth = await Pi.authenticate(
-["username","payments","wallet_address"],
-onIncompletePaymentFound
-);
+        setStatus(
+            'Connecting Pi Wallet...'
+        )
 
-currentUser = auth;
+        const scopes = [
 
-document.getElementById("buyBtn").disabled = false;
-document.getElementById("claimBtn").disabled = false;
+            'payments',
+            'username',
+            'wallet_address'
 
-setStatus(`
-Connected: ${auth.user.username}<br>
-Wallet OK
-`);
+        ]
 
-}catch(err){
-setStatus("Pi Login Failed ❌");
+        const auth =
+        await Pi.authenticate(
+
+            scopes,
+
+            onIncompletePaymentFound
+
+        )
+
+        currentUser = auth
+
+        console.log(auth)
+
+        document.getElementById(
+            'user-info'
+        ).innerHTML =
+
+        `
+        Username:
+        ${auth.user.username}
+
+        <br><br>
+
+        UID:
+        ${auth.user.uid}
+
+        <br><br>
+
+        Wallet:
+        ${auth.user.wallet_address}
+
+        <br><br>
+
+        Status:
+        Connected ✅
+        `
+
+        document
+        .getElementById(
+            'buyBtn'
+        )
+        .disabled = false
+
+        document
+        .getElementById(
+            'buyBtn'
+        )
+        .classList.remove(
+            'disabled'
+        )
+
+        document
+        .getElementById(
+            'claimBtn'
+        )
+        .disabled = false
+
+        document
+        .getElementById(
+            'claimBtn'
+        )
+        .classList.remove(
+            'disabled'
+        )
+
+        setStatus(
+            'Pi Wallet Connected ✅'
+        )
+
+    }catch(err){
+
+        console.log(err)
+
+        setStatus(
+            'Pi Login Failed ❌'
+        )
+
+    }
+
 }
+
+/* =========================
+INCOMPLETE PAYMENT
+========================= */
+
+function onIncompletePaymentFound(payment){
+
+    console.log(payment)
+
 }
 
-/* PAYMENT */
+/* =========================
+BUY LOLA
+========================= */
+
 function buyLOLA(){
 
-if(!currentUser) return alert("Login first");
+if(!currentUser){
+
+alert('Connect wallet first')
+
+return
+
+}
+
+setStatus('Opening Pi Payment...')
 
 Pi.createPayment({
-amount:1,
-memo:"BUY LOLA",
-metadata:{type:"BUY"}
-},{
-onReadyForServerApproval: async(paymentId)=>{
 
-await fetch("https://lolagent-backend-production.up.railway.app/api/approve",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({paymentId})
-});
+amount: 1,
+
+memo: 'BUY LOLA TOKEN',
+
+metadata: {
+type: 'BUY_LOLA'
+}
+
+}, {
+
+/* ======================
+SERVER APPROVE
+====================== */
+
+onReadyForServerApproval:
+async function(paymentId){
+
+console.log(
+'READY FOR APPROVAL',
+paymentId
+)
+
+setStatus(
+'Approving payment...'
+)
+
+try{
+
+const res = await fetch(
+
+'https://lolagent-backend-production.up.railway.app/api/approve',
+
+{
+method:'POST',
+
+headers:{
+'Content-Type':'application/json'
+},
+
+body:JSON.stringify({
+paymentId
+})
+}
+
+)
+
+const data = await res.json()
+
+console.log(data)
+
+if(!data.success){
+
+throw new Error(
+'Approve failed'
+)
+
+}
+
+setStatus(
+'Payment approved ✅'
+)
+
+}catch(err){
+
+console.log(err)
+
+setStatus(
+'Approve error ❌'
+)
+
+}
 
 },
 
-onReadyForServerCompletion: async(paymentId,txid)=>{
+/* ======================
+SERVER COMPLETE
+====================== */
 
-await fetch("https://lolagent-backend-production.up.railway.app/api/complete",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({paymentId,txid})
-});
+onReadyForServerCompletion:
+async function(paymentId, txid){
 
-setStatus("BUY SUCCESS 🚀");
+console.log(
+'READY FOR COMPLETION'
+)
+
+console.log(paymentId)
+console.log(txid)
+
+setStatus(
+'Completing payment...'
+)
+
+try{
+
+const res = await fetch(
+
+'https://lolagent-backend-production.up.railway.app/api/complete',
+
+{
+method:'POST',
+
+headers:{
+'Content-Type':'application/json'
+},
+
+body:JSON.stringify({
+
+paymentId,
+txid
+
+})
+
+}
+
+)
+
+const data = await res.json()
+
+console.log(data)
+
+if(data.success){
+
+setStatus(`
+
+Payment Success ✅
+
+<br><br>
+
+TXID:
+<br>
+${txid}
+
+<br><br>
+
+1000 LOLA Purchased 🚀
+
+`)
+
+}else{
+
+setStatus(`
+Complete failed ❌
+<br><br>
+${JSON.stringify(data)}
+`)
+
+}
+
+}catch(err){
+
+console.log(err)
+
+setStatus(
+'Complete server error ❌'
+)
+
+}
 
 },
 
-onError:(e)=>{
-setStatus("ERROR PAYMENT ❌");
-console.log(e);
+/* ======================
+CANCEL
+====================== */
+
+onCancel:function(paymentId){
+
+console.log(
+'PAYMENT CANCEL'
+)
+
+console.log(paymentId)
+
+setStatus(
+'Payment cancelled ❌'
+)
+
+},
+
+/* ======================
+ERROR
+====================== */
+
+onError:function(error){
+
+console.log(
+'PAYMENT ERROR'
+)
+
+console.log(error)
+
+setStatus(`
+
+Payment Error ❌
+
+<br><br>
+
+${JSON.stringify(error)}
+
+`)
+
 }
 
-});
+})
 
 }
-
-function claimLOLA(){
-alert("Claim system active soon");
-}
-
-function onIncompletePaymentFound(p){console.log(p);}
-
 </script>
-
 </body>
 </html>
