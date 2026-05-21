@@ -2,9 +2,7 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8" />
-
 <meta
 name="viewport"
 content="width=device-width, initial-scale=1.0"
@@ -13,6 +11,7 @@ content="width=device-width, initial-scale=1.0"
 <title>LOOL AGENT × Pi Network</title>
 
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 
 <style>
 
@@ -24,7 +23,6 @@ font-family:Arial,sans-serif;
 }
 
 body{
-
 background:
 linear-gradient(
 135deg,
@@ -32,426 +30,201 @@ linear-gradient(
 #111827,
 #1e293b
 );
-
 color:white;
-
 min-height:100vh;
-
 padding:20px;
-
-overflow-x:hidden;
 }
 
-.bg1{
-
-position:fixed;
-
-width:500px;
-height:500px;
-
-background:#38bdf8;
-
-filter:blur(180px);
-
-opacity:0.12;
-
-top:-150px;
-right:-100px;
-
-z-index:0;
-}
-
-.bg2{
-
-position:fixed;
-
-width:500px;
-height:500px;
-
-background:#7c3aed;
-
-filter:blur(180px);
-
-opacity:0.12;
-
-bottom:-150px;
-left:-100px;
-
-z-index:0;
-}
-
+/* CONTAINER */
 .container{
-
-position:relative;
-
-z-index:1;
-
-width:100%;
-
-max-width:950px;
-
+max-width:1100px;
 margin:auto;
-
-background:
-rgba(255,255,255,0.05);
-
-border:
-1px solid rgba(255,255,255,0.1);
-
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
 backdrop-filter:blur(10px);
-
 border-radius:28px;
-
-padding:40px;
-
-box-shadow:
-0 10px 40px rgba(0,0,0,0.4);
-}
-
-.navbar{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin-bottom:40px;
-
-flex-wrap:wrap;
-
-gap:20px;
-}
-
-.logo-text{
-
-font-size:30px;
-
-font-weight:bold;
-
-color:#38bdf8;
-
-letter-spacing:2px;
-}
-
-.nav-menu{
-
-display:flex;
-
-gap:20px;
-
-flex-wrap:wrap;
-}
-
-.nav-menu a{
-
-color:#cbd5e1;
-
-text-decoration:none;
-
-transition:0.3s;
-
-font-weight:bold;
-}
-
-.nav-menu a:hover{
-
-color:#38bdf8;
-}
-
-.hero{
-
-text-align:center;
-}
-
-.logo{
-
-width:140px;
-
-height:140px;
-
-border-radius:50%;
-
-border:4px solid #38bdf8;
-
-object-fit:cover;
-
-margin-bottom:25px;
-
-box-shadow:
-0 0 25px rgba(56,189,248,0.5);
-}
-
-h1{
-
-font-size:58px;
-
-margin-bottom:12px;
-
-color:#38bdf8;
-
-text-shadow:
-0 0 20px rgba(56,189,248,0.5);
-}
-
-.subtitle{
-
-font-size:22px;
-
-color:#cbd5e1;
-
-margin-bottom:35px;
-}
-
-.reward-box{
-
-background:
-linear-gradient(
-135deg,
-#0ea5e9,
-#2563eb,
-#7c3aed
-);
-
 padding:30px;
-
-border-radius:24px;
-
-margin-bottom:35px;
-
-box-shadow:
-0 10px 30px rgba(37,99,235,0.3);
-
-text-align:center;
 }
 
-.reward-box h2{
-
-font-size:42px;
-
-margin-bottom:10px;
-}
-
-.reward-box p{
-
-color:#e2e8f0;
-
-font-size:18px;
-}
-
-.steps{
-
-margin-bottom:35px;
-}
-
-.step{
-
-background:
-rgba(255,255,255,0.05);
-
-padding:20px;
-
-border-radius:18px;
-
-margin-bottom:20px;
-
-border:
-1px solid rgba(255,255,255,0.08);
-
+/* NAVBAR */
+.navbar{
 display:flex;
-
-gap:20px;
-}
-
-.step-number{
-
-width:50px;
-
-height:50px;
-
-background:#38bdf8;
-
-color:black;
-
-border-radius:50%;
-
-display:flex;
-
+justify-content:space-between;
 align-items:center;
-
-justify-content:center;
-
-font-weight:bold;
-
-font-size:22px;
-
-flex-shrink:0;
+flex-wrap:wrap;
+gap:15px;
+margin-bottom:25px;
 }
 
-.step-text{
+.logo-img{
+width:85px;
+height:85px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid #38bdf8;
+box-shadow:
+0 0 18px rgba(56,189,248,0.5);
+}
 
+.nav{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+.nav a{
+color:#cbd5e1;
+text-decoration:none;
+font-size:13px;
+transition:0.3s;
+}
+
+.nav a:hover{
+color:#38bdf8;
+}
+
+/* HERO */
+.hero{
+text-align:center;
+margin-bottom:20px;
+}
+
+.hero h1{
+font-size:42px;
+color:#38bdf8;
+margin-top:10px;
+}
+
+.hero h2{
+color:#cbd5e1;
+margin-top:10px;
 font-size:20px;
+}
 
-margin-bottom:15px;
+/* BUTTONS */
+.buttons{
+text-align:center;
+margin-top:20px;
+margin-bottom:20px;
 }
 
 .btn{
-
+padding:10px 15px;
 border:none;
-
-text-decoration:none;
-
-padding:15px 25px;
-
-border-radius:14px;
-
-font-size:17px;
-
+border-radius:10px;
 font-weight:bold;
-
 cursor:pointer;
-
+margin:5px;
+font-size:13px;
 transition:0.3s;
 }
 
 .btn:hover{
-
-transform:translateY(-4px);
-
 opacity:0.9;
-}
-
-.btn-x{
-
-background:white;
-
-color:black;
-}
-
-.btn-telegram{
-
-background:#229ED9;
-
-color:white;
+transform:translateY(-2px);
 }
 
 .btn-pi{
-
 background:#fbbf24;
-
 color:black;
 }
 
-.btn-green{
-
-background:#22c55e;
-
-color:black;
-}
-
-.btn-purple{
-
+.btn-buy{
 background:#7c3aed;
-
 color:white;
 }
 
-.user-box{
-
-background:
-rgba(255,255,255,0.05);
-
-padding:25px;
-
-border-radius:20px;
-
-margin-bottom:35px;
-
-text-align:center;
-
-border:
-1px solid rgba(255,255,255,0.08);
+.btn-claim{
+background:#22c55e;
+color:black;
 }
 
-.user-box h2{
-
-color:#38bdf8;
-
-margin-bottom:15px;
-}
-
-.user-info{
-
-color:#e2e8f0;
-
-line-height:2;
-}
-
-.status-box{
-
-background:#111827;
-
-border:1px solid rgba(255,255,255,0.08);
-
-padding:20px;
-
-border-radius:20px;
-
-margin-top:25px;
-
-line-height:1.8;
-
-color:#cbd5e1;
-
-word-break:break-word;
-}
-
-.footer{
-
-margin-top:40px;
-
-text-align:center;
-
-color:#94a3b8;
-
-font-size:14px;
-
-line-height:1.8;
-}
-
-.footer-links{
-
-margin-bottom:15px;
-}
-
-.footer-links a{
-
-color:#38bdf8;
-
-text-decoration:none;
-
-margin:0 10px;
-}
-
-.disabled{
-
-opacity:0.5;
-
+.btn:disabled{
+opacity:0.4;
 cursor:not-allowed;
+}
+
+/* USER */
+.user-box{
+background:#111827;
+padding:15px;
+border-radius:15px;
+margin-top:20px;
+border:1px solid #334155;
+line-height:1.8;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-top:25px;
+}
+
+.card{
+background:#1e293b;
+padding:18px;
+border-radius:15px;
+border:1px solid #334155;
+}
+
+.card-title{
+font-size:14px;
+color:#94a3b8;
+margin-bottom:8px;
+}
+
+.value{
+font-size:22px;
+font-weight:bold;
+color:#22c55e;
+}
+
+/* LEADERBOARD */
+.leaderboard{
+margin-top:25px;
+background:#111827;
+padding:20px;
+border-radius:15px;
+border:1px solid #334155;
+}
+
+.leaderboard h3{
+margin-bottom:15px;
+color:#38bdf8;
+}
+
+/* STATUS */
+.status-box{
+margin-top:20px;
+background:#111827;
+padding:15px;
+border-radius:15px;
+border:1px solid #334155;
+color:#cbd5e1;
+line-height:1.7;
+}
+
+/* FOOTER */
+footer{
+margin-top:35px;
+text-align:center;
+font-size:12px;
+color:#94a3b8;
+}
+
+footer a{
+color:#38bdf8;
+margin:0 6px;
+text-decoration:none;
 }
 
 @media(max-width:600px){
 
-h1{
-font-size:40px;
-}
-
-.reward-box h2{
+.hero h1{
 font-size:30px;
-}
-
-.container{
-padding:25px;
 }
 
 }
@@ -462,19 +235,20 @@ padding:25px;
 
 <body>
 
-<div class="bg1"></div>
-<div class="bg2"></div>
-
 <div class="container">
 
+<!-- NAVBAR -->
 <div class="navbar">
 
-<div class="logo-text">
-LOOL AGENT
+<div>
+<img
+src="logo.png"
+class="logo-img"
+alt="LOLA"
+/>
 </div>
 
-<div class="nav-menu">
-
+<div class="nav">
 <a href="/">Home</a>
 <a href="/claim.html">Faucet</a>
 <a href="/quest.html">Quest</a>
@@ -482,106 +256,39 @@ LOOL AGENT
 <a href="/stake.html">Stake</a>
 <a href="/roadmap.html">Roadmap</a>
 <a href="/whitepaper.html">Whitepaper</a>
-
 </div>
 
 </div>
 
+<!-- HERO -->
 <div class="hero">
-
-<img
-class="logo"
-src="logo.png"
-alt="LOLAGENT"
-/>
 
 <h1>
 LOOL AGENT GIVEAWAY
 </h1>
 
-<p class="subtitle">
-AI Agent × Pi Network
-</p>
-
-</div>
-
-<div class="reward-box">
-
 <h2>
 100,000,000 LOLA
 </h2>
 
-<p>
-Exclusive giveaway for early Pi pioneers 🚀
-</p>
-
 </div>
 
-<div class="steps">
-
-<!-- STEP 1 -->
-
-<div class="step">
-
-<div class="step-number">
-1
-</div>
-
-<div>
-
-<div class="step-text">
-Follow LOLAgent on X
-</div>
+<!-- BUTTON -->
+<div class="buttons">
 
 <button
-class="btn btn-x"
-onclick="completeFollow()"
+class="btn btn-pi"
+onclick="followX()"
 >
-Follow on X
+Follow X
 </button>
 
-</div>
-
-</div>
-
-<!-- STEP 2 -->
-
-<div class="step">
-
-<div class="step-number">
-2
-</div>
-
-<div>
-
-<div class="step-text">
-Join Telegram Community
-</div>
-
 <button
-class="btn btn-telegram"
-onclick="completeTelegram()"
+class="btn btn-pi"
+onclick="joinTG()"
 >
 Join Telegram
 </button>
-
-</div>
-
-</div>
-
-<!-- STEP 3 -->
-
-<div class="step">
-
-<div class="step-number">
-3
-</div>
-
-<div>
-
-<div class="step-text">
-Login with Pi Browser
-</div>
 
 <button
 class="btn btn-pi"
@@ -590,91 +297,136 @@ onclick="loginPi()"
 Connect Pi Wallet
 </button>
 
-</div>
-
-</div>
-
-<!-- STEP 4 -->
-
-<div class="step">
-
-<div class="step-number">
-4
-</div>
-
-<div>
-
-<div class="step-text">
-Buy LOLA with PI
-</div>
+<br>
 
 <button
 id="buyBtn"
-class="btn btn-purple disabled"
+class="btn btn-buy"
 onclick="buyLOLA()"
 disabled
 >
 Buy 1 PI = 1000 LOLA
 </button>
 
-</div>
-
-</div>
-
-<!-- STEP 5 -->
-
-<div class="step">
-
-<div class="step-number">
-5
-</div>
-
-<div>
-
-<div class="step-text">
-Claim Faucet LOLA
-</div>
-
 <button
 id="claimBtn"
-class="btn btn-green disabled"
-onclick="claimLOL()"
+class="btn btn-claim"
+onclick="claimLOLA()"
 disabled
 >
-Claim 100 LOLA
+Claim LOLA
 </button>
 
 </div>
 
-</div>
-
-</div>
-
-<div class="user-box">
-
-<h2>
-Pi User Dashboard
-</h2>
-
+<!-- USER -->
 <div
 id="user-info"
-class="user-info"
+class="user-box"
 >
 Wallet not connected
 </div>
 
+<!-- ECONOMY -->
+<div class="grid">
+
+<div class="card">
+<div class="card-title">
+Total Supply
+</div>
+<div class="value" id="supply">
+0
+</div>
 </div>
 
+<div class="card">
+<div class="card-title">
+Circulating Supply
+</div>
+<div class="value" id="circulating">
+0
+</div>
+</div>
+
+<div class="card">
+<div class="card-title">
+Locked Supply
+</div>
+<div class="value" id="locked">
+0
+</div>
+</div>
+
+<div class="card">
+<div class="card-title">
+Liquidity
+</div>
+<div class="value" id="liquidity">
+0
+</div>
+</div>
+
+<div class="card">
+<div class="card-title">
+Reward Pool
+</div>
+<div class="value" id="reward">
+0
+</div>
+</div>
+
+<div class="card">
+<div class="card-title">
+Burned
+</div>
+<div class="value" id="burned">
+0
+</div>
+</div>
+
+<div class="card">
+<div class="card-title">
+Price
+</div>
+<div class="value" id="price">
+0
+</div>
+</div>
+
+<div class="card">
+<div class="card-title">
+Market Cap
+</div>
+<div class="value" id="marketcap">
+0
+</div>
+</div>
+
+</div>
+
+<!-- LEADERBOARD -->
+<div class="leaderboard">
+
+<h3>
+🏆 TOP MINERS
+</h3>
+
+<div id="leaderboard">
+Loading...
+</div>
+
+</div>
+
+<!-- STATUS -->
 <div
 class="status-box"
 id="statusBox"
 >
-Waiting action...
+System Ready 🚀
 </div>
 
-<div class="footer">
-
-<div class="footer-links">
+<!-- FOOTER -->
+<footer>
 
 <a href="/terms.html">
 Terms
@@ -684,29 +436,185 @@ Terms
 Privacy
 </a>
 
-</div>
+<br><br>
 
-© 2026 LOOL AGENT
+© 2026 LOOL AGENT.
+All Rights Reserved.
 
-</div>
+</footer>
 
 </div>
 
 <script>
 
 /* =========================
-PI SDK INIT
+SOCKET
+========================= */
+
+const socket = io();
+
+/* =========================
+REALTIME ECONOMY
+========================= */
+
+socket.on("economy:update",(eco)=>{
+
+document.getElementById("supply")
+.innerText =
+eco.totalSupply.toLocaleString();
+
+document.getElementById("circulating")
+.innerText =
+eco.circulating.toLocaleString();
+
+document.getElementById("locked")
+.innerText =
+eco.locked.toLocaleString();
+
+document.getElementById("liquidity")
+.innerText =
+eco.liquidity.toLocaleString();
+
+document.getElementById("reward")
+.innerText =
+eco.rewardPool.toLocaleString();
+
+document.getElementById("burned")
+.innerText =
+eco.burned.toLocaleString();
+
+document.getElementById("price")
+.innerText =
+"$" + eco.price;
+
+document.getElementById("marketcap")
+.innerText =
+"$" + eco.marketCap.toLocaleString();
+
+});
+
+/* =========================
+LEADERBOARD
+========================= */
+
+socket.on("leaderboard:update",(data)=>{
+
+let html = "";
+
+data.forEach((u,i)=>{
+
+html += `
+<div style="margin-bottom:8px;">
+#${i+1}
+${u.userId}
+—
+${u.mined}
+LOLA
+</div>
+`;
+
+});
+
+document.getElementById(
+"leaderboard"
+).innerHTML = html;
+
+});
+
+/* =========================
+LOAD ECONOMY API
+========================= */
+
+async function loadEconomy(){
+
+try{
+
+const res =
+await fetch("/api/dashboard");
+
+const data =
+await res.json();
+
+const eco = data.economy;
+
+document.getElementById("supply")
+.innerText =
+eco.totalSupply.toLocaleString();
+
+document.getElementById("circulating")
+.innerText =
+eco.circulating.toLocaleString();
+
+document.getElementById("locked")
+.innerText =
+eco.locked.toLocaleString();
+
+document.getElementById("liquidity")
+.innerText =
+eco.liquidity.toLocaleString();
+
+document.getElementById("reward")
+.innerText =
+eco.rewardPool.toLocaleString();
+
+document.getElementById("burned")
+.innerText =
+eco.burned.toLocaleString();
+
+document.getElementById("price")
+.innerText =
+"$" + eco.price;
+
+document.getElementById("marketcap")
+.innerText =
+"$" + eco.marketCap.toLocaleString();
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+loadEconomy();
+
+/* =========================
+FOLLOW X
+========================= */
+
+function followX(){
+
+window.open(
+"https://x.com/LolAgentAi",
+"_blank"
+);
+
+}
+
+/* =========================
+JOIN TG
+========================= */
+
+function joinTG(){
+
+window.open(
+"https://t.me/LOLAgentHQ",
+"_blank"
+);
+
+}
+
+/* =========================
+PI SDK
 ========================= */
 
 Pi.init({
+version:"2.0",
+sandbox:true
+});
 
-    version: "2.0",
-
-    sandbox: true
-
-})
-
-let currentUser = null
+let currentUser = null;
 
 /* =========================
 STATUS
@@ -714,43 +622,9 @@ STATUS
 
 function setStatus(text){
 
-    document.getElementById(
-        'statusBox'
-    ).innerHTML = text
-
-}
-
-/* =========================
-FOLLOW
-========================= */
-
-function completeFollow(){
-
-    window.open(
-        'https://x.com/LolAgentAi',
-        '_blank'
-    )
-
-    setStatus(
-        'X Follow Success ✅'
-    )
-
-}
-
-/* =========================
-TELEGRAM
-========================= */
-
-function completeTelegram(){
-
-    window.open(
-        'https://t.me/LOLAgentHQ',
-        '_blank'
-    )
-
-    setStatus(
-        'Telegram Joined ✅'
-    )
+document.getElementById(
+"statusBox"
+).innerHTML = text;
 
 }
 
@@ -760,108 +634,61 @@ LOGIN PI
 
 async function loginPi(){
 
-    try{
+try{
 
-        setStatus(
-            'Connecting Pi Wallet...'
-        )
+setStatus(
+"Connecting Pi Wallet..."
+);
 
-        const scopes = [
+const auth =
+await Pi.authenticate([
+"username",
+"payments",
+"wallet_address"
+]);
 
-            'payments',
-            'username',
-            'wallet_address'
+currentUser = auth;
 
-        ]
+document.getElementById(
+"user-info"
+).innerHTML = `
 
-        const auth =
-        await Pi.authenticate(
+Username:
+${auth.user.username}
 
-            scopes,
+<br><br>
 
-            onIncompletePaymentFound
+Wallet:
+${auth.user.wallet_address}
 
-        )
+<br><br>
 
-        currentUser = auth
+Status:
+Connected ✅
 
-        console.log(auth)
+`;
 
-        document.getElementById(
-            'user-info'
-        ).innerHTML =
+document.getElementById(
+"buyBtn"
+).disabled = false;
 
-        `
-        Username:
-        ${auth.user.username}
+document.getElementById(
+"claimBtn"
+).disabled = false;
 
-        <br><br>
+setStatus(
+"Pi Wallet Connected ✅"
+);
 
-        UID:
-        ${auth.user.uid}
+}catch(err){
 
-        <br><br>
+console.log(err);
 
-        Wallet:
-        ${auth.user.wallet_address}
-
-        <br><br>
-
-        Status:
-        Connected ✅
-        `
-
-        document
-        .getElementById(
-            'buyBtn'
-        )
-        .disabled = false
-
-        document
-        .getElementById(
-            'buyBtn'
-        )
-        .classList.remove(
-            'disabled'
-        )
-
-        document
-        .getElementById(
-            'claimBtn'
-        )
-        .disabled = false
-
-        document
-        .getElementById(
-            'claimBtn'
-        )
-        .classList.remove(
-            'disabled'
-        )
-
-        setStatus(
-            'Pi Wallet Connected ✅'
-        )
-
-    }catch(err){
-
-        console.log(err)
-
-        setStatus(
-            'Pi Login Failed ❌'
-        )
-
-    }
+setStatus(
+"Pi Login Failed ❌"
+);
 
 }
-
-/* =========================
-INCOMPLETE PAYMENT
-========================= */
-
-function onIncompletePaymentFound(payment){
-
-    console.log(payment)
 
 }
 
@@ -873,137 +700,66 @@ function buyLOLA(){
 
 if(!currentUser){
 
-alert('Connect wallet first')
+alert(
+"Connect wallet first"
+);
 
-return
+return;
 
 }
 
-setStatus('Opening Pi Payment...')
+setStatus(
+"Opening Pi Payment..."
+);
 
 Pi.createPayment({
 
-amount: 1,
+amount:1,
 
-memo: 'BUY LOLA TOKEN',
+memo:"BUY LOLA TOKEN",
 
-metadata: {
-type: 'BUY_LOLA'
+metadata:{
+type:"BUY_LOLA"
 }
 
-}, {
-
-/* ======================
-SERVER APPROVE
-====================== */
+},{
 
 onReadyForServerApproval:
 async function(paymentId){
 
-console.log(
-'READY FOR APPROVAL',
-paymentId
-)
+await fetch("/api/approve",{
 
-setStatus(
-'Approving payment...'
-)
-
-try{
-
-const res = await fetch(
-
-'https://lolagent-backend-production.up.railway.app/api/approve',
-
-{
-method:'POST',
+method:"POST",
 
 headers:{
-'Content-Type':'application/json'
+"Content-Type":"application/json"
 },
 
 body:JSON.stringify({
 paymentId
 })
-}
 
-)
-
-const data = await res.json()
-
-console.log(data)
-
-if(!data.success){
-
-throw new Error(
-'Approve failed'
-)
-
-}
-
-setStatus(
-'Payment approved ✅'
-)
-
-}catch(err){
-
-console.log(err)
-
-setStatus(
-'Approve error ❌'
-)
-
-}
+});
 
 },
-
-/* ======================
-SERVER COMPLETE
-====================== */
 
 onReadyForServerCompletion:
-async function(paymentId, txid){
+async function(paymentId,txid){
 
-console.log(
-'READY FOR COMPLETION'
-)
+await fetch("/api/complete",{
 
-console.log(paymentId)
-console.log(txid)
-
-setStatus(
-'Completing payment...'
-)
-
-try{
-
-const res = await fetch(
-
-'https://lolagent-backend-production.up.railway.app/api/complete',
-
-{
-method:'POST',
+method:"POST",
 
 headers:{
-'Content-Type':'application/json'
+"Content-Type":"application/json"
 },
 
 body:JSON.stringify({
-
 paymentId,
 txid
-
 })
 
-}
-
-)
-
-const data = await res.json()
-
-console.log(data)
-
-if(data.success){
+});
 
 setStatus(`
 
@@ -1012,82 +768,61 @@ Payment Success ✅
 <br><br>
 
 TXID:
-<br>
 ${txid}
 
 <br><br>
 
 1000 LOLA Purchased 🚀
 
-`)
-
-}else{
-
-setStatus(`
-Complete failed ❌
-<br><br>
-${JSON.stringify(data)}
-`)
-
-}
-
-}catch(err){
-
-console.log(err)
-
-setStatus(
-'Complete server error ❌'
-)
-
-}
+`);
 
 },
 
-/* ======================
-CANCEL
-====================== */
-
-onCancel:function(paymentId){
-
-console.log(
-'PAYMENT CANCEL'
-)
-
-console.log(paymentId)
+onCancel:function(){
 
 setStatus(
-'Payment cancelled ❌'
-)
+"Payment Cancelled ❌"
+);
 
 },
-
-/* ======================
-ERROR
-====================== */
 
 onError:function(error){
 
-console.log(
-'PAYMENT ERROR'
-)
+console.log(error);
 
-console.log(error)
-
-setStatus(`
-
-Payment Error ❌
-
-<br><br>
-
-${JSON.stringify(error)}
-
-`)
+setStatus(
+"Payment Error ❌"
+);
 
 }
 
-})
+});
 
 }
+
+/* =========================
+CLAIM
+========================= */
+
+function claimLOLA(){
+
+if(!currentUser){
+
+alert(
+"Connect wallet first"
+);
+
+return;
+
+}
+
+setStatus(
+"Claim Success 🚀"
+);
+
+}
+
 </script>
+
 </body>
 </html>
