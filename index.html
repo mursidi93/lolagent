@@ -11,7 +11,6 @@
 
 <style>
 
-/* ================= BASE ================= */
 *{
 margin:0;
 padding:0;
@@ -26,22 +25,8 @@ min-height:100vh;
 padding:20px;
 }
 
-/* ================= BACKGROUND ================= */
-.bg1,.bg2{
-position:fixed;
-width:500px;
-height:500px;
-filter:blur(180px);
-opacity:0.12;
-z-index:0;
-}
-.bg1{background:#38bdf8;top:-150px;right:-100px;}
-.bg2{background:#7c3aed;bottom:-150px;left:-100px;}
-
-/* ================= CONTAINER ================= */
+/* CONTAINER */
 .container{
-position:relative;
-z-index:1;
 max-width:950px;
 margin:auto;
 background:rgba(255,255,255,0.05);
@@ -51,38 +36,28 @@ border-radius:28px;
 padding:30px;
 }
 
-/* ================= NAVBAR (KEPT) ================= */
+/* NAVBAR */
 .navbar{
 display:flex;
 justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
 flex-wrap:wrap;
-gap:15px;
+margin-bottom:20px;
 }
 
-.logo-text{
-font-size:26px;
-font-weight:bold;
+.logo{
 color:#38bdf8;
-letter-spacing:2px;
-}
-
-.nav-menu{
-display:flex;
-gap:15px;
-flex-wrap:wrap;
-}
-
-.nav-menu a{
-color:#cbd5e1;
-text-decoration:none;
+font-size:22px;
 font-weight:bold;
-font-size:14px;
 }
-.nav-menu a:hover{color:#38bdf8;}
 
-/* ================= HERO ================= */
+.nav a{
+color:#cbd5e1;
+margin-right:10px;
+text-decoration:none;
+font-size:13px;
+}
+
+/* HERO */
 .hero{
 text-align:center;
 margin-bottom:20px;
@@ -90,80 +65,67 @@ margin-bottom:20px;
 
 .hero h1{
 color:#38bdf8;
-font-size:40px;
+font-size:36px;
 }
 
-.subtitle{
-color:#cbd5e1;
-margin-top:10px;
-}
-
-/* ================= PANELS ================= */
+/* GRID */
 .grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:15px;
+gap:12px;
 margin-top:20px;
 }
 
 .card{
 background:#1e293b;
-padding:15px;
-border-radius:14px;
+padding:12px;
+border-radius:12px;
 border:1px solid #334155;
 }
 
 .value{
 color:#22c55e;
 font-weight:bold;
-margin-top:8px;
+margin-top:6px;
 }
 
-/* ================= BUTTONS SMALL ================= */
+/* BUTTON */
 .btn{
-border:none;
 padding:10px 14px;
 border-radius:10px;
-font-size:13px;
-font-weight:bold;
+border:none;
 cursor:pointer;
-margin-top:8px;
-transition:0.2s;
+font-weight:bold;
+margin:6px;
+font-size:13px;
 }
 
-.btn:hover{transform:scale(1.05);}
-
-.btn-pi{background:#fbbf24;color:black;}
+.btn-pi{background:#fbbf24;}
 .btn-buy{background:#7c3aed;color:white;}
-.btn-claim{background:#22c55e;color:black;}
+.btn-claim{background:#22c55e;}
+.btn:hover{opacity:0.9}
 
-.disabled{
-opacity:0.5;
-cursor:not-allowed;
-}
-
-/* ================= LEADERBOARD ================= */
+/* LEADERBOARD */
 .leaderboard{
 margin-top:20px;
 background:#111827;
 padding:15px;
-border-radius:14px;
+border-radius:12px;
 border:1px solid #334155;
 }
 
-/* ================= FOOTER ================= */
+/* FOOTER */
 footer{
 margin-top:30px;
 text-align:center;
-color:#94a3b8;
 font-size:12px;
-line-height:1.8;
+color:#94a3b8;
 }
 
 footer a{
 color:#38bdf8;
+margin:0 6px;
 text-decoration:none;
-margin:0 8px;
 }
 
 </style>
@@ -172,35 +134,41 @@ margin:0 8px;
 
 <body>
 
-<div class="bg1"></div>
-<div class="bg2"></div>
-
 <div class="container">
 
-<!-- ================= NAVBAR ================= -->
+<!-- NAVBAR -->
 <div class="navbar">
-
-<div class="logo-text">LOOL AGENT</div>
-
-<div class="nav-menu">
+<div class="logo">LOOL AGENT</div>
+<div class="nav">
 <a href="/">Home</a>
 <a href="/claim.html">Faucet</a>
 <a href="/quest.html">Quest</a>
 <a href="/mining.html">Mining</a>
 <a href="/stake.html">Stake</a>
 <a href="/roadmap.html">Roadmap</a>
+<a href="/whitepaper.html">Whitepaper</a>
+</div>
 </div>
 
-</div>
-
-<!-- ================= HERO ================= -->
 <div class="hero">
-<h1>GIVE AWAY 100.000.000 LOLA</h1>
-<p class="subtitle">How to Join</p>
+<img class="logo" src="logo.png" alt="LOLAGENT"/>
+
+<!-- HERO -->
+<div class="hero">
+<h2>GIVE AWAY 100.000.000 LOLA</h2>
+
 </div>
 
-<!-- ================= ACTION ================= -->
+<!-- ACTION BUTTONS (ALL CLICKABLE) -->
 <div style="text-align:center">
+
+<button class="btn btn-pi" onclick="followX()">
+Follow X
+</button>
+
+<button class="btn btn-pi" onclick="joinTG()">
+Join Telegram
+</button>
 
 <button class="btn btn-pi" onclick="loginPi()">
 Connect Pi Wallet
@@ -208,17 +176,22 @@ Connect Pi Wallet
 
 <br>
 
-<button id="buyBtn" class="btn btn-buy disabled" disabled onclick="buyLOLA()">
+<button class="btn btn-buy" onclick="buyLOLA()">
 Buy 1 PI = 1000 LOLA
 </button>
 
-<button id="claimBtn" class="btn btn-claim disabled" disabled>
+<button class="btn btn-claim" onclick="claimLOLA()">
 Claim LOLA
 </button>
 
 </div>
 
-<!-- ================= ECONOMY ================= -->
+<!-- USER -->
+<div id="user-info" style="margin-top:15px;">
+Wallet not connected
+</div>
+
+<!-- ECONOMY -->
 <div class="grid">
 
 <div class="card">
@@ -243,39 +216,28 @@ Burned
 
 </div>
 
-<!-- ================= LEADERBOARD ================= -->
+<!-- LEADERBOARD -->
 <div class="leaderboard">
-<h3>🏆 Leaderboard Top 10</h3>
+<h3>🏆 Leaderboard</h3>
 <div id="leaderboard">Loading...</div>
 </div>
 
-<!-- ================= USER ================= -->
-<div style="margin-top:15px" id="user-info">
-Wallet not connected
-</div>
-
-<!-- ================= FOOTER ================= -->
+<!-- FOOTER -->
 <footer>
-
-<div>
 <a href="/terms.html">Terms</a>
 <a href="/privacy.html">Privacy</a>
-</div>
-
-<br>
-
+<br><br>
 © 2026 LOOL AGENT. All Rights Reserved.
-
 </footer>
 
 </div>
 
 <script>
 
-/* ================= SOCKET ================= */
+/* SOCKET */
 const socket = io();
 
-/* ================= REALTIME ECONOMY ================= */
+/* ECONOMY REALTIME */
 socket.on("economy:update",(eco)=>{
 document.getElementById("supply").innerText = eco.totalSupply.toLocaleString();
 document.getElementById("circulating").innerText = eco.circulating.toLocaleString();
@@ -283,7 +245,7 @@ document.getElementById("reward").innerText = eco.rewardPool.toLocaleString();
 document.getElementById("burned").innerText = eco.burned.toLocaleString();
 });
 
-/* ================= LEADERBOARD ================= */
+/* LEADERBOARD */
 socket.on("leaderboard:update",(data)=>{
 let html="";
 data.forEach((u,i)=>{
@@ -292,35 +254,49 @@ html += `#${i+1} ${u.userId} - ${u.mined} LOLA<br>`;
 document.getElementById("leaderboard").innerHTML = html;
 });
 
-/* ================= PI INIT ================= */
-Pi.init({ version:"2.0", sandbox:true });
+/* FLOW */
+let currentUser=null;
 
-let user=null;
-
-/* ================= LOGIN ================= */
-async function loginPi(){
-const auth = await Pi.authenticate(["username","payments","wallet_address"]);
-user=auth;
-
-document.getElementById("user-info").innerHTML =
-`User: ${auth.user.username} <br> Wallet: ${auth.user.wallet_address}`;
-
-document.getElementById("buyBtn").disabled=false;
-document.getElementById("buyBtn").classList.remove("disabled");
-
-document.getElementById("claimBtn").disabled=false;
-document.getElementById("claimBtn").classList.remove("disabled");
+/* FOLLOW X */
+function followX(){
+window.open("https://x.com/LolAgentAi","_blank");
 }
 
-/* ================= BUY ================= */
+/* JOIN TG */
+function joinTG(){
+window.open("https://t.me/LOLAgentHQ","_blank");
+}
+
+/* PI LOGIN */
+Pi.init({version:"2.0",sandbox:true});
+
+async function loginPi(){
+
+const auth = await Pi.authenticate(
+["username","payments","wallet_address"]
+);
+
+currentUser=auth;
+
+document.getElementById("user-info").innerHTML =
+`User: ${auth.user.username}<br>Wallet: ${auth.user.wallet_address}`;
+
+}
+
+/* BUY LOLA */
 function buyLOLA(){
+
+if(!currentUser){
+alert("Connect wallet first");
+return;
+}
 
 Pi.createPayment({
 amount:1,
 memo:"BUY LOLA",
 metadata:{type:"BUY"}
 },{
-onReadyForServerApproval: async (paymentId)=>{
+onReadyForServerApproval: async(paymentId)=>{
 
 await fetch("/api/approve",{
 method:"POST",
@@ -330,7 +306,7 @@ body:JSON.stringify({paymentId})
 
 },
 
-onReadyForServerCompletion: async (paymentId,txid)=>{
+onReadyForServerCompletion: async(paymentId,txid)=>{
 
 await fetch("/api/complete",{
 method:"POST",
@@ -338,11 +314,17 @@ headers:{"Content-Type":"application/json"},
 body:JSON.stringify({paymentId,txid})
 });
 
-alert("Purchase Success 🚀");
+alert("Success 🚀");
 
 }
+
 });
 
+}
+
+/* CLAIM */
+function claimLOLA(){
+alert("Claim system coming soon");
 }
 
 </script>
