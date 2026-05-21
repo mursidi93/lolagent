@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOLA ECONOMY V3</title>
-
+<title>LOL AGENT</title>
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
 <style>
@@ -219,13 +219,223 @@ function joinTG(){
 window.open("https://t.me/LOLAgentHQ","_blank");
 }
 
-function connectPi(){
-alert("Connect via Pi Browser SDK only");
+/* =========================
+PI SDK
+========================= */
+
+Pi.init({
+version:"2.0",
+sandbox:true
+});
+
+let currentUser = null;
+
+/* =========================
+STATUS
+========================= */
+
+function setStatus(text){
+
+document.getElementById(
+"statusBox"
+).innerHTML = text;
+
 }
 
-function buyLOLA(){
-alert("Connect backend /api/approve + /api/complete");
+/* =========================
+LOGIN PI
+========================= */
+
+async function loginPi(){
+
+try{
+
+setStatus(
+"Connecting Pi Wallet..."
+);
+
+const auth =
+await Pi.authenticate([
+"username",
+"payments",
+"wallet_address"
+]);
+
+currentUser = auth;
+
+document.getElementById(
+"user-info"
+).innerHTML = `
+
+Username:
+${auth.user.username}
+
+<br><br>
+
+Wallet:
+${auth.user.wallet_address}
+
+<br><br>
+
+Status:
+Connected ✅
+
+`;
+
+document.getElementById(
+"buyBtn"
+).disabled = false;
+
+document.getElementById(
+"claimBtn"
+).disabled = false;
+
+setStatus(
+"Pi Wallet Connected ✅"
+);
+
+}catch(err){
+
+console.log(err);
+
+setStatus(
+"Pi Login Failed ❌"
+);
+
 }
+
+}
+
+/* =========================
+BUY LOLA
+========================= */
+
+function buyLOLA(){
+
+if(!currentUser){
+
+alert(
+"Connect wallet first"
+);
+
+return;
+
+}
+
+setStatus(
+"Opening Pi Payment..."
+);
+
+Pi.createPayment({
+
+amount:1,
+
+memo:"BUY LOLA TOKEN",
+
+metadata:{
+type:"BUY_LOLA"
+}
+
+},{
+
+onReadyForServerApproval:
+async function(paymentId){
+
+await fetch("/api/approve",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+paymentId
+})
+
+});
+
+},
+
+onReadyForServerCompletion:
+async function(paymentId,txid){
+
+await fetch("/api/complete",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+paymentId,
+txid
+})
+
+});
+
+setStatus(`
+
+Payment Success ✅
+
+<br><br>
+
+TXID:
+${txid}
+
+<br><br>
+
+1000 LOLA Purchased 🚀
+
+`);
+
+},
+
+onCancel:function(){
+
+setStatus(
+"Payment Cancelled ❌"
+);
+
+},
+
+onError:function(error){
+
+console.log(error);
+
+setStatus(
+"Payment Error ❌"
+);
+
+}
+
+});
+
+}
+
+/* =========================
+CLAIM
+========================= */
+
+function claimLOLA(){
+
+if(!currentUser){
+
+alert(
+"Connect wallet first"
+);
+
+return;
+
+}
+
+setStatus(
+"Claim Success 🚀"
+);
+
+}
+
 
 /* INIT */
 loadEconomy();
