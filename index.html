@@ -239,6 +239,25 @@ Buy 1 PI = 1000 LOLA
 </div>
 </div>
 
+<!-- ===================== MINING SECTION ===================== -->
+<div id="mining" class="user-box">
+<h3>⛏️ Mining Engine</h3>
+<p id="mineBalance">Balance: 0 LOLA</p>
+<p id="mineRate">Rate: 1 LOLA / Hour</p>
+<button class="btn btn-green" onclick="startMining()">
+Start Mining
+</button>
+<button class="btn btn-purple" onclick="claimMining()">
+Claim Reward
+</button>
+</div>
+
+<!-- ===================== SUPPLY CHART ===================== -->
+<div id="supply" class="user-box">
+<h3>📊 Supply Chart</h3>
+<canvas id="supplyChart"></canvas>
+</div>
+
 <!-- USER -->
 <div class="user-box">
 <h3>Pi User</h3>
@@ -248,33 +267,6 @@ Buy 1 PI = 1000 LOLA
 <!-- STATUS -->
 <div class="status-box" id="statusBox">
 Waiting...
-</div>
-
-<!-- ===================== MINING SECTION ===================== -->
-<div id="mining" class="user-box">
-
-<h3>⛏️ Mining Engine</h3>
-
-<p id="mineBalance">Balance: 0 LOLA</p>
-<p id="mineRate">Rate: 1 LOLA / Hour</p>
-
-<button class="btn btn-green" onclick="startMining()">
-Start Mining
-</button>
-
-<button class="btn btn-purple" onclick="claimMining()">
-Claim Reward
-</button>
-
-</div>
-
-<!-- ===================== SUPPLY CHART ===================== -->
-<div id="supply" class="user-box">
-
-<h3>📊 Supply Chart</h3>
-
-<canvas id="supplyChart"></canvas>
-
 </div>
 
 
