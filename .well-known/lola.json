@@ -1,0 +1,10 @@
+{
+  "name": "LOL AGENT",
+  "symbol": "LOLA",
+  "description": "AI Agent for the Pioneer Generation",
+  "decimals": 18,
+  "logoURI": "https://lolagent-chi.vercel.app/logo.png",
+  "website": "https://lolagent-chi.vercel.app",
+  "chain": "X Layer",
+  "address": "0x8445c9B147dFfA71B2f5EA9cee1aB2b46c1CFB39"
+}
