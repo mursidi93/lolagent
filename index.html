@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
 <title>LOOL AGENT × Pi Network</title>
 
+<!-- PI SDK -->
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
+<!-- SOCKET -->
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+<!-- CHART -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -16,14 +30,25 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#0f172a,#111827,#1e293b);
+
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#111827,
+#1e293b
+);
+
 color:white;
 min-height:100vh;
 padding:20px;
 overflow-x:hidden;
 }
 
-/* background blur */
+/* =========================
+BACKGROUND
+========================= */
+
 .bg1,.bg2{
 position:fixed;
 width:500px;
@@ -32,22 +57,46 @@ filter:blur(180px);
 opacity:0.12;
 z-index:0;
 }
-.bg1{background:#38bdf8;top:-150px;right:-100px;}
-.bg2{background:#7c3aed;bottom:-150px;left:-100px;}
+
+.bg1{
+background:#38bdf8;
+top:-150px;
+right:-100px;
+}
+
+.bg2{
+background:#7c3aed;
+bottom:-150px;
+left:-100px;
+}
+
+/* =========================
+CONTAINER
+========================= */
 
 .container{
 position:relative;
 z-index:1;
 max-width:950px;
 margin:auto;
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.1);
+
+background:
+rgba(255,255,255,0.05);
+
+border:
+1px solid rgba(255,255,255,0.1);
+
 backdrop-filter:blur(10px);
+
 border-radius:28px;
+
 padding:40px;
 }
 
-/* NAVBAR */
+/* =========================
+NAVBAR
+========================= */
+
 .navbar{
 display:flex;
 justify-content:space-between;
@@ -73,54 +122,110 @@ flex-wrap:wrap;
 color:#cbd5e1;
 text-decoration:none;
 font-weight:bold;
+transition:0.3s;
 }
-.nav-menu a:hover{color:#38bdf8}
 
-/* HERO */
-.hero{text-align:center}
+.nav-menu a:hover{
+color:#38bdf8;
+}
+
+/* =========================
+HERO
+========================= */
+
+.hero{
+text-align:center;
+margin-bottom:25px;
+}
 
 h1{
 font-size:48px;
 color:#38bdf8;
+margin-bottom:10px;
 }
 
 .subtitle{
 color:#cbd5e1;
-margin-bottom:20px;
+font-size:18px;
 }
 
-/* reward */
+/* =========================
+REWARD BOX
+========================= */
+
 .reward-box{
-background:linear-gradient(135deg,#0ea5e9,#2563eb,#7c3aed);
+
+background:
+linear-gradient(
+135deg,
+#0ea5e9,
+#2563eb,
+#7c3aed
+);
+
 padding:25px;
 border-radius:20px;
 text-align:center;
 margin:25px 0;
+
+box-shadow:
+0 10px 30px rgba(37,99,235,0.3);
 }
 
-/* steps */
+.reward-box h2{
+font-size:36px;
+margin-bottom:10px;
+}
+
+/* =========================
+STEP
+========================= */
+
 .step{
+
 display:flex;
 gap:15px;
-background:rgba(255,255,255,0.05);
-padding:15px;
-border-radius:15px;
+
+background:
+rgba(255,255,255,0.05);
+
+padding:18px;
+
+border-radius:16px;
+
 margin-bottom:15px;
+
+border:
+1px solid rgba(255,255,255,0.08);
 }
 
 .step-number{
-width:40px;
-height:40px;
+width:42px;
+height:42px;
+
 background:#38bdf8;
 color:black;
+
 display:flex;
 align-items:center;
 justify-content:center;
+
 border-radius:50%;
+
 font-weight:bold;
+
+flex-shrink:0;
 }
 
-/* buttons */
+.step p{
+margin-bottom:10px;
+color:#e2e8f0;
+}
+
+/* =========================
+BUTTON
+========================= */
+
 .btn{
 padding:12px 18px;
 border:none;
@@ -130,36 +235,131 @@ font-weight:bold;
 transition:0.3s;
 }
 
-.btn:hover{transform:translateY(-3px)}
+.btn:hover{
+transform:translateY(-3px);
+}
 
-.btn-x{background:white;color:black}
-.btn-telegram{background:#229ED9;color:white}
-.btn-pi{background:#fbbf24;color:black}
-.btn-green{background:#22c55e;color:black}
-.btn-purple{background:#7c3aed;color:white}
+.btn-x{
+background:white;
+color:black;
+}
+
+.btn-telegram{
+background:#229ED9;
+color:white;
+}
+
+.btn-pi{
+background:#fbbf24;
+color:black;
+}
+
+.btn-green{
+background:#22c55e;
+color:black;
+}
+
+.btn-purple{
+background:#7c3aed;
+color:white;
+}
 
 .disabled{
 opacity:0.5;
 cursor:not-allowed;
 }
 
-/* boxes */
-.user-box,.status-box{
-background:rgba(255,255,255,0.05);
+/* =========================
+BOXES
+========================= */
+
+.user-box,
+.status-box{
+
+background:
+rgba(255,255,255,0.05);
+
 padding:20px;
-border-radius:15px;
+
+border-radius:16px;
+
 margin-top:20px;
+
+border:
+1px solid rgba(255,255,255,0.08);
+}
+
+.user-box h3{
+margin-bottom:15px;
+color:#38bdf8;
 }
 
 .status-box{
 background:#111827;
 word-break:break-word;
+line-height:1.7;
 }
 
+/* =========================
+MINING
+========================= */
+
+.mining-actions{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+margin-top:15px;
+}
+
+.stats-grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-top:20px;
+}
+
+.stat-card{
+
+background:
+rgba(255,255,255,0.04);
+
+padding:18px;
+
+border-radius:16px;
+
+border:
+1px solid rgba(255,255,255,0.08);
+}
+
+.stat-title{
+color:#94a3b8;
+margin-bottom:8px;
+}
+
+.stat-value{
+font-size:22px;
+font-weight:bold;
+}
+
+/* =========================
+CANVAS
+========================= */
+
+canvas{
+margin-top:20px;
+max-height:320px;
+}
+
+/* =========================
+FOOTER
+========================= */
+
 .footer{
-margin-top:30px;
+margin-top:40px;
 text-align:center;
 color:#94a3b8;
+line-height:1.8;
 }
 
 .footer a{
@@ -167,7 +367,42 @@ color:#38bdf8;
 margin:0 10px;
 text-decoration:none;
 }
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:768px){
+
+.container{
+padding:20px;
+}
+
+h1{
+font-size:34px;
+}
+
+.step{
+flex-direction:column;
+}
+
+.navbar{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.nav-menu{
+gap:10px;
+}
+
+.reward-box h2{
+font-size:28px;
+}
+
+}
+
 </style>
+
 </head>
 
 <body>
@@ -177,352 +412,1007 @@ text-decoration:none;
 
 <div class="container">
 
-<!-- NAVBAR (TIDAK DIHAPUS) -->
+<!-- =========================
+NAVBAR
+========================= -->
+
 <div class="navbar">
-<div class="logo-text">LOOL AGENT</div>
+
+<div class="logo-text">
+LOOL AGENT
+</div>
 
 <div class="nav-menu">
+
 <a href="/">Home</a>
-<a href="/claim.html">Faucet</a>
 <a href="/quest.html">Quest</a>
-<a href="/mining.html">Mining</a>
 <a href="/stake.html">Stake</a>
 <a href="/roadmap.html">Roadmap</a>
 <a href="/whitepaper.html">Whitepaper</a>
-</div>
+
 </div>
 
-<!-- HERO -->
+</div>
+
+<!-- =========================
+HERO
+========================= -->
+
 <div class="hero">
-<h1>LOOL AGENT GIVEAWAY</h1>
-<p class="subtitle">AI Agent × Pi Network</p>
+
+<h1>
+LOOL AGENT GIVEAWAY
+</h1>
+
+<p class="subtitle">
+AI Agent × Pi Network
+</p>
+
 </div>
 
-<!-- REWARD -->
+<!-- =========================
+REWARD
+========================= -->
+
 <div class="reward-box">
-<h2>100,000,000 LOLA</h2>
-<p>Exclusive giveaway for early pioneers 🚀</p>
+
+<h2>
+100,000,000 LOLA
+</h2>
+
+<p>
+Exclusive giveaway for early pioneers 🚀
+</p>
+
 </div>
 
-<!-- STEPS (FULL KEPT) -->
-<div class="step">
-<div class="step-number">1</div>
-<div>
-<p>Follow on X</p>
-<button class="btn btn-x" onclick="followX()">Follow</button>
-</div>
-</div>
+<!-- =========================
+STEP 1
+========================= -->
 
 <div class="step">
-<div class="step-number">2</div>
-<div>
-<p>Join Telegram</p>
-<button class="btn btn-telegram" onclick="joinTG()">Join</button>
-</div>
+
+<div class="step-number">
+1
 </div>
 
-<div class="step">
-<div class="step-number">3</div>
 <div>
-<p>Login Pi Wallet</p>
-<button class="btn btn-pi" onclick="loginPi()">Connect</button>
-</div>
+
+<p>
+Follow LOLAGENT on X
+</p>
+
+<button
+class="btn btn-x"
+onclick="followX()"
+>
+Follow
+</button>
+
 </div>
 
+</div>
+
+<!-- =========================
+STEP 2
+========================= -->
+
 <div class="step">
-<div class="step-number">4</div>
+
+<div class="step-number">
+2
+</div>
+
 <div>
-<p>Buy LOLA</p>
-<button id="buyBtn" class="btn btn-purple disabled" disabled onclick="buyLOLA()">
+
+<p>
+Join Telegram Community
+</p>
+
+<button
+class="btn btn-telegram"
+onclick="joinTG()"
+>
+Join
+</button>
+
+</div>
+
+</div>
+
+<!-- =========================
+STEP 3
+========================= -->
+
+<div class="step">
+
+<div class="step-number">
+3
+</div>
+
+<div>
+
+<p>
+Login Pi Wallet
+</p>
+
+<button
+class="btn btn-pi"
+onclick="loginPi()"
+>
+Connect Wallet
+</button>
+
+</div>
+
+</div>
+
+<!-- =========================
+STEP 4
+========================= -->
+
+<div class="step">
+
+<div class="step-number">
+4
+</div>
+
+<div>
+
+<p>
+Buy LOLA Token
+</p>
+
+<button
+id="buyBtn"
+class="btn btn-purple disabled"
+disabled
+onclick="buyLOLA()"
+>
 Buy 1 PI = 1000 LOLA
 </button>
+
 </div>
+
 </div>
+
+<!-- =========================
+STEP 5
+========================= -->
 
 <div class="step">
-<div class="step-number">5</div>
+
+<div class="step-number">
+5
+</div>
+
 <div>
-<p>Claim Faucet</p>
-<button id="claimBtn" class="btn btn-green disabled" disabled>
-Claim 100 LOLA
+
+<p>
+Check Wallet Balance
+</p>
+
+<button
+id="walletBtn"
+class="btn btn-green disabled"
+disabled
+onclick="loadWalletBalance()"
+>
+Load Balance
 </button>
-</div>
+
+<div
+id="walletBalance"
+style="
+margin-top:15px;
+line-height:1.8;
+color:#cbd5e1;
+"
+>
+Wallet not loaded
 </div>
 
-<!-- USER -->
+</div>
+
+</div>
+
+<!-- =========================
+USER BOX
+========================= -->
+
 <div class="user-box">
-<h3>Pi User</h3>
-<div id="userInfo">Not connected</div>
+
+<h3>
+Pi User Dashboard
+</h3>
+
+<div id="userInfo">
+Not connected
 </div>
 
-<!-- STATUS -->
-<div class="status-box" id="statusBox">
+</div>
+
+<!-- =========================
+STATUS
+========================= -->
+
+<div
+class="status-box"
+id="statusBox"
+>
 Waiting...
 </div>
 
-<!-- ===================== MINING SECTION ===================== -->
-<div id="mining" class="user-box">
+<!-- =========================
+MINING ENGINE
+========================= -->
 
-<h3>⛏️ Mining Engine</h3>
+<div class="user-box">
 
-<p id="mineBalance">Balance: 0 LOLA</p>
-<p id="mineRate">Rate: 1 LOLA / Hour</p>
+<h3>
+⛏️ Mining Engine
+</h3>
 
-<button class="btn btn-green" onclick="startMining()">
+<div class="stats-grid">
+
+<div class="stat-card">
+<div class="stat-title">
+Mining Balance
+</div>
+
+<div
+class="stat-value"
+id="mineBalance"
+>
+0 LOLA
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">
+Mining Rate
+</div>
+
+<div
+class="stat-value"
+id="mineRate"
+>
+1 LOLA / Hour
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">
+Mining Status
+</div>
+
+<div
+class="stat-value"
+id="mineStatus"
+>
+Inactive
+</div>
+</div>
+
+</div>
+
+<div class="mining-actions">
+
+<button
+class="btn btn-green"
+onclick="startMining()"
+>
 Start Mining
 </button>
 
-<button class="btn btn-purple" onclick="claimMining()">
+<button
+class="btn btn-purple"
+onclick="claimMining()"
+>
 Claim Reward
 </button>
 
 </div>
 
-<!-- ===================== SUPPLY CHART ===================== -->
-<div id="supply" class="user-box">
+</div>
 
-<h3>📊 Supply Chart</h3>
+<!-- =========================
+SUPPLY CHART
+========================= -->
+
+<div class="user-box">
+
+<h3>
+📊 LOLA Supply Chart
+</h3>
 
 <canvas id="supplyChart"></canvas>
 
 </div>
 
+<!-- =========================
+FOOTER
+========================= -->
 
-<!-- FOOTER -->
 <div class="footer">
-<a href="/terms.html">Terms</a>
-<a href="/privacy.html">Privacy</a>
-<br>
+
+<a href="/terms.html">
+Terms
+</a>
+
+<a href="/privacy.html">
+Privacy
+</a>
+
+<br><br>
+
 © 2026 LOOL AGENT
+
 </div>
 
 </div>
 
 <script>
 
-/* =====================
+/* =====================================================
 CONFIG
-===================== */
-const BASE_URL = "https://lolagent-backend-production.up.railway.app";
-let currentUser = null;
+===================================================== */
 
-/* =====================
-PI INIT
-===================== */
-Pi.init({ version:"2.0", sandbox:true });
+const BASE_URL =
+"https://lolagent-backend-production.up.railway.app";
+
+let currentUser = null;
+let mineBalance = 0;
+let miningActive = false;
+
+/* =====================================================
+SOCKET
+===================================================== */
+
+const socket = io(BASE_URL,{
+transports:["websocket"]
+});
+
+/* =====================================================
+PI SDK
+===================================================== */
+
+Pi.init({
+version:"2.0",
+sandbox:true
+});
+
+/* =====================================================
+STATUS
+===================================================== */
 
 function setStatus(msg){
-document.getElementById("statusBox").innerHTML = msg;
+
+document.getElementById(
+"statusBox"
+).innerHTML = msg;
+
 }
 
-/* =====================
-SOCIALS
-===================== */
+/* =====================================================
+SOCIAL
+===================================================== */
+
 function followX(){
-window.open("https://x.com/LolAgentAi","_blank");
-setStatus("Followed X ✅");
+
+window.open(
+"https://x.com/LolAgentAi",
+"_blank"
+);
+
+setStatus(
+"Followed X ✅"
+);
+
 }
 
 function joinTG(){
-window.open("https://t.me/LOLAgentHQ","_blank");
-setStatus("Joined Telegram ✅");
+
+window.open(
+"https://t.me/LOLAgentHQ",
+"_blank"
+);
+
+setStatus(
+"Joined Telegram ✅"
+);
+
 }
 
-/* =====================
-LOGIN PI (FIXED)
-===================== */
+/* =====================================================
+LOGIN PI
+===================================================== */
+
 async function loginPi(){
+
 try{
 
-setStatus("Connecting Pi...");
+setStatus(
+"Connecting Pi Wallet..."
+);
 
-const auth = await Pi.authenticate(
-["username","payments","wallet_address"],
+const auth =
+await Pi.authenticate(
+[
+"username",
+"payments",
+"wallet_address"
+],
 onIncompletePaymentFound
 );
 
 currentUser = auth;
 
-document.getElementById("userInfo").innerHTML = `
-Username: ${auth.user.username}<br>
-UID: ${auth.user.uid}<br>
-Wallet: ${auth.user.wallet_address}<br>
-Status: Connected ✅
+document.getElementById(
+"userInfo"
+).innerHTML = `
+
+Username:
+<b>${auth.user.username}</b>
+
+<br><br>
+
+UID:
+${auth.user.uid}
+
+<br><br>
+
+Wallet:
+<br>
+${auth.user.wallet_address}
+
+<br><br>
+
+Status:
+Connected ✅
+
 `;
 
-document.getElementById("buyBtn").disabled = false;
-document.getElementById("buyBtn").classList.remove("disabled");
+document
+.getElementById("buyBtn")
+.disabled = false;
 
-document.getElementById("claimBtn").disabled = false;
-document.getElementById("claimBtn").classList.remove("disabled");
+document
+.getElementById("buyBtn")
+.classList.remove("disabled");
 
-setStatus("Pi Connected ✅");
+document
+.getElementById("walletBtn")
+.disabled = false;
+
+document
+.getElementById("walletBtn")
+.classList.remove("disabled");
+
+setStatus(
+"Pi Wallet Connected ✅"
+);
 
 }catch(err){
+
 console.log(err);
-setStatus("Pi Login Failed ❌");
-}
+
+setStatus(
+"Pi Login Failed ❌"
+);
+
 }
 
-/* =====================
+}
+
+/* =====================================================
 INCOMPLETE PAYMENT
-===================== */
+===================================================== */
+
 function onIncompletePaymentFound(payment){
+
 console.log(payment);
+
 }
 
-/* =====================
-BUY LOLA (FIXED FLOW)
-===================== */
+/* =====================================================
+BUY LOLA
+===================================================== */
+
 function buyLOLA(){
 
 if(!currentUser){
-alert("Connect wallet first");
+
+alert(
+"Connect wallet first"
+);
+
 return;
+
 }
 
 Pi.createPayment({
-amount: 1,
-memo: "BUY LOLA",
-metadata: { type:"BUY_LOLA" }
+
+amount:1,
+
+memo:"BUY LOLA",
+
+metadata:{
+type:"BUY_LOLA"
+}
+
 },{
-onReadyForServerApproval: async function(paymentId){
+
+onReadyForServerApproval:
+async function(paymentId){
 
 try{
 
-setStatus("Approving...");
+setStatus(
+"Approving payment..."
+);
 
-const res = await fetch(`${BASE_URL}/api/pi/approve`,{
+const res =
+await fetch(
+`${BASE_URL}/api/pi/approve`,
+{
 method:"POST",
-headers:{ "Content-Type":"application/json" },
-body: JSON.stringify({ paymentId })
-});
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+paymentId
+})
+}
+);
 
-const data = await res.json();
+const data =
+await res.json();
 
-if(!data.success) throw new Error("Approve failed");
+if(!data.success){
 
-setStatus("Approved ✅");
+throw new Error(
+"Approve failed"
+);
+
+}
+
+setStatus(
+"Payment Approved ✅"
+);
 
 }catch(err){
+
 console.log(err);
-setStatus("Approve Error ❌");
+
+setStatus(
+"Approve Error ❌"
+);
+
 }
+
 },
 
-onReadyForServerCompletion: async function(paymentId, txid){
+onReadyForServerCompletion:
+async function(paymentId,txid){
 
 try{
 
-setStatus("Completing...");
+setStatus(
+"Completing payment..."
+);
 
-const res = await fetch(`${BASE_URL}/api/pi/complete`,{
+const res =
+await fetch(
+`${BASE_URL}/api/pi/complete`,
+{
 method:"POST",
-headers:{ "Content-Type":"application/json" },
-body: JSON.stringify({ paymentId, txid })
-});
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+paymentId,
+txid
+})
+}
+);
 
-const data = await res.json();
+const data =
+await res.json();
 
 if(data.success){
-setStatus(`Payment Success ✅<br><br>TXID:<br>${txid}<br><br>LOLA Sent 🚀`);
+
+setStatus(`
+
+Payment Success ✅
+
+<br><br>
+
+TXID:
+<br>
+${txid}
+
+<br><br>
+
+1000 LOLA Sent 🚀
+
+`);
+
 }else{
-setStatus("Complete Failed ❌");
+
+setStatus(
+"Complete Failed ❌"
+);
+
 }
 
 }catch(err){
+
 console.log(err);
-setStatus("Complete Error ❌");
+
+setStatus(
+"Complete Error ❌"
+);
+
 }
+
 },
 
 onCancel:function(){
-setStatus("Cancelled ❌");
+
+setStatus(
+"Payment Cancelled ❌"
+);
+
 },
 
 onError:function(err){
+
 console.log(err);
-setStatus("Payment Error ❌");
-}
-});
-}
-const socket = io(BASE_URL);
 
-let mineBalance = 0;
-let supply = 0;
+setStatus(
+"Payment Error ❌"
+);
 
-/* =====================
-CHART
-===================== */
-const chart = new Chart(document.getElementById("supplyChart"), {
-type: "line",
-data: {
-labels: [],
-datasets: [{
-label: "Total Supply",
-data: [],
-borderColor: "#22c55e",
-tension: 0.3
-}]
 }
+
 });
 
-/* =====================
-UPDATE UI
-===================== */
+}
+
+/* =====================================================
+LOAD WALLET
+===================================================== */
+
+async function loadWalletBalance(){
+
+if(!currentUser){
+
+alert(
+"Connect wallet first"
+);
+
+return;
+
+}
+
+try{
+
+setStatus(
+"Loading wallet..."
+);
+
+const wallet =
+currentUser.user.wallet_address;
+
+const res =
+await fetch(
+`${BASE_URL}/api/wallet/${wallet}`
+);
+
+const data =
+await res.json();
+
+document.getElementById(
+"walletBalance"
+).innerHTML = `
+
+🟡 PI Balance:
+<b>${data.piBalance || 0} PI</b>
+
+<br><br>
+
+🟣 LOLA Balance:
+<b>${data.lolaBalance || 0} LOLA</b>
+
+<br><br>
+
+Wallet:
+<br>
+${wallet}
+
+`;
+
+setStatus(
+"Wallet Loaded ✅"
+);
+
+}catch(err){
+
+console.log(err);
+
+setStatus(
+"Wallet Error ❌"
+);
+
+}
+
+}
+
+/* =====================================================
+MINING UI
+===================================================== */
+
 function updateMiningUI(){
-document.getElementById("mineBalance").innerText =
-"Balance: " + mineBalance.toFixed(4) + " LOLA";
+
+document.getElementById(
+"mineBalance"
+).innerHTML =
+`${mineBalance.toFixed(6)} LOLA`;
+
 }
 
-/* =====================
+/* =====================================================
 START MINING
-===================== */
+===================================================== */
+
 function startMining(){
-socket.emit("mining:start", {
-user: currentUser?.user?.username || "guest"
-});
-setStatus("Mining Started ⛏️");
+
+if(!currentUser){
+
+alert(
+"Connect wallet first"
+);
+
+return;
+
 }
 
-/* =====================
+if(miningActive){
+
+setStatus(
+"Mining already active ⛏️"
+);
+
+return;
+
+}
+
+miningActive = true;
+
+document.getElementById(
+"mineStatus"
+).innerHTML =
+"Active ⛏️";
+
+socket.emit(
+"mining:start",
+{
+user:
+currentUser.user.username
+}
+);
+
+setStatus(
+"Mining Started ⛏️"
+);
+
+}
+
+/* =====================================================
 CLAIM MINING
-===================== */
-function claimMining(){
-socket.emit("mining:claim", {
-user: currentUser?.user?.username || "guest"
-});
-setStatus("Claim sent 💰");
+===================================================== */
+
+async function claimMining(){
+
+if(!currentUser){
+
+alert(
+"Connect wallet first"
+);
+
+return;
+
 }
 
-/* =====================
-SOCKET LIVE
-===================== */
-socket.on("mining:update", (data) => {
-if(data.balance !== undefined){
-mineBalance = data.balance;
+try{
+
+const res =
+await fetch(
+`${BASE_URL}/api/mining/claim`,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+user:
+currentUser.user.username
+})
+}
+);
+
+const data =
+await res.json();
+
+if(data.success){
+
+mineBalance =
+data.balance || 0;
+
 updateMiningUI();
+
+setStatus(`
+
+Mining Claimed ✅
+
+<br><br>
+
+Reward:
+${data.reward} LOLA
+
+`);
+
+}else{
+
+setStatus(
+"Claim Failed ❌"
+);
+
 }
+
+}catch(err){
+
+console.log(err);
+
+setStatus(
+"Claim Error ❌"
+);
+
+}
+
+}
+
+/* =====================================================
+SOCKET MINING UPDATE
+===================================================== */
+
+socket.on(
+"mining:update",
+(data)=>{
+
+if(
+currentUser &&
+data.user ===
+currentUser.user.username
+){
+
+mineBalance =
+data.balance || 0;
+
+updateMiningUI();
+
+}
+
+}
+);
+
+/* =====================================================
+SUPPLY CHART
+===================================================== */
+
+const ctx =
+document.getElementById(
+"supplyChart"
+);
+
+const chart =
+new Chart(ctx,{
+
+type:"line",
+
+data:{
+labels:[],
+
+datasets:[{
+
+label:"LOLA Supply",
+
+data:[],
+
+borderColor:"#22c55e",
+
+backgroundColor:
+"rgba(34,197,94,0.2)",
+
+fill:true,
+
+tension:0.3
+
+}]
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+legend:{
+labels:{
+color:"white"
+}
+}
+},
+
+scales:{
+
+x:{
+ticks:{
+color:"white"
+}
+},
+
+y:{
+ticks:{
+color:"white"
+}
+}
+
+}
+
+}
+
 });
 
-/* supply stream */
-socket.on("economy:update", (data) => {
+/* =====================================================
+SUPPLY LIVE
+===================================================== */
+
+socket.on(
+"economy:update",
+(data)=>{
+
 if(!data.supply) return;
 
-supply = data.supply;
+const time =
+new Date()
+.toLocaleTimeString();
 
-const time = new Date().toLocaleTimeString();
+chart.data.labels.push(
+time
+);
 
-chart.data.labels.push(time);
-chart.data.datasets[0].data.push(supply);
+chart.data.datasets[0]
+.data.push(
+data.supply
+);
 
-if(chart.data.labels.length > 25){
+if(
+chart.data.labels.length > 20
+){
+
 chart.data.labels.shift();
-chart.data.datasets[0].data.shift();
+
+chart.data.datasets[0]
+.data.shift();
+
 }
 
 chart.update();
-});
+
+}
+);
+
 </script>
 
 </body>
