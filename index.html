@@ -1,236 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8" />
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOLA ECONOMY V3</title>
 
-<title>LOOL AGENT × Pi Network</title>
-
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
 body{
-background:
-linear-gradient(
-135deg,
-#0f172a,
-#111827,
-#1e293b
-);
+background:#0f172a;
 color:white;
-min-height:100vh;
+font-family:Arial;
 padding:20px;
 }
 
-/* CONTAINER */
 .container{
-max-width:1100px;
+max-width:900px;
 margin:auto;
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.1);
-backdrop-filter:blur(10px);
-border-radius:28px;
-padding:30px;
 }
 
-/* NAVBAR */
+/* NAV */
 .navbar{
 display:flex;
 justify-content:space-between;
 align-items:center;
-flex-wrap:wrap;
-gap:15px;
-margin-bottom:25px;
+margin-bottom:20px;
+padding:10px;
+background:#111827;
+border-radius:12px;
+}
+
+.navbar a{
+color:#cbd5e1;
+margin:0 8px;
+text-decoration:none;
+font-size:13px;
 }
 
 .logo-img{
-width:85px;
-height:85px;
+width:45px;
+height:45px;
 border-radius:50%;
-object-fit:cover;
-border:3px solid #38bdf8;
-box-shadow:
-0 0 18px rgba(56,189,248,0.5);
+border:2px solid #38bdf8;
 }
 
-.nav{
-display:flex;
-flex-wrap:wrap;
-gap:12px;
-}
-
-.nav a{
-color:#cbd5e1;
-text-decoration:none;
-font-size:13px;
-transition:0.3s;
-}
-
-.nav a:hover{
-color:#38bdf8;
-}
-
-/* HERO */
-.hero{
-text-align:center;
-margin-bottom:20px;
-}
-
-.hero h1{
-font-size:42px;
-color:#38bdf8;
-margin-top:10px;
-}
-
-.hero h2{
-color:#cbd5e1;
-margin-top:10px;
-font-size:20px;
-}
-
-/* BUTTONS */
-.buttons{
-text-align:center;
-margin-top:20px;
-margin-bottom:20px;
-}
-
-.btn{
-padding:10px 15px;
-border:none;
-border-radius:10px;
-font-weight:bold;
-cursor:pointer;
-margin:5px;
-font-size:13px;
-transition:0.3s;
-}
-
-.btn:hover{
-opacity:0.9;
-transform:translateY(-2px);
-}
-
-.btn-pi{
-background:#fbbf24;
-color:black;
-}
-
-.btn-buy{
-background:#7c3aed;
-color:white;
-}
-
-.btn-claim{
-background:#22c55e;
-color:black;
-}
-
-.btn:disabled{
-opacity:0.4;
-cursor:not-allowed;
-}
-
-/* USER */
-.user-box{
-background:#111827;
+/* CARD */
+.card{
+background:#1e293b;
 padding:15px;
-border-radius:15px;
-margin-top:20px;
+border-radius:12px;
+margin-bottom:10px;
 border:1px solid #334155;
-line-height:1.8;
+}
+
+/* 2 BARIS ECONOMY */
+.econ-title{
+font-size:13px;
+color:#94a3b8;
+}
+
+.value{
+color:#22c55e;
+font-size:22px;
+font-weight:bold;
+margin-top:5px;
 }
 
 /* GRID */
 .grid{
 display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-margin-top:25px;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
 }
 
-.card{
-background:#1e293b;
-padding:18px;
-border-radius:15px;
-border:1px solid #334155;
-}
-
-.card-title{
-font-size:14px;
-color:#94a3b8;
-margin-bottom:8px;
-}
-
-.value{
-font-size:22px;
+/* BUTTON */
+button{
+padding:10px 14px;
+margin:5px;
+border:none;
+border-radius:10px;
+cursor:pointer;
 font-weight:bold;
-color:#22c55e;
 }
 
-/* LEADERBOARD */
-.leaderboard{
-margin-top:25px;
-background:#111827;
-padding:20px;
-border-radius:15px;
-border:1px solid #334155;
+.blue{background:#38bdf8;}
+.green{background:#22c55e;}
+.purple{background:#7c3aed;color:white;}
+
+#leaderboard{
+margin-top:10px;
 }
-
-.leaderboard h3{
-margin-bottom:15px;
-color:#38bdf8;
-}
-
-/* STATUS */
-.status-box{
-margin-top:20px;
-background:#111827;
-padding:15px;
-border-radius:15px;
-border:1px solid #334155;
-color:#cbd5e1;
-line-height:1.7;
-}
-
-/* FOOTER */
-footer{
-margin-top:35px;
-text-align:center;
-font-size:12px;
-color:#94a3b8;
-}
-
-footer a{
-color:#38bdf8;
-margin:0 6px;
-text-decoration:none;
-}
-
-@media(max-width:600px){
-
-.hero h1{
-font-size:30px;
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
@@ -239,16 +100,9 @@ font-size:30px;
 
 <!-- NAVBAR -->
 <div class="navbar">
+<img class="logo-img" src="logo.png">
 
 <div>
-<img
-src="logo.png"
-class="logo-img"
-alt="LOLA"
-/>
-</div>
-
-<div class="nav">
 <a href="/">Home</a>
 <a href="/claim.html">Faucet</a>
 <a href="/quest.html">Quest</a>
@@ -257,570 +111,125 @@ alt="LOLA"
 <a href="/roadmap.html">Roadmap</a>
 <a href="/whitepaper.html">Whitepaper</a>
 </div>
-
 </div>
 
 <!-- HERO -->
-<div class="hero">
+<h1>LOLA ECONOMY V3 GOD MODE</h1>
 
-<h1>
-LOOL AGENT GIVEAWAY
-</h1>
+<button class="blue" onclick="followX()">Follow X</button>
+<button class="blue" onclick="joinTG()">Telegram</button>
+<button class="purple" onclick="connectPi()">Connect Pi</button>
+<button class="green" onclick="buyLOLA()">Buy 1 PI = 1000 LOLA</button>
 
-<h2>
-100,000,000 LOLA
-</h2>
+<hr>
 
-</div>
-
-<!-- BUTTON -->
-<div class="buttons">
-
-<button
-class="btn btn-pi"
-onclick="followX()"
->
-Follow X
-</button>
-
-<button
-class="btn btn-pi"
-onclick="joinTG()"
->
-Join Telegram
-</button>
-
-<button
-class="btn btn-pi"
-onclick="loginPi()"
->
-Connect Pi Wallet
-</button>
-
-<br>
-
-<button
-id="buyBtn"
-class="btn btn-buy"
-onclick="buyLOLA()"
-disabled
->
-Buy 1 PI = 1000 LOLA
-</button>
-
-<button
-id="claimBtn"
-class="btn btn-claim"
-onclick="claimLOLA()"
-disabled
->
-Claim LOLA
-</button>
-
-</div>
-
-<!-- USER -->
-<div
-id="user-info"
-class="user-box"
->
-Wallet not connected
-</div>
-
-<!-- ECONOMY -->
+<!-- ECONOMY GRID -->
 <div class="grid">
 
 <div class="card">
-<div class="card-title">
-Total Supply
-</div>
-<div class="value" id="supply">
-0
-</div>
+<div class="econ-title">TOTAL SUPPLY</div>
+<div class="value" id="totalSupply">0</div>
 </div>
 
 <div class="card">
-<div class="card-title">
-Circulating Supply
-</div>
-<div class="value" id="circulating">
-0
-</div>
+<div class="econ-title">CIRCULATING</div>
+<div class="value" id="circulating">0</div>
 </div>
 
 <div class="card">
-<div class="card-title">
-Locked Supply
-</div>
-<div class="value" id="locked">
-0
-</div>
+<div class="econ-title">LOCKED</div>
+<div class="value" id="locked">0</div>
 </div>
 
 <div class="card">
-<div class="card-title">
-Liquidity
-</div>
-<div class="value" id="liquidity">
-0
-</div>
+<div class="econ-title">LIQUIDITY</div>
+<div class="value" id="liquidity">0</div>
 </div>
 
 <div class="card">
-<div class="card-title">
-Reward Pool
-</div>
-<div class="value" id="reward">
-0
-</div>
+<div class="econ-title">REWARD POOL</div>
+<div class="value" id="rewardPool">0</div>
 </div>
 
 <div class="card">
-<div class="card-title">
-Burned
-</div>
-<div class="value" id="burned">
-0
-</div>
-</div>
-
-<div class="card">
-<div class="card-title">
-Price
-</div>
-<div class="value" id="price">
-0
-</div>
-</div>
-
-<div class="card">
-<div class="card-title">
-Market Cap
-</div>
-<div class="value" id="marketcap">
-0
-</div>
+<div class="econ-title">BURNED</div>
+<div class="value" id="burned">0</div>
 </div>
 
 </div>
 
 <!-- LEADERBOARD -->
-<div class="leaderboard">
-
-<h3>
-🏆 TOP MINERS
-</h3>
-
-<div id="leaderboard">
-Loading...
+<div class="card">
+<h3>🏆 Leaderboard</h3>
+<div id="leaderboard">Loading...</div>
 </div>
-
-</div>
-
-<!-- STATUS -->
-<div
-class="status-box"
-id="statusBox"
->
-System Ready 🚀
-</div>
-
-<!-- FOOTER -->
-<footer>
-
-<a href="/terms.html">
-Terms
-</a>
-
-<a href="/privacy.html">
-Privacy
-</a>
-
-<br><br>
-
-© 2026 LOOL AGENT.
-All Rights Reserved.
-
-</footer>
 
 </div>
 
 <script>
 
-/* =========================
-SOCKET
-========================= */
+const API = "https://lolagent-backend-production.up.railway.app";
+const socket = io(API);
 
-const socket = io();
-
-/* =========================
-REALTIME ECONOMY
-========================= */
-
-socket.on("economy:update",(eco)=>{
-
-document.getElementById("supply")
-.innerText =
-eco.totalSupply.toLocaleString();
-
-document.getElementById("circulating")
-.innerText =
-eco.circulating.toLocaleString();
-
-document.getElementById("locked")
-.innerText =
-eco.locked.toLocaleString();
-
-document.getElementById("liquidity")
-.innerText =
-eco.liquidity.toLocaleString();
-
-document.getElementById("reward")
-.innerText =
-eco.rewardPool.toLocaleString();
-
-document.getElementById("burned")
-.innerText =
-eco.burned.toLocaleString();
-
-document.getElementById("price")
-.innerText =
-"$" + eco.price;
-
-document.getElementById("marketcap")
-.innerText =
-"$" + eco.marketCap.toLocaleString();
-
-});
-
-/* =========================
-LEADERBOARD
-========================= */
-
-socket.on("leaderboard:update",(data)=>{
-
-let html = "";
-
-data.forEach((u,i)=>{
-
-html += `
-<div style="margin-bottom:8px;">
-#${i+1}
-${u.userId}
-—
-${u.mined}
-LOLA
-</div>
-`;
-
-});
-
-document.getElementById(
-"leaderboard"
-).innerHTML = html;
-
-});
-
-/* =========================
-LOAD ECONOMY API
-========================= */
-
+/* LOAD ECONOMY (fallback REST) */
 async function loadEconomy(){
-
 try{
-
-const res =
-await fetch("/api/dashboard");
-
-const data =
-await res.json();
+const res = await fetch(API + "/api/dashboard");
+const data = await res.json();
 
 const eco = data.economy;
 
-document.getElementById("supply")
-.innerText =
-eco.totalSupply.toLocaleString();
+renderEco(eco);
 
-document.getElementById("circulating")
-.innerText =
-eco.circulating.toLocaleString();
-
-document.getElementById("locked")
-.innerText =
-eco.locked.toLocaleString();
-
-document.getElementById("liquidity")
-.innerText =
-eco.liquidity.toLocaleString();
-
-document.getElementById("reward")
-.innerText =
-eco.rewardPool.toLocaleString();
-
-document.getElementById("burned")
-.innerText =
-eco.burned.toLocaleString();
-
-document.getElementById("price")
-.innerText =
-"$" + eco.price;
-
-document.getElementById("marketcap")
-.innerText =
-"$" + eco.marketCap.toLocaleString();
-
-}catch(err){
-
-console.log(err);
-
+}catch(e){
+console.log("API error",e);
+}
 }
 
+/* RENDER ECONOMY */
+function renderEco(eco){
+document.getElementById("totalSupply").innerText = eco.totalSupply.toLocaleString();
+document.getElementById("circulating").innerText = eco.circulating.toLocaleString();
+document.getElementById("locked").innerText = eco.locked.toLocaleString();
+document.getElementById("liquidity").innerText = eco.liquidity.toLocaleString();
+document.getElementById("rewardPool").innerText = eco.rewardPool.toLocaleString();
+document.getElementById("burned").innerText = eco.burned.toLocaleString();
 }
 
-loadEconomy();
+/* SOCKET LIVE UPDATE */
+socket.on("economy:update",(eco)=>{
+renderEco(eco);
+});
 
-/* =========================
-FOLLOW X
-========================= */
+/* LEADERBOARD */
+socket.on("leaderboard:update",(data)=>{
+let html="";
+data.forEach((u,i)=>{
+html += `#${i+1} ${u.userId} - ${u.mined} LOLA<br>`;
+});
+document.getElementById("leaderboard").innerHTML = html;
+});
 
+/* ACTION */
 function followX(){
-
-window.open(
-"https://x.com/LolAgentAi",
-"_blank"
-);
-
+window.open("https://x.com/LolAgentAi","_blank");
 }
-
-/* =========================
-JOIN TG
-========================= */
 
 function joinTG(){
-
-window.open(
-"https://t.me/LOLAgentHQ",
-"_blank"
-);
-
+window.open("https://t.me/LOLAgentHQ","_blank");
 }
 
-/* =========================
-PI SDK
-========================= */
-
-Pi.init({
-version:"2.0",
-sandbox:true
-});
-
-let currentUser = null;
-
-/* =========================
-STATUS
-========================= */
-
-function setStatus(text){
-
-document.getElementById(
-"statusBox"
-).innerHTML = text;
-
+function connectPi(){
+alert("Connect via Pi Browser SDK only");
 }
-
-/* =========================
-LOGIN PI
-========================= */
-
-async function loginPi(){
-
-try{
-
-setStatus(
-"Connecting Pi Wallet..."
-);
-
-const auth =
-await Pi.authenticate([
-"username",
-"payments",
-"wallet_address"
-]);
-
-currentUser = auth;
-
-document.getElementById(
-"user-info"
-).innerHTML = `
-
-Username:
-${auth.user.username}
-
-<br><br>
-
-Wallet:
-${auth.user.wallet_address}
-
-<br><br>
-
-Status:
-Connected ✅
-
-`;
-
-document.getElementById(
-"buyBtn"
-).disabled = false;
-
-document.getElementById(
-"claimBtn"
-).disabled = false;
-
-setStatus(
-"Pi Wallet Connected ✅"
-);
-
-}catch(err){
-
-console.log(err);
-
-setStatus(
-"Pi Login Failed ❌"
-);
-
-}
-
-}
-
-/* =========================
-BUY LOLA
-========================= */
 
 function buyLOLA(){
-
-if(!currentUser){
-
-alert(
-"Connect wallet first"
-);
-
-return;
-
+alert("Connect backend /api/approve + /api/complete");
 }
 
-setStatus(
-"Opening Pi Payment..."
-);
-
-Pi.createPayment({
-
-amount:1,
-
-memo:"BUY LOLA TOKEN",
-
-metadata:{
-type:"BUY_LOLA"
-}
-
-},{
-
-onReadyForServerApproval:
-async function(paymentId){
-
-await fetch("/api/approve",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-paymentId
-})
-
-});
-
-},
-
-onReadyForServerCompletion:
-async function(paymentId,txid){
-
-await fetch("/api/complete",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-paymentId,
-txid
-})
-
-});
-
-setStatus(`
-
-Payment Success ✅
-
-<br><br>
-
-TXID:
-${txid}
-
-<br><br>
-
-1000 LOLA Purchased 🚀
-
-`);
-
-},
-
-onCancel:function(){
-
-setStatus(
-"Payment Cancelled ❌"
-);
-
-},
-
-onError:function(error){
-
-console.log(error);
-
-setStatus(
-"Payment Error ❌"
-);
-
-}
-
-});
-
-}
-
-/* =========================
-CLAIM
-========================= */
-
-function claimLOLA(){
-
-if(!currentUser){
-
-alert(
-"Connect wallet first"
-);
-
-return;
-
-}
-
-setStatus(
-"Claim Success 🚀"
-);
-
-}
+/* INIT */
+loadEconomy();
+setInterval(loadEconomy, 5000);
 
 </script>
 
