@@ -25,7 +25,6 @@ min-height:100vh;
 padding:20px;
 }
 
-/* CONTAINER */
 .container{
 max-width:950px;
 margin:auto;
@@ -36,7 +35,6 @@ border-radius:28px;
 padding:30px;
 }
 
-/* NAVBAR */
 .navbar{
 display:flex;
 justify-content:space-between;
@@ -51,7 +49,6 @@ border-radius:50%;
 object-fit:cover;
 border:3px solid #38bdf8;
 box-shadow:0 0 15px rgba(56,189,248,0.5);
-margin-bottom:10px;
 }
 
 .nav a{
@@ -61,7 +58,6 @@ text-decoration:none;
 font-size:13px;
 }
 
-/* HERO */
 .hero{
 text-align:center;
 margin-bottom:20px;
@@ -72,7 +68,6 @@ color:#38bdf8;
 font-size:36px;
 }
 
-/* GRID */
 .grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -93,7 +88,6 @@ font-weight:bold;
 margin-top:6px;
 }
 
-/* BUTTON */
 .btn{
 padding:10px 14px;
 border-radius:10px;
@@ -107,9 +101,8 @@ font-size:13px;
 .btn-pi{background:#fbbf24;}
 .btn-buy{background:#7c3aed;color:white;}
 .btn-claim{background:#22c55e;}
-.btn:hover{opacity:0.9}
+.btn:disabled{opacity:0.4;cursor:not-allowed;}
 
-/* LEADERBOARD */
 .leaderboard{
 margin-top:20px;
 background:#111827;
@@ -118,7 +111,6 @@ border-radius:12px;
 border:1px solid #334155;
 }
 
-/* FOOTER */
 footer{
 margin-top:30px;
 text-align:center;
@@ -140,8 +132,11 @@ text-decoration:none;
 
 <div class="container">
 
-<!-- NAVBAR -->
+<!-- NAV -->
 <div class="navbar">
+<div>
+<img class="logo-img" src="logo.png" />
+</div>
 
 <div class="nav">
 <a href="/">Home</a>
@@ -156,15 +151,11 @@ text-decoration:none;
 
 <!-- HERO -->
 <div class="hero">
-<img class="logo-img" src="logo.png" alt="LOLA COIN"/>
 <h1>LOOL AGENT GIVE AWAY</h1>
-<h2 style="color:#38bdf8;margin-top:5px;">
-100.000.000 LOLA
-</h2>
-
+<h2 style="color:#38bdf8">100.000.000 LOLA</h2>
 </div>
 
-<!-- ACTION BUTTONS (ALL CLICKABLE) -->
+<!-- BUTTONS -->
 <div style="text-align:center">
 
 <button class="btn btn-pi" onclick="followX()">
@@ -181,11 +172,11 @@ Connect Pi Wallet
 
 <br>
 
-<button class="btn btn-buy" onclick="buyLOLA()">
+<button id="buyBtn" class="btn btn-buy" onclick="buyLOLA()" disabled>
 Buy 1 PI = 1000 LOLA
 </button>
 
-<button class="btn btn-claim" onclick="claimLOLA()">
+<button id="claimBtn" class="btn btn-claim" onclick="claimLOLA()" disabled>
 Claim LOLA
 </button>
 
@@ -242,7 +233,7 @@ Burned
 /* SOCKET */
 const socket = io();
 
-/* ECONOMY REALTIME */
+/* ECONOMY */
 socket.on("economy:update",(eco)=>{
 document.getElementById("supply").innerText = eco.totalSupply.toLocaleString();
 document.getElementById("circulating").innerText = eco.circulating.toLocaleString();
@@ -259,32 +250,50 @@ html += `#${i+1} ${u.userId} - ${u.mined} LOLA<br>`;
 document.getElementById("leaderboard").innerHTML = html;
 });
 
-/* FLOW */
-let currentUser=null;
+/* STATE */
+let currentUser = null;
 
-/* FOLLOW X */
+/* FOLLOW */
 function followX(){
 window.open("https://x.com/LolAgentAi","_blank");
 }
 
-/* JOIN TG */
+/* TELEGRAM */
 function joinTG(){
 window.open("https://t.me/LOLAgentHQ","_blank");
 }
 
-/* PI LOGIN */
-Pi.init({version:"2.0",sandbox:true});
+/* ENABLE BUTTONS */
+function enableButtons(){
+document.getElementById("buyBtn").disabled = false;
+document.getElementById("claimBtn").disabled = false;
+}
 
+/* PI INIT */
+Pi.init({ version: "2.0", sandbox: true });
+
+/* LOGIN */
 async function loginPi(){
+
+try{
 
 const auth = await Pi.authenticate(
 ["username","payments","wallet_address"]
 );
 
-currentUser=auth;
+currentUser = auth;
 
 document.getElementById("user-info").innerHTML =
 `User: ${auth.user.username}<br>Wallet: ${auth.user.wallet_address}`;
+
+enableButtons();
+
+alert("Wallet Connected ✅");
+
+}catch(err){
+console.log(err);
+alert("Login failed ❌");
+}
 
 }
 
@@ -297,30 +306,35 @@ return;
 }
 
 Pi.createPayment({
-amount:1,
-memo:"BUY LOLA",
-metadata:{type:"BUY"}
+amount: 1,
+memo: "BUY LOLA",
+metadata: { type: "BUY_LOLA" }
 },{
 onReadyForServerApproval: async(paymentId)=>{
 
 await fetch("/api/approve",{
 method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({paymentId})
+headers:{ "Content-Type":"application/json" },
+body: JSON.stringify({ paymentId })
 });
 
 },
 
-onReadyForServerCompletion: async(paymentId,txid)=>{
+onReadyForServerCompletion: async(paymentId, txid)=>{
 
 await fetch("/api/complete",{
 method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({paymentId,txid})
+headers:{ "Content-Type":"application/json" },
+body: JSON.stringify({ paymentId, txid })
 });
 
-alert("Success 🚀");
+alert("BUY SUCCESS 🚀");
 
+},
+
+onError: (err)=>{
+console.log(err);
+alert("Payment error ❌");
 }
 
 });
