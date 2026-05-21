@@ -1,26 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8" />
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-/>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>LOOL AGENT × Pi Network</title>
 
-<!-- PI SDK -->
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
-<!-- SOCKET -->
-<script src="/socket.io/socket.io.js"></script>
-
-<!-- CHART -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -29,59 +16,35 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:
-linear-gradient(
-135deg,
-#0f172a,
-#111827,
-#1e293b
-);
-
+background:linear-gradient(135deg,#0f172a,#111827,#1e293b);
 color:white;
 min-height:100vh;
-padding:15px;
+padding:20px;
 overflow-x:hidden;
 }
 
-/* BG */
+/* background blur */
 .bg1,.bg2{
 position:fixed;
-width:400px;
-height:400px;
+width:500px;
+height:500px;
 filter:blur(180px);
 opacity:0.12;
 z-index:0;
 }
+.bg1{background:#38bdf8;top:-150px;right:-100px;}
+.bg2{background:#7c3aed;bottom:-150px;left:-100px;}
 
-.bg1{
-background:#38bdf8;
-top:-150px;
-right:-100px;
-}
-
-.bg2{
-background:#7c3aed;
-bottom:-150px;
-left:-100px;
-}
-
-/* CONTAINER */
 .container{
 position:relative;
 z-index:1;
-max-width:1100px;
+max-width:950px;
 margin:auto;
-
-background:
-rgba(255,255,255,0.05);
-
-border:
-1px solid rgba(255,255,255,0.08);
-
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
 backdrop-filter:blur(10px);
-
-border-radius:25px;
-padding:25px;
+border-radius:28px;
+padding:40px;
 }
 
 /* NAVBAR */
@@ -90,7 +53,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 flex-wrap:wrap;
-gap:15px;
+gap:20px;
 margin-bottom:30px;
 }
 
@@ -110,66 +73,36 @@ flex-wrap:wrap;
 color:#cbd5e1;
 text-decoration:none;
 font-weight:bold;
-font-size:14px;
 }
-
-.nav-menu a:hover{
-color:#38bdf8;
-}
+.nav-menu a:hover{color:#38bdf8}
 
 /* HERO */
-.hero{
-text-align:center;
-margin-bottom:25px;
-}
+.hero{text-align:center}
 
-.hero h1{
-font-size:42px;
+h1{
+font-size:48px;
 color:#38bdf8;
 }
 
 .subtitle{
 color:#cbd5e1;
-margin-top:10px;
+margin-bottom:20px;
 }
 
-/* BOX */
-.box{
-background:
-rgba(255,255,255,0.05);
-
-padding:20px;
-border-radius:18px;
-margin-top:20px;
-
-border:
-1px solid rgba(255,255,255,0.06);
-}
-
-/* REWARD */
+/* reward */
 .reward-box{
-background:
-linear-gradient(
-135deg,
-#0ea5e9,
-#2563eb,
-#7c3aed
-);
-
+background:linear-gradient(135deg,#0ea5e9,#2563eb,#7c3aed);
 padding:25px;
 border-radius:20px;
 text-align:center;
-margin:20px 0;
+margin:25px 0;
 }
 
-/* STEP */
+/* steps */
 .step{
 display:flex;
 gap:15px;
-
-background:
-rgba(255,255,255,0.04);
-
+background:rgba(255,255,255,0.05);
 padding:15px;
 border-radius:15px;
 margin-bottom:15px;
@@ -178,138 +111,63 @@ margin-bottom:15px;
 .step-number{
 width:40px;
 height:40px;
-border-radius:50%;
 background:#38bdf8;
 color:black;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
+border-radius:50%;
 font-weight:bold;
 }
 
-/* BUTTON */
+/* buttons */
 .btn{
 padding:12px 18px;
 border:none;
 border-radius:12px;
 cursor:pointer;
 font-weight:bold;
-margin-top:10px;
+transition:0.3s;
 }
 
-.btn-x{
-background:white;
-color:black;
-}
+.btn:hover{transform:translateY(-3px)}
 
-.btn-telegram{
-background:#229ED9;
-color:white;
-}
-
-.btn-pi{
-background:#fbbf24;
-color:black;
-}
-
-.btn-purple{
-background:#7c3aed;
-color:white;
-}
-
-.btn-green{
-background:#22c55e;
-color:black;
-}
+.btn-x{background:white;color:black}
+.btn-telegram{background:#229ED9;color:white}
+.btn-pi{background:#fbbf24;color:black}
+.btn-green{background:#22c55e;color:black}
+.btn-purple{background:#7c3aed;color:white}
 
 .disabled{
 opacity:0.5;
 cursor:not-allowed;
 }
 
-/* STATS */
-.stats{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(180px,1fr));
-
-gap:15px;
-margin-top:20px;
-}
-
-.card{
-background:
-rgba(255,255,255,0.04);
-
-padding:20px;
-border-radius:18px;
-text-align:center;
-}
-
-.card h3{
-color:#94a3b8;
-font-size:14px;
-margin-bottom:10px;
-}
-
-.card p{
-font-size:22px;
-font-weight:bold;
-}
-
-/* STATUS */
-.status-box{
-background:#111827;
+/* boxes */
+.user-box,.status-box{
+background:rgba(255,255,255,0.05);
 padding:20px;
 border-radius:15px;
 margin-top:20px;
+}
+
+.status-box{
+background:#111827;
 word-break:break-word;
 }
 
-/* CHART */
-canvas{
-margin-top:20px;
-background:#0f172a;
-padding:10px;
-border-radius:15px;
-width:100% !important;
-height:300px !important;
-}
-
-/* FOOTER */
 .footer{
 margin-top:30px;
 text-align:center;
 color:#94a3b8;
-font-size:14px;
 }
 
-/* MOBILE */
-@media(max-width:768px){
-
-.hero h1{
-font-size:32px;
+.footer a{
+color:#38bdf8;
+margin:0 10px;
+text-decoration:none;
 }
-
-.navbar{
-flex-direction:column;
-align-items:flex-start;
-}
-
-.step{
-flex-direction:column;
-}
-
-canvas{
-height:250px !important;
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
@@ -319,15 +177,11 @@ height:250px !important;
 
 <div class="container">
 
-<!-- NAVBAR -->
+<!-- NAVBAR (TIDAK DIHAPUS) -->
 <div class="navbar">
-
-<div class="logo-text">
-LOOL AGENT
-</div>
+<div class="logo-text">LOOL AGENT</div>
 
 <div class="nav-menu">
-
 <a href="/">Home</a>
 <a href="/claim.html">Faucet</a>
 <a href="/quest.html">Quest</a>
@@ -335,477 +189,340 @@ LOOL AGENT
 <a href="/stake.html">Stake</a>
 <a href="/roadmap.html">Roadmap</a>
 <a href="/whitepaper.html">Whitepaper</a>
-
 </div>
-
 </div>
 
 <!-- HERO -->
 <div class="hero">
-
-<h1>
-LOOL AGENT GIVEAWAY
-</h1>
-
-<p class="subtitle">
-AI Agent × Pi Network
-</p>
-
+<h1>LOOL AGENT GIVEAWAY</h1>
+<p class="subtitle">AI Agent × Pi Network</p>
 </div>
 
 <!-- REWARD -->
 <div class="reward-box">
-
-<h2>
-100,000,000 LOLA
-</h2>
-
-<p>
-Exclusive giveaway for early pioneers 🚀
-</p>
-
+<h2>100,000,000 LOLA</h2>
+<p>Exclusive giveaway for early pioneers 🚀</p>
 </div>
 
-<!-- STEPS -->
-
+<!-- STEPS (FULL KEPT) -->
 <div class="step">
-
-<div class="step-number">
-1
-</div>
-
+<div class="step-number">1</div>
 <div>
-
-<p>
-Follow on X
-</p>
-
-<button
-class="btn btn-x"
-onclick="followX()"
->
-Follow
-</button>
-
+<p>Follow on X</p>
+<button class="btn btn-x" onclick="followX()">Follow</button>
 </div>
-
 </div>
 
 <div class="step">
-
-<div class="step-number">
-2
-</div>
-
+<div class="step-number">2</div>
 <div>
-
-<p>
-Join Telegram
-</p>
-
-<button
-class="btn btn-telegram"
-onclick="joinTG()"
->
-Join
-</button>
-
+<p>Join Telegram</p>
+<button class="btn btn-telegram" onclick="joinTG()">Join</button>
 </div>
-
 </div>
 
 <div class="step">
-
-<div class="step-number">
-3
-</div>
-
+<div class="step-number">3</div>
 <div>
-
-<p>
-Login Pi Wallet
-</p>
-
-<button
-class="btn btn-pi"
-onclick="loginPi()"
->
-Connect
-</button>
-
+<p>Login Pi Wallet</p>
+<button class="btn btn-pi" onclick="loginPi()">Connect</button>
 </div>
-
 </div>
 
 <div class="step">
-
-<div class="step-number">
-4
-</div>
-
+<div class="step-number">4</div>
 <div>
-
-<p>
-Buy LOLA
-</p>
-
-<button
-id="buyBtn"
-class="btn btn-purple disabled"
-disabled
-onclick="buyLOLA()"
->
+<p>Buy LOLA</p>
+<button id="buyBtn" class="btn btn-purple disabled" disabled onclick="buyLOLA()">
 Buy 1 PI = 1000 LOLA
 </button>
-
+</div>
 </div>
 
+<div class="step">
+<div class="step-number">5</div>
+<div>
+<p>Claim Faucet</p>
+<button id="claimBtn" class="btn btn-green disabled" disabled>
+Claim 100 LOLA
+</button>
+</div>
 </div>
 
 <!-- USER -->
-<div class="box">
-
-<h3>
-Pi User
-</h3>
-
-<div id="userInfo">
-Not connected
+<div class="user-box">
+<h3>Pi User</h3>
+<div id="userInfo">Not connected</div>
 </div>
 
+<!-- STATUS -->
+<div class="status-box" id="statusBox">
+Waiting...
 </div>
 
-<!-- MINING -->
-<div class="box">
+<!-- ===================== MINING SECTION ===================== -->
+<div id="mining" class="user-box">
 
-<h3>
-⛏️ Mining Dashboard
-</h3>
+<h3>⛏️ Mining Engine</h3>
 
-<div class="stats">
+<p id="mineBalance">Balance: 0 LOLA</p>
+<p id="mineRate">Rate: 1 LOLA / Hour</p>
 
-<div class="card">
-<h3>Balance</h3>
-<p id="mineBalance">0</p>
-</div>
-
-<div class="card">
-<h3>Mining Rate</h3>
-<p>1/h</p>
-</div>
-
-<div class="card">
-<h3>Total Supply</h3>
-<p id="supplyValue">0</p>
-</div>
-
-</div>
-
-<button
-class="btn btn-green"
-onclick="startMining()"
->
+<button class="btn btn-green" onclick="startMining()">
 Start Mining
 </button>
 
-<button
-class="btn btn-purple"
-onclick="claimMining()"
->
+<button class="btn btn-purple" onclick="claimMining()">
 Claim Reward
 </button>
 
 </div>
 
-<!-- SUPPLY CHART -->
-<div class="box">
+<!-- ===================== SUPPLY CHART ===================== -->
+<div id="supply" class="user-box">
 
-<h3>
-📊 LOLA Supply Chart
-</h3>
+<h3>📊 Supply Chart</h3>
 
 <canvas id="supplyChart"></canvas>
 
 </div>
 
-<!-- STATUS -->
-<div
-class="status-box"
-id="statusBox"
->
-Waiting...
-</div>
 
 <!-- FOOTER -->
 <div class="footer">
-
+<a href="/terms.html">Terms</a>
+<a href="/privacy.html">Privacy</a>
+<br>
 © 2026 LOOL AGENT
-
 </div>
 
 </div>
 
 <script>
 
-/* =========================
+/* =====================
 CONFIG
-========================= */
+===================== */
+const BASE_URL = "https://lolagent-backend-production.up.railway.app";
+let currentUser = null;
 
-const BASE_URL = window.location.origin
-
-let currentUser = null
-
-const socket = io(BASE_URL)
-
-/* =========================
+/* =====================
 PI INIT
-========================= */
-
-Pi.init({
-version:"2.0",
-sandbox:true
-})
-
-/* =========================
-STATUS
-========================= */
+===================== */
+Pi.init({ version:"2.0", sandbox:true });
 
 function setStatus(msg){
-document.getElementById(
-"statusBox"
-).innerHTML = msg
+document.getElementById("statusBox").innerHTML = msg;
 }
 
-/* =========================
+/* =====================
 SOCIALS
-========================= */
-
+===================== */
 function followX(){
-
-window.open(
-"https://x.com/LolAgentAi",
-"_blank"
-)
-
+window.open("https://x.com/LolAgentAi","_blank");
+setStatus("Followed X ✅");
 }
 
 function joinTG(){
-
-window.open(
-"https://t.me/LOLAgentHQ",
-"_blank"
-)
-
+window.open("https://t.me/LOLAgentHQ","_blank");
+setStatus("Joined Telegram ✅");
 }
 
-/* =========================
-LOGIN
-========================= */
-
+/* =====================
+LOGIN PI (FIXED)
+===================== */
 async function loginPi(){
+try{
+
+setStatus("Connecting Pi...");
+
+const auth = await Pi.authenticate(
+["username","payments","wallet_address"],
+onIncompletePaymentFound
+);
+
+currentUser = auth;
+
+document.getElementById("userInfo").innerHTML = `
+Username: ${auth.user.username}<br>
+UID: ${auth.user.uid}<br>
+Wallet: ${auth.user.wallet_address}<br>
+Status: Connected ✅
+`;
+
+document.getElementById("buyBtn").disabled = false;
+document.getElementById("buyBtn").classList.remove("disabled");
+
+document.getElementById("claimBtn").disabled = false;
+document.getElementById("claimBtn").classList.remove("disabled");
+
+setStatus("Pi Connected ✅");
+
+}catch(err){
+console.log(err);
+setStatus("Pi Login Failed ❌");
+}
+}
+
+/* =====================
+INCOMPLETE PAYMENT
+===================== */
+function onIncompletePaymentFound(payment){
+console.log(payment);
+}
+
+/* =====================
+BUY LOLA (FIXED FLOW)
+===================== */
+function buyLOLA(){
+
+if(!currentUser){
+alert("Connect wallet first");
+return;
+}
+
+Pi.createPayment({
+amount: 1,
+memo: "BUY LOLA",
+metadata: { type:"BUY_LOLA" }
+},{
+onReadyForServerApproval: async function(paymentId){
 
 try{
 
-const auth = await Pi.authenticate(
-["username","payments","wallet_address"]
-)
+setStatus("Approving...");
 
-currentUser = auth
+const res = await fetch(`${BASE_URL}/api/pi/approve`,{
+method:"POST",
+headers:{ "Content-Type":"application/json" },
+body: JSON.stringify({ paymentId })
+});
 
-document.getElementById(
-"userInfo"
-).innerHTML = `
-Username: ${auth.user.username}<br>
-Wallet: ${auth.user.wallet_address}
-`
+const data = await res.json();
 
-document.getElementById(
-"buyBtn"
-).disabled = false
+if(!data.success) throw new Error("Approve failed");
 
-document.getElementById(
-"buyBtn"
-).classList.remove("disabled")
-
-setStatus("Wallet Connected ✅")
+setStatus("Approved ✅");
 
 }catch(err){
-
-console.log(err)
-
-setStatus("Login Failed ❌")
-
+console.log(err);
+setStatus("Approve Error ❌");
 }
+},
 
-}
+onReadyForServerCompletion: async function(paymentId, txid){
 
-/* =========================
-BUY LOLA
-========================= */
+try{
 
-function buyLOLA(){
+setStatus("Completing...");
 
-Pi.createPayment({
-
-amount:1,
-memo:"BUY LOLA"
-
-},{
-
-onReadyForServerApproval:
-async(paymentId)=>{
-
-await fetch(
-`${BASE_URL}/api/pi/approve`,
-{
+const res = await fetch(`${BASE_URL}/api/pi/complete`,{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
+headers:{ "Content-Type":"application/json" },
+body: JSON.stringify({ paymentId, txid })
+});
+
+const data = await res.json();
+
+if(data.success){
+setStatus(`Payment Success ✅<br><br>TXID:<br>${txid}<br><br>LOLA Sent 🚀`);
+}else{
+setStatus("Complete Failed ❌");
+}
+
+}catch(err){
+console.log(err);
+setStatus("Complete Error ❌");
+}
 },
-body:JSON.stringify({
-paymentId
-})
-}
-)
 
+onCancel:function(){
+setStatus("Cancelled ❌");
 },
 
-onReadyForServerCompletion:
-async(paymentId,txid)=>{
-
-await fetch(
-`${BASE_URL}/api/pi/complete`,
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-paymentId,
-txid
-})
+onError:function(err){
+console.log(err);
+setStatus("Payment Error ❌");
 }
-)
-
-setStatus(`
-Payment Success ✅
-<br>
-TXID: ${txid}
-`)
-
+});
 }
+const socket = io(BASE_URL);
 
-})
+let mineBalance = 0;
+let supply = 0;
 
-}
-
-/* =========================
-MINING
-========================= */
-
-function startMining(){
-
-socket.emit("mining:start",{
-user:
-currentUser?.user?.username
-|| "guest"
-})
-
-setStatus("Mining Started ⛏️")
-
-}
-
-function claimMining(){
-
-socket.emit("mining:claim",{
-user:
-currentUser?.user?.username
-|| "guest"
-})
-
-setStatus("Reward Claimed 💰")
-
-}
-
-/* =========================
+/* =====================
 CHART
-========================= */
-
-const chart =
-new Chart(
-
-document.getElementById(
-"supplyChart"
-),
-
-{
-type:"line",
-
-data:{
-labels:[],
-
-datasets:[{
-label:"Supply",
-data:[],
-borderColor:"#22c55e",
-tension:0.3
+===================== */
+const chart = new Chart(document.getElementById("supplyChart"), {
+type: "line",
+data: {
+labels: [],
+datasets: [{
+label: "Total Supply",
+data: [],
+borderColor: "#22c55e",
+tension: 0.3
 }]
 }
+});
 
-})
-
-/* =========================
-SOCKET EVENTS
-========================= */
-
-socket.on(
-"mining:update",
-(data)=>{
-
-document.getElementById(
-"mineBalance"
-).innerText =
-Number(data.balance || 0)
-.toFixed(4)
-
-}
-)
-
-socket.on(
-"economy:update",
-(data)=>{
-
-if(!data.supply) return
-
-document.getElementById(
-"supplyValue"
-).innerText =
-Number(data.supply)
-.toFixed(0)
-
-const time =
-new Date()
-.toLocaleTimeString()
-
-chart.data.labels.push(time)
-
-chart.data.datasets[0]
-.data.push(data.supply)
-
-if(chart.data.labels.length > 20){
-
-chart.data.labels.shift()
-
-chart.data.datasets[0]
-.data.shift()
-
+/* =====================
+UPDATE UI
+===================== */
+function updateMiningUI(){
+document.getElementById("mineBalance").innerText =
+"Balance: " + mineBalance.toFixed(4) + " LOLA";
 }
 
-chart.update()
-
+/* =====================
+START MINING
+===================== */
+function startMining(){
+socket.emit("mining:start", {
+user: currentUser?.user?.username || "guest"
+});
+setStatus("Mining Started ⛏️");
 }
-)
 
+/* =====================
+CLAIM MINING
+===================== */
+function claimMining(){
+socket.emit("mining:claim", {
+user: currentUser?.user?.username || "guest"
+});
+setStatus("Claim sent 💰");
+}
+
+/* =====================
+SOCKET LIVE
+===================== */
+socket.on("mining:update", (data) => {
+if(data.balance !== undefined){
+mineBalance = data.balance;
+updateMiningUI();
+}
+});
+
+/* supply stream */
+socket.on("economy:update", (data) => {
+if(!data.supply) return;
+
+supply = data.supply;
+
+const time = new Date().toLocaleTimeString();
+
+chart.data.labels.push(time);
+chart.data.datasets[0].data.push(supply);
+
+if(chart.data.labels.length > 25){
+chart.data.labels.shift();
+chart.data.datasets[0].data.shift();
+}
+
+chart.update();
+});
 </script>
 
 </body>
