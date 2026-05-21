@@ -239,23 +239,14 @@ Buy 1 PI = 1000 LOLA
 </div>
 </div>
 
-<!-- ===================== MINING SECTION ===================== -->
-<div id="mining" class="user-box">
-<h3>⛏️ Mining Engine</h3>
-<p id="mineBalance">Balance: 0 LOLA</p>
-<p id="mineRate">Rate: 1 LOLA / Hour</p>
-<button class="btn btn-green" onclick="startMining()">
-Start Mining
-</button>
-<button class="btn btn-purple" onclick="claimMining()">
-Claim Reward
+<div class="step">
+<div class="step-number">5</div>
+<div>
+<p>Claim Faucet</p>
+<button id="claimBtn" class="btn btn-green disabled" disabled>
+Claim 100 LOLA
 </button>
 </div>
-
-<!-- ===================== SUPPLY CHART ===================== -->
-<div id="supply" class="user-box">
-<h3>📊 Supply Chart</h3>
-<canvas id="supplyChart"></canvas>
 </div>
 
 <!-- USER -->
@@ -267,6 +258,33 @@ Claim Reward
 <!-- STATUS -->
 <div class="status-box" id="statusBox">
 Waiting...
+</div>
+
+<!-- ===================== MINING SECTION ===================== -->
+<div id="mining" class="user-box">
+
+<h3>⛏️ Mining Engine</h3>
+
+<p id="mineBalance">Balance: 0 LOLA</p>
+<p id="mineRate">Rate: 1 LOLA / Hour</p>
+
+<button class="btn btn-green" onclick="startMining()">
+Start Mining
+</button>
+
+<button class="btn btn-purple" onclick="claimMining()">
+Claim Reward
+</button>
+
+</div>
+
+<!-- ===================== SUPPLY CHART ===================== -->
+<div id="supply" class="user-box">
+
+<h3>📊 Supply Chart</h3>
+
+<canvas id="supplyChart"></canvas>
+
 </div>
 
 
@@ -428,7 +446,83 @@ setStatus("Payment Error ❌");
 }
 });
 }
+const socket = io(BASE_URL);
 
+let mineBalance = 0;
+let supply = 0;
+
+/* =====================
+CHART
+===================== */
+const chart = new Chart(document.getElementById("supplyChart"), {
+type: "line",
+data: {
+labels: [],
+datasets: [{
+label: "Total Supply",
+data: [],
+borderColor: "#22c55e",
+tension: 0.3
+}]
+}
+});
+
+/* =====================
+UPDATE UI
+===================== */
+function updateMiningUI(){
+document.getElementById("mineBalance").innerText =
+"Balance: " + mineBalance.toFixed(4) + " LOLA";
+}
+
+/* =====================
+START MINING
+===================== */
+function startMining(){
+socket.emit("mining:start", {
+user: currentUser?.user?.username || "guest"
+});
+setStatus("Mining Started ⛏️");
+}
+
+/* =====================
+CLAIM MINING
+===================== */
+function claimMining(){
+socket.emit("mining:claim", {
+user: currentUser?.user?.username || "guest"
+});
+setStatus("Claim sent 💰");
+}
+
+/* =====================
+SOCKET LIVE
+===================== */
+socket.on("mining:update", (data) => {
+if(data.balance !== undefined){
+mineBalance = data.balance;
+updateMiningUI();
+}
+});
+
+/* supply stream */
+socket.on("economy:update", (data) => {
+if(!data.supply) return;
+
+supply = data.supply;
+
+const time = new Date().toLocaleTimeString();
+
+chart.data.labels.push(time);
+chart.data.datasets[0].data.push(supply);
+
+if(chart.data.labels.length > 25){
+chart.data.labels.shift();
+chart.data.datasets[0].data.shift();
+}
+
+chart.update();
+});
 </script>
 
 </body>
