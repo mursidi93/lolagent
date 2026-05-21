@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOL AGENT</title>
+<title>LOLA ECONOMY DASHBOARD</title>
+
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
@@ -38,6 +39,7 @@ text-decoration:none;
 font-size:13px;
 }
 
+/* LOGO */
 .logo-img{
 width:45px;
 height:45px;
@@ -52,12 +54,6 @@ padding:15px;
 border-radius:12px;
 margin-bottom:10px;
 border:1px solid #334155;
-}
-
-/* 2 BARIS ECONOMY */
-.econ-title{
-font-size:13px;
-color:#94a3b8;
 }
 
 .value{
@@ -91,6 +87,11 @@ font-weight:bold;
 #leaderboard{
 margin-top:10px;
 }
+
+#user-info{
+margin-top:10px;
+color:#cbd5e1;
+}
 </style>
 </head>
 
@@ -98,7 +99,7 @@ margin-top:10px;
 
 <div class="container">
 
-<!-- NAVBAR -->
+<!-- NAV -->
 <div class="navbar">
 <img class="logo-img" src="logo.png">
 
@@ -113,46 +114,48 @@ margin-top:10px;
 </div>
 </div>
 
-<!-- HERO -->
-<h1>LOLA ECONOMY V3 GOD MODE</h1>
+<h1>LOL AGENT</h1>
 
 <button class="blue" onclick="followX()">Follow X</button>
 <button class="blue" onclick="joinTG()">Telegram</button>
-<button class="purple" onclick="connectPi()">Connect Pi</button>
+<button class="purple" onclick="loginPi()">Connect Pi</button>
 <button class="green" onclick="buyLOLA()">Buy 1 PI = 1000 LOLA</button>
 
 <hr>
 
-<!-- ECONOMY GRID -->
+<!-- USER -->
+<div id="user-info">Wallet not connected</div>
+
+<!-- ECONOMY -->
 <div class="grid">
 
 <div class="card">
-<div class="econ-title">TOTAL SUPPLY</div>
+TOTAL SUPPLY
 <div class="value" id="totalSupply">0</div>
 </div>
 
 <div class="card">
-<div class="econ-title">CIRCULATING</div>
+CIRCULATING
 <div class="value" id="circulating">0</div>
 </div>
 
 <div class="card">
-<div class="econ-title">LOCKED</div>
+LOCKED
 <div class="value" id="locked">0</div>
 </div>
 
 <div class="card">
-<div class="econ-title">LIQUIDITY</div>
+LIQUIDITY
 <div class="value" id="liquidity">0</div>
 </div>
 
 <div class="card">
-<div class="econ-title">REWARD POOL</div>
+REWARD POOL
 <div class="value" id="rewardPool">0</div>
 </div>
 
 <div class="card">
-<div class="econ-title">BURNED</div>
+BURNED
 <div class="value" id="burned">0</div>
 </div>
 
@@ -171,22 +174,23 @@ margin-top:10px;
 const API = "https://lolagent-backend-production.up.railway.app";
 const socket = io(API);
 
-/* LOAD ECONOMY (fallback REST) */
+let currentUser = null;
+
+/* ================= ECONOMY LOAD ================= */
 async function loadEconomy(){
 try{
 const res = await fetch(API + "/api/dashboard");
 const data = await res.json();
 
-const eco = data.economy;
-
-renderEco(eco);
+if(data.success){
+renderEco(data.economy);
+}
 
 }catch(e){
-console.log("API error",e);
+console.log(e);
 }
 }
 
-/* RENDER ECONOMY */
 function renderEco(eco){
 document.getElementById("totalSupply").innerText = eco.totalSupply.toLocaleString();
 document.getElementById("circulating").innerText = eco.circulating.toLocaleString();
@@ -196,7 +200,7 @@ document.getElementById("rewardPool").innerText = eco.rewardPool.toLocaleString(
 document.getElementById("burned").innerText = eco.burned.toLocaleString();
 }
 
-/* SOCKET LIVE UPDATE */
+/* SOCKET REALTIME */
 socket.on("economy:update",(eco)=>{
 renderEco(eco);
 });
@@ -210,6 +214,76 @@ html += `#${i+1} ${u.userId} - ${u.mined} LOLA<br>`;
 document.getElementById("leaderboard").innerHTML = html;
 });
 
+/* ================= PI SDK ================= */
+Pi.init({ version:"2.0", sandbox:true });
+
+function loginPi(){
+
+if(!window.Pi){
+alert("Open in Pi Browser");
+return;
+}
+
+Pi.authenticate(
+["username","payments","wallet_address"],
+function(payment){ console.log(payment); }
+).then(auth=>{
+
+currentUser = auth;
+
+document.getElementById("user-info").innerHTML =
+`User: ${auth.user.username}<br>Wallet: ${auth.user.wallet_address}`;
+
+alert("Connected ✔");
+
+}).catch(err=>{
+console.log(err);
+alert("Login failed");
+});
+
+}
+
+/* ================= BUY ================= */
+function buyLOLA(){
+
+if(!currentUser){
+alert("Connect Pi first");
+return;
+}
+
+Pi.createPayment({
+amount:1,
+memo:"BUY LOLA",
+metadata:{type:"BUY"}
+},{
+onReadyForServerApproval: async(paymentId)=>{
+
+await fetch(API+"/api/pay/approve",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({paymentId})
+});
+
+},
+
+onReadyForServerCompletion: async(paymentId,txid)=>{
+
+await fetch(API+"/api/pay/complete",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({paymentId,txid})
+});
+
+alert("BUY SUCCESS 🚀");
+
+},
+
+onError:(e)=>console.log(e)
+
+});
+
+}
+
 /* ACTION */
 function followX(){
 window.open("https://x.com/LolAgentAi","_blank");
@@ -219,227 +293,9 @@ function joinTG(){
 window.open("https://t.me/LOLAgentHQ","_blank");
 }
 
-/* =========================
-PI SDK
-========================= */
-
-Pi.init({
-version:"2.0",
-sandbox:true
-});
-
-let currentUser = null;
-
-/* =========================
-STATUS
-========================= */
-
-function setStatus(text){
-
-document.getElementById(
-"statusBox"
-).innerHTML = text;
-
-}
-
-/* =========================
-LOGIN PI
-========================= */
-
-async function loginPi(){
-
-try{
-
-setStatus(
-"Connecting Pi Wallet..."
-);
-
-const auth =
-await Pi.authenticate([
-"username",
-"payments",
-"wallet_address"
-]);
-
-currentUser = auth;
-
-document.getElementById(
-"user-info"
-).innerHTML = `
-
-Username:
-${auth.user.username}
-
-<br><br>
-
-Wallet:
-${auth.user.wallet_address}
-
-<br><br>
-
-Status:
-Connected ✅
-
-`;
-
-document.getElementById(
-"buyBtn"
-).disabled = false;
-
-document.getElementById(
-"claimBtn"
-).disabled = false;
-
-setStatus(
-"Pi Wallet Connected ✅"
-);
-
-}catch(err){
-
-console.log(err);
-
-setStatus(
-"Pi Login Failed ❌"
-);
-
-}
-
-}
-
-/* =========================
-BUY LOLA
-========================= */
-
-function buyLOLA(){
-
-if(!currentUser){
-
-alert(
-"Connect wallet first"
-);
-
-return;
-
-}
-
-setStatus(
-"Opening Pi Payment..."
-);
-
-Pi.createPayment({
-
-amount:1,
-
-memo:"BUY LOLA TOKEN",
-
-metadata:{
-type:"BUY_LOLA"
-}
-
-},{
-
-onReadyForServerApproval:
-async function(paymentId){
-
-await fetch("/api/approve",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-paymentId
-})
-
-});
-
-},
-
-onReadyForServerCompletion:
-async function(paymentId,txid){
-
-await fetch("/api/complete",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-paymentId,
-txid
-})
-
-});
-
-setStatus(`
-
-Payment Success ✅
-
-<br><br>
-
-TXID:
-${txid}
-
-<br><br>
-
-1000 LOLA Purchased 🚀
-
-`);
-
-},
-
-onCancel:function(){
-
-setStatus(
-"Payment Cancelled ❌"
-);
-
-},
-
-onError:function(error){
-
-console.log(error);
-
-setStatus(
-"Payment Error ❌"
-);
-
-}
-
-});
-
-}
-
-/* =========================
-CLAIM
-========================= */
-
-function claimLOLA(){
-
-if(!currentUser){
-
-alert(
-"Connect wallet first"
-);
-
-return;
-
-}
-
-setStatus(
-"Claim Success 🚀"
-);
-
-}
-
-
 /* INIT */
 loadEconomy();
-setInterval(loadEconomy, 5000);
+setInterval(loadEconomy,5000);
 
 </script>
 
