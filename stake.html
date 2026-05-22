@@ -16,6 +16,8 @@ href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&di
 rel="stylesheet"
 />
 
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+
 <style>
 
 *{
@@ -69,6 +71,8 @@ body{
   justify-content:space-between;
   align-items:center;
   margin-bottom:70px;
+  flex-wrap:wrap;
+  gap:20px;
 }
 
 .logo{
@@ -81,19 +85,12 @@ body{
 }
 
 .connect-btn{
-
   border:none;
-
-  padding:12px 22px;
-
+  padding:14px 24px;
   border-radius:14px;
-
   color:white;
-
   font-weight:700;
-
   cursor:pointer;
-
   background:
   linear-gradient(
     90deg,
@@ -147,7 +144,6 @@ body{
 }
 
 .stat{
-
   background:
   rgba(255,255,255,0.04);
 
@@ -172,7 +168,6 @@ body{
 /* POOL */
 
 .pool{
-
   background:
   linear-gradient(
     180deg,
@@ -223,7 +218,6 @@ body{
 }
 
 .pool-card{
-
   background:
   rgba(255,255,255,0.03);
 
@@ -288,13 +282,9 @@ body{
 }
 
 .input-box input{
-
   width:100%;
-
   padding:18px;
-
   border-radius:18px;
-
   border:
   1px solid rgba(255,255,255,0.08);
 
@@ -317,21 +307,13 @@ body{
 }
 
 button{
-
   flex:1;
-
   border:none;
-
   padding:18px;
-
   border-radius:18px;
-
   color:white;
-
   font-size:16px;
-
   font-weight:700;
-
   cursor:pointer;
 }
 
@@ -369,11 +351,6 @@ button:hover{
   font-size:48px;
 }
 
-.navbar{
-  flex-direction:column;
-  gap:20px;
-}
-
 .actions{
   flex-direction:column;
 }
@@ -403,7 +380,7 @@ LOL<span>AGENT</span>
 class="connect-btn"
 onclick="connectWallet()"
 >
-Connect Wallet
+Connect Pi Wallet
 </button>
 
 </div>
@@ -423,8 +400,8 @@ Launchpool
 </h1>
 
 <p>
-Stake your LOLAGENT tokens and earn sustainable rewards
-through long-term ecosystem growth.
+Stake LOLAGENT tokens and earn rewards from the future
+of the LOLAGENT ecosystem powered by Pi Network.
 </p>
 
 </div>
@@ -479,7 +456,7 @@ Your Balance
 class="stat-value"
 id="balance"
 >
-500,000 LOLA
+0 LOLA
 </div>
 
 </div>
@@ -737,6 +714,11 @@ LOLAGENT LAUNCHPOOL © 2026
 
 <script>
 
+Pi.init({
+  version:"2.0",
+  sandbox:false
+});
+
 let user = null;
 
 let balance = 500000;
@@ -748,16 +730,44 @@ let selectedAPY = 0;
 
 /* CONNECT */
 
-function connectWallet(){
+async function connectWallet(){
 
-  user = {
-    username:"Pioneer"
-  };
+  try{
 
-  document.querySelector(
-    ".connect-btn"
-  ).innerText =
-  user.username;
+    const scopes = [
+      "username",
+      "payments",
+      "wallet_address"
+    ];
+
+    const auth = await Pi.authenticate(
+      scopes,
+      function(payment){},
+      function(error){
+        console.log(error);
+      }
+    );
+
+    user = auth.user;
+
+    document.querySelector(
+      ".connect-btn"
+    ).innerText =
+    user.username;
+
+    alert(
+      "Connected Successfully ✅"
+    );
+
+  }catch(err){
+
+    console.log(err);
+
+    alert(
+      "Open using Pi Browser"
+    );
+
+  }
 
 }
 
@@ -805,7 +815,7 @@ function updateUI(){
 
 /* STAKE */
 
-function stakeTokens(){
+async function stakeTokens(){
 
   if(!user){
 
@@ -854,26 +864,127 @@ function stakeTokens(){
 
   }
 
-  balance -= amount;
+  try{
 
-  staked += amount;
+    const paymentData = {
 
-  rewards += Math.floor(
-    amount *
-    (selectedAPY / 100)
-  );
+      amount:1,
 
-  updateUI();
+      memo:
+      `Stake ${amount} LOLA`,
 
-  alert(
-    `Stake ${selectedPool} Days Successful ✅`
-  );
+      metadata:{
+        type:"stake",
+        amount,
+        pool:selectedPool
+      }
+
+    };
+
+    Pi.createPayment(
+
+      paymentData,
+
+      {
+
+        onReadyForServerApproval:
+        async function(paymentId){
+
+          console.log(paymentId);
+
+          await fetch(
+            "https://YOUR_BACKEND_URL/api/approve",
+            {
+              method:"POST",
+              headers:{
+                "Content-Type":"application/json"
+              },
+              body:JSON.stringify({
+                paymentId
+              })
+            }
+          );
+
+        },
+
+        onReadyForServerCompletion:
+        async function(paymentId,txid){
+
+          console.log(
+            paymentId,
+            txid
+          );
+
+          await fetch(
+            "https://YOUR_BACKEND_URL/api/complete",
+            {
+              method:"POST",
+              headers:{
+                "Content-Type":"application/json"
+              },
+              body:JSON.stringify({
+                paymentId,
+                txid
+              })
+            }
+          );
+
+          balance -= amount;
+
+          staked += amount;
+
+          rewards += Math.floor(
+            amount *
+            (selectedAPY / 100)
+          );
+
+          updateUI();
+
+          alert(
+            "Stake Successful ✅"
+          );
+
+        },
+
+        onCancel:function(paymentId){
+
+          console.log(paymentId);
+
+          alert(
+            "Payment Cancelled"
+          );
+
+        },
+
+        onError:function(error,payment){
+
+          console.log(error);
+
+          alert(
+            "Payment Failed"
+          );
+
+        }
+
+      }
+
+    );
+
+  }catch(err){
+
+    console.log(err);
+
+    alert(
+      "Stake Failed"
+    );
+
+  }
 
 }
 
 /* CLAIM */
 
-function claimRewards(){
+async function claimRewards(){
 
   if(rewards <= 0){
 
@@ -885,15 +996,27 @@ function claimRewards(){
 
   }
 
-  balance += rewards;
+  try{
 
-  rewards = 0;
+    balance += rewards;
 
-  updateUI();
+    rewards = 0;
 
-  alert(
-    "Rewards Claimed ✅"
-  );
+    updateUI();
+
+    alert(
+      "Rewards Claimed ✅"
+    );
+
+  }catch(err){
+
+    console.log(err);
+
+    alert(
+      "Claim Failed"
+    );
+
+  }
 
 }
 
